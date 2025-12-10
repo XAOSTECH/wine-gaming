@@ -1,0 +1,24 @@
+{
+  "name": "wine-launcher-ui",
+  "version": "1.0.0",
+  "description": "Web UI for Wine Proton Multi-Launcher Setup",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "keywords": [
+    "wine",
+    "proton",
+    "gaming",
+    "launcher"
+  ],
+  "author": "",
+  "license": "MIT"
+}

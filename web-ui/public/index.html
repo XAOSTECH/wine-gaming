@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wine Launcher Control Panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🎮 Wine Launcher Control Panel</h1>
+            <p>Manage game launchers via Proton/Wine</p>
+        </header>
+
+        <!-- Status Panel -->
+        <section class="status-panel">
+            <div class="status-item">
+                <span class="label">Status:</span>
+                <span class="value" id="server-status">Connecting...</span>
+            </div>
+            <div class="status-item">
+                <span class="label">Time:</span>
+                <span class="value" id="current-time">--:--:--</span>
+            </div>
+        </section>
+
+        <!-- Command Buttons -->
+        <section class="commands">
+            <h2>Installation & Setup</h2>
+            <div class="button-grid">
+                <button class="btn btn-primary" onclick="runCommand('list')">
+                    📋 Check Status
+                </button>
+                <button class="btn btn-primary" onclick="runCommand('list-installers')">
+                    📁 Show Installers
+                </button>
+                <button class="btn btn-info" onclick="runCommand('quick')">
+                    ⚡ Quick Setup
+                </button>
+                <button class="btn btn-danger" onclick="runCommand('full')">
+                    ♻️ Full Setup
+                </button>
+            </div>
+
+            <h2>Launch Apps</h2>
+            <div class="button-grid">
+                <button class="btn btn-success" onclick="runCommand('launch-gog')">
+                    🎮 Launch GOG Galaxy
+                </button>
+                <button class="btn btn-success" onclick="runCommand('launch-epic')">
+                    🚀 Launch Epic Games
+                </button>
+                <button class="btn btn-success" onclick="runCommand('launch-ea')">
+                    ⚽ Launch EA Desktop
+                </button>
+            </div>
+
+            <h2>Z: Drive Management</h2>
+            <div class="button-grid">
+                <button class="btn btn-warning" onclick="runCommand('unmount-z')">
+                    🔓 Unmount Z: (Hide /mnt)
+                </button>
+                <button class="btn btn-warning" onclick="runCommand('mount-z')">
+                    🔒 Mount Z: (Show /mnt)
+                </button>
+                <button class="btn btn-warning" onclick="runCommand('suppress-warnings')">
+                    🔇 Suppress Z: Warnings
+                </button>
+            </div>
+        </section>
+
+        <!-- Output Panel -->
+        <section class="output-panel">
+            <h2>Command Output</h2>
+            <div class="output-controls">
+                <button class="btn btn-small" onclick="clearOutput()">Clear</button>
+                <button class="btn btn-small" onclick="copyOutput()">Copy</button>
+                <span id="output-timestamp" class="timestamp"></span>
+            </div>
+            <pre id="output" class="output-box">Output will appear here...</pre>
+        </section>
+
+        <!-- Help Section -->
+        <section class="help-section">
+            <h2>ℹ️ Quick Reference</h2>
+            <details>
+                <summary>Command Descriptions</summary>
+                <ul>
+                    <li><strong>Check Status:</strong> List all launchers and install status</li>
+                    <li><strong>Show Installers:</strong> Find installers in ./installers/ directory</li>
+                    <li><strong>Quick Setup:</strong> Reinitialize dependencies + install missing apps</li>
+                    <li><strong>Full Setup:</strong> Purge + init + install all (fresh start)</li>
+                    <li><strong>Launch [App]:</strong> Start a launcher with Proton</li>
+                    <li><strong>Unmount Z:</strong> Hide /mnt from Wine (fixes disk space warnings)</li>
+                    <li><strong>Mount Z:</strong> Restore /mnt access to Wine</li>
+                    <li><strong>Suppress Warnings:</strong> Mute Z: drive error logs</li>
+                </ul>
+            </details>
+            <details>
+                <summary>Troubleshooting</summary>
+                <ul>
+                    <li>Installer won't download? Check INSTALLER_LINKS.md for manual download</li>
+                    <li>Launcher won't launch? Click "Check Status" to verify installation</li>
+                    <li>Disk space warnings in EA Desktop? Try "Unmount Z:" first</li>
+                    <li>GOG Galaxy update fails? Use "Suppress Warnings" then "Unmount Z:"</li>
+                    <li>Server not responding? Check if Node.js is running: <code>npm start</code></li>
+                </ul>
+            </details>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Wine Launcher UI v1.0 | Localhost only (127.0.0.1) | <a href="https://github.com">GitHub</a></p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

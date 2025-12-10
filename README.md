@@ -1,0 +1,305 @@
+# Wine Proton Multi-Launcher Setup Script
+
+Centralized bash script to manage multiple game launchers (EA Desktop, GOG Galaxy, Epic Games, Ubisoft Connect, Amazon Games, Legacy Games) in a single Wine Proton prefix on Linux.
+
+**Features:**
+- ✅ Automatic installer detection and downloading with caching
+- ✅ Install/uninstall/launch launchers via single command
+- ✅ Desktop shortcut creation for launchers
+- ✅ Batch operations (install-all, list status)
+- ✅ Wine prefix management (init, backup, restore, purge)
+- ✅ Z: drive mount control (for disk space reporting fixes)
+- ✅ Comprehensive robustness libraries (Lutris/Heroic compatible)
+- ✅ GPU acceleration optimized (NVIDIA RTX tested)
+
+## Quick Start
+
+### Prerequisites
+```bash
+# Ubuntu/Debian
+sudo apt install wine winetricks wget
+cd ~/PRO/SYS/WINE/wine-gaming
+
+# OR use your existing path
+cd /path/to/wine-gaming
+```
+
+### First-Time Setup
+```bash
+# 1. Install Proton-GE (one time only)
+./setup install-proton
+
+# 2. Initialize Wine prefix with dependencies
+./setup init
+
+# 3. Install all launchers
+./setup install-all
+
+# 4. List installed apps
+./setup list
+```
+
+### Daily Usage
+```bash
+# Launch a launcher
+./setup launch gog-galaxy
+./setup launch epic-games
+
+# Check status
+./setup list
+
+# Install a specific launcher
+./setup install ea-desktop
+```
+
+## Commands
+
+### Wine Prefix Management
+```bash
+./setup purge                       # Delete prefix, start fresh
+./setup init                        # Initialize with dependencies
+./setup full                        # Complete setup: purge + init + install-all
+./setup quick                       # Quick: reinit deps + install remaining apps
+./setup backup                      # Backup DLLs and packages
+./setup restore                     # Restore from backup
+./setup install-proton              # Install Proton-GE
+```
+
+### Z: Drive Management (Disk Space Fixes)
+```bash
+./setup unmount-z                   # Hide Z: drive (fixes EA Desktop disk space warnings)
+./setup mount-z                     # Restore Z: drive
+./setup suppress-z-warnings         # Mute Z: drive error logs
+./setup fix-z-drive                 # Permanently remove Z: drive
+./setup configure-drives D /path    # Create custom drive letter (e.g., D: → /mnt/DATA-NVME)
+```
+
+### App Management
+```bash
+./setup list                        # Show all launchers and install status
+./setup list-installers             # Show available installers in ./installers/
+./setup install <app-key>           # Install launcher
+./setup install <app-key> <path>    # Install with custom installer path
+./setup install-all                 # Install all registered launchers
+./setup uninstall <app-key>         # Uninstall launcher
+./setup launch <app-key>            # Launch installed app
+```
+
+### Desktop Shortcuts
+```bash
+./setup install-shortcut <app-key>  # Create .desktop file
+./setup remove-shortcut <app-key>   # Remove shortcut
+```
+
+## Available Launchers
+
+```
+ea-desktop        → EA Desktop (Origin)
+gog-galaxy        → GOG Galaxy
+epic-games        → Epic Games Launcher
+ubisoft-connect   → Ubisoft Connect
+amazon-games      → Amazon Games
+legacy-games      → Legacy Games
+```
+
+## Common Workflows
+
+### Fresh Installation
+```bash
+./setup install-proton
+./setup full                        # Purge + init + install-all
+./setup list
+```
+
+### Add New Launcher to Existing Setup
+```bash
+./setup quick                       # Reinit, preserve existing, install missing
+```
+
+### Fix Disk Space Issues (EA Desktop, etc)
+```bash
+./setup unmount-z                   # Hide /mnt volumes from Wine
+# Run EA Desktop's verification
+./setup mount-z                     # Restore Z: drive when done
+```
+
+### Download Installers Locally
+1. Download from INSTALLER_LINKS.md to `./installers/`
+2. Run: `./setup install <app-key>`
+3. Script prefers local installers over downloads
+
+## Configuration
+
+### Edit App Registry
+Edit the `APP_REGISTRY` array in the `setup` script to add/modify launchers:
+
+```bash
+declare -A APP_REGISTRY=(
+    [my-launcher]="Display Name|Program Files/Path/app.exe|https://download.url|uninstall-path1|uninstall-path2"
+)
+```
+
+Format: `[key]="Name|ExePath|DownloadURL|UninstallPath1|UninstallPath2|..."`
+
+### Change Wine/Proton Version
+Edit at top of script:
+```bash
+WINE_DIR="${HOME}/.wine-gaming"          # Wine prefix location
+PROTON_DIR="${WINE_DIR}/proton-ge"       # Proton executable
+PROTON_VERSION="GE-Proton9-18"           # Version (in install_proton function)
+```
+
+## Directories
+
+```
+~/.wine-gaming/
+├── prefix/pfx/              # Wine prefix (Windows filesystem)
+├── proton-ge/               # Proton executable
+├── bin/                     # Generated launcher scripts
+└── backup/                  # Backup DLLs/packages
+
+~/.cache/wine-installers/    # Downloaded installers (cached)
+~/.local/share/applications/ # Desktop shortcuts
+```
+
+## Troubleshooting
+
+### Launcher won't install
+```bash
+# Check if Proton is installed
+ls ~/.wine-gaming/proton-ge/proton
+
+# Manually download installer to ./installers/
+./setup install <app-key> ./installers/Installer.exe
+
+# Check logs
+cat ~/.wine-gaming/proton.log | tail -50
+```
+
+### Launcher won't launch
+```bash
+# Check if app is installed
+./setup list
+
+# Try launching with verbose output
+PROTON_LOG=1 PROTON_LOG_DIR=~/.wine-gaming ./setup launch <app-key>
+
+# Check Proton logs
+cat ~/.wine-gaming/proton.log | tail -100
+```
+
+### Disk space warnings in EA Desktop / GOG Galaxy
+```bash
+# Unmount Z: drive (prevents Wine from seeing /mnt)
+./setup unmount-z
+
+# Run EA Desktop's verification/repair
+# Then restore Z: when done
+./setup mount-z
+```
+
+### GOG Galaxy update fails at 0KB
+```bash
+# Issue: Z: drive permission errors on mount points
+./setup suppress-z-warnings          # Mute warnings
+./setup unmount-z                    # Hide /mnt from Wine
+# Try update again
+./setup mount-z                      # Restore when done
+```
+
+### Wine prefix corrupted
+```bash
+# Backup first (if you have anything important)
+./setup backup
+
+# Full reset
+./setup purge
+./setup full
+
+# Restore if needed
+./setup restore
+```
+
+## Wine Robustness Libraries
+
+The script installs comprehensive dependencies used by Lutris and Heroic:
+
+- **Graphics**: d3dcompiler, d3dx9-11, dxvk, vkd3d, d9vk
+- **Audio**: directmusic, faudio, xact, directplay, directshow
+- **System**: vcrun*, dotnet*, corefonts, gdiplus, physx, msctf
+- **GPU**: Optimized for NVIDIA RTX (DXVK, shader cache enabled)
+
+See `init()` function for full library list.
+
+## Performance Tuning
+
+### GPU Optimization (for launchers with embedded browsers)
+Edit `launch_app()` function to adjust:
+```bash
+export __GL_SHADER_DISK_CACHE=1              # Improve framerate
+export __GL_THREADED_OPTIMIZATION=1          # Multi-threaded rendering
+export DXVK_HUD=0                            # Hide DXVK overlay
+```
+
+### CPU Optimization
+```bash
+# For faster winetricks installation, add to ~/.bashrc:
+export WINETRICKS_DOWNLOAD_TIMEOUT=60
+export WINETRICKS_DOWNLOADER=wget
+```
+
+## Advanced Topics
+
+### Custom Drive Mappings
+```bash
+# Map /mnt/DATA-NVME as D: drive
+./setup configure-drives D /mnt/DATA-NVME
+
+# List current mappings
+ls -la ~/.wine-gaming/prefix/pfx/dosdevices/
+```
+
+### Run Wine Commands Directly
+```bash
+export WINEPREFIX=~/.wine-gaming/prefix/pfx
+wine cmd.exe /c dir c:\\
+
+# Or use script's environment:
+WINEPREFIX=~/.wine-gaming/prefix/pfx wine reg query "HKEY_CURRENT_USER\Software\Wine\Direct3D"
+```
+
+### Check Installed Apps
+```bash
+find ~/.wine-gaming/prefix/pfx/drive_c/Program\ Files -name "*.exe" -type f | head -20
+```
+
+## Contributing
+
+Want to add another launcher? 
+
+1. Add entry to `APP_REGISTRY` at top of script
+2. Ensure installer URL is direct-downloadable via wget
+3. Test: `./setup install <your-key>`
+4. Verify: `./setup launch <your-key>`
+
+## Issues & Limitations
+
+- ⚠️ **Wine drive letters in file dialogs**: Custom drive letters (D:, E:) don't always show in Proton app dialogs; Z: at "/" is Wine standard behavior
+- ⚠️ **Z: drive warnings**: "Read access denied" errors are harmless; use `suppress-z-warnings` to mute
+- ✅ **GPU acceleration**: Tested on NVIDIA RTX 2060+ (DXVK v2.4.1)
+- ✅ **Disk space reporting**: Use `unmount-z` before EA Desktop's disk checks
+
+## License
+
+MIT - Free to use and modify
+
+## Changelog
+
+### v1.0 (Nov 2025)
+- ✅ Initial release with 6 launchers
+- ✅ Automatic installer detection
+- ✅ Z: drive mount/unmount management
+- ✅ Comprehensive robustness libraries (Lutris-compatible)
+- ✅ GPU acceleration optimized
+
+See git history for full changelog.

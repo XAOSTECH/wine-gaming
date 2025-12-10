@@ -1,0 +1,35 @@
+# Cache and temporary files
+~/.wine-gaming/
+.cache/
+*.log
+*.tmp
+
+# User-downloaded installers (never commit binaries)
+installers/*.exe
+installers/*.msi
+installers/*.tar.gz
+!installers/.gitkeep
+!installers/README.md
+
+# Node.js / web UI
+node_modules/
+npm-debug.log
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Wine/Proton specific
+pfx/
+prefix/
+backup/
+*.db
