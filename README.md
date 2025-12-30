@@ -1,3 +1,51 @@
+# wine-gaming
+
+<!-- Project Shields/Badges -->
+<p align="center">
+  <a href="https://github.com/xaoscience/wine-gaming">
+    <img alt="GitHub repo" src="https://img.shields.io/badge/GitHub-xaoscience%2Fwine--gaming-181717?style=for-the-badge&logo=github">
+  </a>
+  <a href="https://github.com/xaoscience/wine-gaming/releases">
+    <img alt="GitHub release" src="https://img.shields.io/github/v/release/xaoscience/wine-gaming?style=for-the-badge&logo=semantic-release&color=blue">
+  </a>
+  <a href="https://github.com/xaoscience/wine-gaming/blob/main/LICENSE">
+    <img alt="License" src="https://img.shields.io/github/license/xaoscience/wine-gaming?style=for-the-badge&color=green">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/xaoscience/wine-gaming/actions">
+    <img alt="CI Status" src="https://github.com/xaoscience/wine-gaming/actions/workflows/bash-lint.yml/badge.svg?branch=Main">
+  </a>
+  <a href="https://github.com/xaoscience/wine-gaming/issues">
+    <img alt="Issues" src="https://img.shields.io/github/issues/xaoscience/wine-gaming?style=flat-square&logo=github&color=yellow">
+  </a>
+  <a href="https://github.com/xaoscience/wine-gaming/pulls">
+    <img alt="Pull Requests" src="https://img.shields.io/github/issues-pr/xaoscience/wine-gaming?style=flat-square&logo=github&color=purple">
+  </a>
+  <a href="https://github.com/xaoscience/wine-gaming/stargazers">
+    <img alt="Stars" src="https://img.shields.io/github/stars/xaoscience/wine-gaming?style=flat-square&logo=github&color=gold">
+  </a>
+  <a href="https://github.com/xaoscience/wine-gaming/network/members">
+    <img alt="Forks" src="https://img.shields.io/github/forks/xaoscience/wine-gaming?style=flat-square&logo=github">
+  </a>
+</p>
+
+<p align="center">
+  <img alt="Last Commit" src="https://img.shields.io/github/last-commit/xaoscience/wine-gaming?style=flat-square&logo=git&color=blue">
+  <img alt="Repo Size" src="https://img.shields.io/github/repo-size/xaoscience/wine-gaming?style=flat-square&logo=files&color=teal">
+  <img alt="Code Size" src="https://img.shields.io/github/languages/code-size/xaoscience/wine-gaming?style=flat-square&logo=files&color=orange">
+  <img alt="Contributors" src="https://img.shields.io/github/contributors/xaoscience/wine-gaming?style=flat-square&logo=github&color=green">
+</p>
+
+<!-- Optional: Stability/Maturity Badge -->
+<p align="center">
+  <img alt="Stability" src="https://img.shields.io/badge/stability-experimental-orange?style=flat-square">
+  <img alt="Maintenance" src="https://img.shields.io/maintenance/yes/2025?style=flat-square">
+</p>
+
+---
+
 # Wine Proton Multi-Launcher Setup Script
 
 Centralized bash script to manage multiple game launchers (EA Desktop, GOG Galaxy, Epic Games, Ubisoft Connect, Amazon Games, Legacy Games) in a single Wine Proton prefix on Linux.
