@@ -8,7 +8,8 @@
     "dev": "node server.js"
   },
   "dependencies": {
-    "express": "^4.18.0"
+    "express": "^4.18.0",
+    "express-rate-limit": "^7.5.1"
   },
   "engines": {
     "node": ">=14.0.0"

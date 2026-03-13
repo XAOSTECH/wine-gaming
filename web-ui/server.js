@@ -11,13 +11,31 @@
  */
 
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const { exec } = require('child_process');
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many requests, please try again later.' }
+});
+
+const runCommandLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many command requests, please try again in a minute.' }
+});
+
 // Middleware
+app.use(globalLimiter);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
@@ -42,7 +60,7 @@ const ALLOWED_COMMANDS = {
  * POST /api/run
  * Body: { action: "list" | "launch-gog" | etc }
  */
-app.post('/api/run', (req, res) => {
+app.post('/api/run', runCommandLimiter, (req, res) => {
   const action = req.body.action;
   
   // Validate action is whitelisted
