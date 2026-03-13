@@ -17,18 +17,85 @@
 # CONFIGURATION
 # ============================================================================
 
-WINE_DIR="${HOME}/.wine-gaming"
+# Print managed prefix/runtime information so users can reuse this environment
+# Usage: prefix_info
+prefix_info() {
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "Wine-Gaming Managed Runtime"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "WINE_DIR:                 $WINE_DIR"
+    echo "STEAM_COMPAT_DATA_PATH:   $WINEPREFIX"
+    echo "Managed Wine prefix:      $WINEPREFIX/pfx"
+    echo "Proton binary:            $PROTON_DIR/proton"
+    echo "Generated launchers:      $BIN_DIR"
+    echo ""
+    echo "Use this shell environment for manual Wine commands:"
+    echo "  export WINE_DIR=\"$WINE_DIR\""
+    echo "  export STEAM_COMPAT_DATA_PATH=\"$WINEPREFIX\""
+    echo "  export WINEPREFIX=\"$WINEPREFIX/pfx\""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+}
+
+# Launch any external .exe/.msi file in the managed wine-gaming prefix
+# Usage: launch_external_exe "/path/to/Game.exe"
+launch_external_exe() {
+    local exe_input="$1"
+
+    if [ -z "$exe_input" ]; then
+        print_error "Missing file path. Usage: $0 launch-exe /path/to/Game.exe"
+        return 1
+    fi
+
+    local exe_path
+    exe_path=$(readlink -f "$exe_input" 2>/dev/null)
+
+    if [ -z "$exe_path" ] || [ ! -f "$exe_path" ]; then
+        print_error "File not found: $exe_input"
+        return 1
+    fi
+
+    case "${exe_path,,}" in
+        *.exe|*.msi) ;;
+        *)
+            print_warning "File does not end in .exe/.msi, attempting launch anyway"
+            ;;
+    esac
+
+    print_info "Launching external Windows binary in managed prefix..."
+    print_info "File: $exe_path"
+
+    if [ -x "$PROTON_DIR/proton" ]; then
+        export STEAM_COMPAT_DATA_PATH="$WINEPREFIX"
+        export STEAM_COMPAT_CLIENT_INSTALL_PATH="$WINE_DIR/steam-root"
+        export PROTON_LOG=1
+        export PROTON_LOG_DIR="$WINE_DIR"
+        mkdir -p "$WINE_DIR/steam-root"
+
+        "$PROTON_DIR/proton" run "$exe_path" &
+    else
+        print_warning "Proton not available, using Wine fallback"
+        export WINEDEBUG=-all
+        export WINEPREFIX="$WINEPREFIX/pfx"
+
+        wine "$exe_path" &
+    fi
+
+    print_success "External launch started (PID: $!)"
+}
+
+# Allow overrides for container/host setups where HOME may not be preferred.
+WINE_DIR="${WINE_GAMING_HOME:-${HOME}/.wine-gaming}"
 WINEPREFIX="${WINE_DIR}/prefix"
 PROTON_DIR="${WINE_DIR}/proton-ge"
 BACKUP_DIR="${WINE_DIR}/backup"
-CACHE_DIR="${HOME}/.cache/wine-installers"
+CACHE_DIR="${WINE_GAMING_CACHE:-${HOME}/.cache/wine-installers}"
 BIN_DIR="${WINE_DIR}/bin"
-APPS_DIR="${HOME}/.local/share/applications"
+APPS_DIR="${WINE_GAMING_APPS_DIR:-${HOME}/.local/share/applications}"
 
 export WINEPREFIX WINEARCH=win64
 
 # Ensure necessary directories exist
-mkdir -p "$WINE_DIR" "$BACKUP_DIR" "$CACHE_DIR" "$BIN_DIR" "$APPS_DIR"
+mkdir -p "$WINE_DIR" "$BACKUP_DIR" "$CACHE_DIR" "$BIN_DIR" "$APPS_DIR" 2>/dev/null || true
 
 # ============================================================================
 # APP REGISTRY - Define all supported launchers
@@ -978,7 +1045,7 @@ show_help() {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 USAGE:
-  ./setup.sh <command> [options]
+    ./setup <command> [options]
 
 WINE PREFIX MANAGEMENT:
   purge                    Delete Wine prefix and start fresh
@@ -997,11 +1064,13 @@ WINE PREFIX MANAGEMENT:
 APP MANAGEMENT:
   list                     Show all registered launchers and install status
   list-installers          Show available installers in ./installers directory
-  install <app-key>        Install a launcher (e.g., ./setup.sh install ea-desktop)
+    install <app-key>        Install a launcher (e.g., ./setup install ea-desktop)
   install <app-key> <path> Install with custom installer path
   install-all              Install all registered launchers
   uninstall <app-key>      Remove a launcher from prefix
   launch <app-key>         Launch an installed app with Proton/Wine
+    launch-exe <path>        Launch any external .exe/.msi in managed prefix
+    prefix-info              Show managed prefix paths and env vars
   
 SHORTCUT MANAGEMENT:
   install-shortcut <key>   Create desktop launcher for an app
@@ -1017,26 +1086,29 @@ AVAILABLE LAUNCHERS:
 
 EXAMPLES:
   # Initial setup
-  ./setup.sh install-proton
-  ./setup.sh full
+    ./setup install-proton
+    ./setup full
 
   # Install a launcher
-  ./setup.sh install gog-galaxy
+    ./setup install gog-galaxy
 
   # Install with custom installer
-  ./setup.sh install ea-desktop /path/to/EAappInstaller.exe
+    ./setup install ea-desktop /path/to/EAappInstaller.exe
 
   # Launch an app
-  ./setup.sh launch gog-galaxy
+    ./setup launch gog-galaxy
+
+    # Launch an external game executable with this managed prefix
+    ./setup launch-exe /games/MyGame/Game.exe
 
   # Create desktop shortcut
-  ./setup.sh install-shortcut ea-desktop
+    ./setup install-shortcut ea-desktop
 
   # Install all launchers
-  ./setup.sh install-all
+    ./setup install-all
 
   # List installed apps
-  ./setup.sh list
+    ./setup list
 
 CONFIGURATION:
   Edit APP_REGISTRY array in this script to add new launchers.
@@ -1082,6 +1154,8 @@ main() {
         install-all)        install_all_launchers ;;
         uninstall)          uninstall_app "$2" ;;
         launch)             launch_app "$2" ;;
+        launch-exe)         launch_external_exe "$2" ;;
+        prefix-info)        prefix_info ;;
         
         # Shortcut management
         install-shortcut)   create_shortcut "$2" "$3" ;;

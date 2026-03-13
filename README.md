@@ -131,6 +131,8 @@ cd /path/to/wine-gaming
 ./setup install-all                 # Install all registered launchers
 ./setup uninstall <app-key>         # Uninstall launcher
 ./setup launch <app-key>            # Launch installed app
+./setup launch-exe /path/Game.exe   # Launch external .exe/.msi in managed prefix
+./setup prefix-info                 # Show exact prefix/env values used by this toolset
 ```
 
 ### Desktop Shortcuts
@@ -151,6 +153,31 @@ legacy-games      → Legacy Games
 ```
 
 ## Common Workflows
+
+### Use The Managed `~/.wine-gaming` Prefix Outside The Script
+```bash
+# Show exact environment values used by this project
+./setup prefix-info
+
+# Reuse the same managed prefix for manual Wine commands
+export WINE_DIR="$HOME/.wine-gaming"
+export STEAM_COMPAT_DATA_PATH="$WINE_DIR/prefix"
+export WINEPREFIX="$WINE_DIR/prefix/pfx"
+
+# Example manual launch (if needed)
+wine /absolute/path/to/Game.exe
+```
+
+This prevents fallback to host defaults like `~/.wine` or accidental ad-hoc prefixes.
+
+### Launch Any External Game EXE (Not In App Registry)
+```bash
+# Runs through this project's managed Proton/Wine runtime
+./setup launch-exe /absolute/path/to/Game.exe
+
+# MSI installers are also supported
+./setup launch-exe /absolute/path/to/Installer.msi
+```
 
 ### Fresh Installation
 ```bash
