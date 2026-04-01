@@ -58,7 +58,7 @@ Centralized bash script to manage multiple game launchers (EA Desktop, GOG Galax
 - ✅ Wine prefix management (init, backup, restore, purge)
 - ✅ Z: drive mount control (for disk space reporting fixes)
 - ✅ Comprehensive robustness libraries (Lutris/Heroic compatible)
-- ✅ GPU acceleration optimized (NVIDIA RTX tested)
+- ✅ GPU acceleration optimised (NVIDIA RTX tested)
 
 ## Quick Start
 
@@ -77,7 +77,7 @@ cd /path/to/wine-gaming
 # 1. Install Proton-GE (one time only)
 ./setup install-proton
 
-# 2. Initialize Wine prefix with dependencies
+# 2. Initialise Wine prefix with dependencies
 ./setup init
 
 # 3. Install all launchers
@@ -105,7 +105,7 @@ cd /path/to/wine-gaming
 ### Wine Prefix Management
 ```bash
 ./setup purge                       # Delete prefix, start fresh
-./setup init                        # Initialize with dependencies
+./setup init                        # Initialise with dependencies
 ./setup full                        # Complete setup: purge + init + install-all
 ./setup quick                       # Quick: reinit deps + install remaining apps
 ./setup backup                      # Backup DLLs and packages
@@ -302,13 +302,13 @@ The script installs comprehensive dependencies used by Lutris and Heroic:
 - **Graphics**: d3dcompiler, d3dx9-11, dxvk, vkd3d, d9vk
 - **Audio**: directmusic, faudio, xact, directplay, directshow
 - **System**: vcrun*, dotnet*, corefonts, gdiplus, physx, msctf
-- **GPU**: Optimized for NVIDIA RTX (DXVK, shader cache enabled)
+- **GPU**: Optimised for NVIDIA RTX (DXVK, shader cache enabled)
 
 See `init()` function for full library list.
 
 ## Performance Tuning
 
-### GPU Optimization (for launchers with embedded browsers)
+### GPU Optimisation (for launchers with embedded browsers)
 Edit `launch_app()` function to adjust:
 ```bash
 export __GL_SHADER_DISK_CACHE=1              # Improve framerate
@@ -316,7 +316,7 @@ export __GL_THREADED_OPTIMIZATION=1          # Multi-threaded rendering
 export DXVK_HUD=0                            # Hide DXVK overlay
 ```
 
-### CPU Optimization
+### CPU Optimisation
 ```bash
 # For faster winetricks installation, add to ~/.bashrc:
 export WINETRICKS_DOWNLOAD_TIMEOUT=60
@@ -359,12 +359,12 @@ Want to add another launcher?
 
 ## Issues & Limitations
 
-- ⚠️ **Wine drive letters in file dialogs**: Custom drive letters (D:, E:) don't always show in Proton app dialogs; Z: at "/" is Wine standard behavior
+- ⚠️ **Wine drive letters in file dialogues**: Custom drive letters (D:, E:) don't always show in Proton app dialogues; Z: at "/" is Wine standard behaviour
 - ⚠️ **Z: drive warnings**: "Read access denied" errors are harmless; use `suppress-z-warnings` to mute
 - ✅ **GPU acceleration**: Tested on NVIDIA RTX 2060+ (DXVK v2.4.1)
 - ✅ **Disk space reporting**: Use `unmount-z` before EA Desktop's disk checks
 
-## License
+## Licence
 
 MIT - Free to use and modify
 
@@ -375,6 +375,6 @@ MIT - Free to use and modify
 - ✅ Automatic installer detection
 - ✅ Z: drive mount/unmount management
 - ✅ Comprehensive robustness libraries (Lutris-compatible)
-- ✅ GPU acceleration optimized
+- ✅ GPU acceleration optimised
 
 See git history for full changelog.

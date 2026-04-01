@@ -70,7 +70,7 @@ restore() {
 
 # Initialise a fresh Wine prefix with all required dependencies.
 init() {
-    print_info "Initializing Wine prefix..."
+    print_info "Initialising Wine prefix..."
 
     mkdir -p "${HOME}/.config/winetricks"
     touch "${HOME}/.config/winetricks/enable-latest-version-check"
@@ -96,7 +96,7 @@ init() {
     wine reg add "HKEY_CURRENT_USER\Software\Wine\Direct3D" /v "VideoMemorySize" /t REG_SZ /d "8192" /f >/dev/null 2>&1 || true
     wine reg add "HKEY_CURRENT_USER\Software\Wine\Direct3D" /v "CSMT"           /t REG_SZ /d "enabled" /f >/dev/null 2>&1 || true
 
-    print_success "Wine prefix initialized"
+    print_success "Wine prefix initialised"
 }
 
 # Helper: install one app with local-installer preference.
@@ -205,7 +205,7 @@ configure_wine_drives() {
     local dosdevices_dir="$WINEPREFIX/pfx/dosdevices"
 
     if [ ! -d "$dosdevices_dir" ]; then
-        print_warning "Wine prefix not initialized yet, skipping drive configuration"
+        print_warning "Wine prefix not initialised yet, skipping drive configuration"
         return 1
     fi
 

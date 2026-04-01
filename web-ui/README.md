@@ -81,7 +81,7 @@ PORT=3001 npm start
 - Check browser console (F12) for errors
 - Check server terminal output
 - Verify `./setup` script exists in parent directory
-- Ensure Wine prefix is initialized: `../setup init`
+- Ensure Wine prefix is initialised: `../setup init`
 
 ### "Output stuck at 'Running...'"
 - Long operations (install-all) may take 30+ minutes
@@ -113,6 +113,6 @@ WINE_DIR=/custom/wine/path   # (would need server.js modification)
 - [ ] Log file viewer
 - [ ] Multi-language support
 
-## License
+## Licence
 
 MIT - Same as main project
