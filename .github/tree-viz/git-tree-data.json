@@ -1,0 +1,184 @@
+{
+  "metadata": {
+    "repository": "wine-gaming",
+    "current_branch": "main",
+    "repo_url": "https://github.com/XAOSTECH/wine-gaming",
+    "generated": "2026-04-06T01:57:12Z",
+    "max_commits": 500
+  },
+  "commits": [
+  {
+    "sha": "838b9c4ee0993e3c6dbe90666d75143317b5bc47",
+    "short": "838b9c4",
+    "parents": "56414f64ed440177abab36c656bca62299fcdabd 6b90c0ca9f2831e5d7bb29dc592b5aeec81fa2df",
+    "author": "github-actions[bot]",
+    "email": "41898282+github-actions[bot]@users.noreply.github.com",
+    "date": "2026-04-01T00:27:51Z",
+    "timestamp": 1775003271,
+    "subject": "Merge pull request #1 from XAOSTECH/anglicise/20260401-002733",
+    "refs": "HEAD -> main, origin/main"
+  },
+  {
+    "sha": "6b90c0ca9f2831e5d7bb29dc592b5aeec81fa2df",
+    "short": "6b90c0c",
+    "parents": "56414f64ed440177abab36c656bca62299fcdabd",
+    "author": "xaos-bot",
+    "email": "262248812+xaos-bot@users.noreply.github.com",
+    "date": "2026-04-01T00:27:33Z",
+    "timestamp": 1775003253,
+    "subject": "chore: convert American spellings to British English",
+    "refs": ""
+  },
+  {
+    "sha": "56414f64ed440177abab36c656bca62299fcdabd",
+    "short": "56414f6",
+    "parents": "7a60e2ae390c8a2aa5d4509ee91d724d18bebcc9",
+    "author": "xaos-bot",
+    "email": "262248812+xaos-bot@users.noreply.github.com",
+    "date": "2026-03-30T01:56:42Z",
+    "timestamp": 1774835802,
+    "subject": "chore: update CHANGELOG for v0.1.1 (re-release)",
+    "refs": "tag: v0.1.1, tag: latest"
+  },
+  {
+    "sha": "7a60e2ae390c8a2aa5d4509ee91d724d18bebcc9",
+    "short": "7a60e2a",
+    "parents": "6c844c99218052681c69e43a7dfb34ece20f6ea5",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-03-26T20:17:25+01:00",
+    "timestamp": 1774552645,
+    "subject": "chore(dc-init): load workflows,actions",
+    "refs": ""
+  },
+  {
+    "sha": "6c844c99218052681c69e43a7dfb34ece20f6ea5",
+    "short": "6c844c9",
+    "parents": "9e895c36c425d617820faddb5bae378b9f45f5e5",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-03-23T17:54:09+01:00",
+    "timestamp": 1774284849,
+    "subject": "chore(dc-init): load workflows,actions",
+    "refs": ""
+  },
+  {
+    "sha": "9e895c36c425d617820faddb5bae378b9f45f5e5",
+    "short": "9e895c3",
+    "parents": "ba2a2314cacc6687e86fa584ee8e536540fabf17",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-03-15T06:28:44+01:00",
+    "timestamp": 1773552524,
+    "subject": "chore(dc-init): update workflows,actions",
+    "refs": ""
+  },
+  {
+    "sha": "ba2a2314cacc6687e86fa584ee8e536540fabf17",
+    "short": "ba2a231",
+    "parents": "d9474feb79e468401aa4822ed21702f0e0e77656",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-03-15T06:26:11+01:00",
+    "timestamp": 1773552371,
+    "subject": "chore(dc-init): recover interrupted update",
+    "refs": ""
+  },
+  {
+    "sha": "d9474feb79e468401aa4822ed21702f0e0e77656",
+    "short": "d9474fe",
+    "parents": "5f0418644fe65853fe74e7020d0052b6cb2c2d48",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-03-13T22:43:46+01:00",
+    "timestamp": 1773438226,
+    "subject": "refactor: modularise into lib/ directory",
+    "refs": ""
+  },
+  {
+    "sha": "5f0418644fe65853fe74e7020d0052b6cb2c2d48",
+    "short": "5f04186",
+    "parents": "7c5f6f62513aec40cd3239e986b744145219ef79",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-03-13T21:55:50+01:00",
+    "timestamp": 1773435350,
+    "subject": "chore: clean up docs",
+    "refs": ""
+  },
+  {
+    "sha": "7c5f6f62513aec40cd3239e986b744145219ef79",
+    "short": "7c5f6f6",
+    "parents": "730899f64cde155710e551b465610cdefbbf437e",
+    "author": "xaos-bot",
+    "email": "262248812+xaos-bot@users.noreply.github.com",
+    "date": "2026-03-13T20:51:50Z",
+    "timestamp": 1773435110,
+    "subject": "chore: update CHANGELOG for v0.1.1",
+    "refs": ""
+  },
+  {
+    "sha": "730899f64cde155710e551b465610cdefbbf437e",
+    "short": "730899f",
+    "parents": "ff3d29bf4c1cda3b78eb6dbe31160c5df2a76b4c",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-03-13T21:49:47+01:00",
+    "timestamp": 1773434987,
+    "subject": "Add managed prefix info and external EXE launcher command",
+    "refs": ""
+  },
+  {
+    "sha": "ff3d29bf4c1cda3b78eb6dbe31160c5df2a76b4c",
+    "short": "ff3d29b",
+    "parents": "b6ce59b960feb3db7ad1b26230322c592f43f61e",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-03-13T21:47:03+01:00",
+    "timestamp": 1773434823,
+    "subject": "security: add global and command route rate limiting",
+    "refs": ""
+  },
+  {
+    "sha": "b6ce59b960feb3db7ad1b26230322c592f43f61e",
+    "short": "b6ce59b",
+    "parents": "d3a63572170eb5d3acca5296af81d879eecb4e1b",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-03-06T05:32:13+01:00",
+    "timestamp": 1772771533,
+    "subject": "chore(dc-init): update workflows and actions",
+    "refs": ""
+  },
+  {
+    "sha": "d3a63572170eb5d3acca5296af81d879eecb4e1b",
+    "short": "d3a6357",
+    "parents": "4854ca978c51879d8b16481359344c3754590c0b",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2025-12-30T14:51:57+01:00",
+    "timestamp": 1767102717,
+    "subject": "gc-init",
+    "refs": ""
+  },
+  {
+    "sha": "4854ca978c51879d8b16481359344c3754590c0b",
+    "short": "4854ca9",
+    "parents": "",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2025-12-10T19:21:37+01:00",
+    "timestamp": 1765390897,
+    "subject": "Init",
+    "refs": "tag: Main"
+  }
+],
+  "branches": [
+  {"name":"838b9c4ee0993e3c6dbe90666d75143317b5bc47 Merge pull request #1 from XAOSTECH/anglicise/20260401-002733","sha":"*","current":false,"merged":false}
+],
+  "tags": [
+  {"name":"Main","sha":"4854ca978c51879d8b16481359344c3754590c0b"},
+  {"name":"latest","sha":"b728a947d259fd334791a6c02e0bbb34f2c4e52d"},
+  {"name":"v0.1.1","sha":"568218cc10bd24b975fe582bbf12de9d7ea22355"}
+]
+}
