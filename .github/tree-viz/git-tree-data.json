@@ -3,10 +3,21 @@
     "repository": "wine-gaming",
     "current_branch": "main",
     "repo_url": "https://github.com/XAOSTECH/wine-gaming",
-    "generated": "2026-04-06T01:57:12Z",
+    "generated": "2026-04-13T02:05:43Z",
     "max_commits": 500
   },
   "commits": [
+  {
+    "sha": "99c088437f52bafad58f15efc3d9289545586f3f",
+    "short": "99c0884",
+    "parents": "838b9c4ee0993e3c6dbe90666d75143317b5bc47",
+    "author": "xaos-bot",
+    "email": "262248812+xaos-bot@users.noreply.github.com",
+    "date": "2026-04-06T01:57:12Z",
+    "timestamp": 1775440632,
+    "subject": "chore: update git tree visualisation",
+    "refs": "HEAD -> main, origin/main"
+  },
   {
     "sha": "838b9c4ee0993e3c6dbe90666d75143317b5bc47",
     "short": "838b9c4",
@@ -16,7 +27,7 @@
     "date": "2026-04-01T00:27:51Z",
     "timestamp": 1775003271,
     "subject": "Merge pull request #1 from XAOSTECH/anglicise/20260401-002733",
-    "refs": "HEAD -> main, origin/main"
+    "refs": ""
   },
   {
     "sha": "6b90c0ca9f2831e5d7bb29dc592b5aeec81fa2df",
@@ -174,7 +185,7 @@
   }
 ],
   "branches": [
-  {"name":"838b9c4ee0993e3c6dbe90666d75143317b5bc47 Merge pull request #1 from XAOSTECH/anglicise/20260401-002733","sha":"*","current":false,"merged":false}
+  {"name":"99c088437f52bafad58f15efc3d9289545586f3f chore: update git tree visualisation","sha":"*","current":false,"merged":false}
 ],
   "tags": [
   {"name":"Main","sha":"4854ca978c51879d8b16481359344c3754590c0b"},
