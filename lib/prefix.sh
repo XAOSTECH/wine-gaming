@@ -73,7 +73,7 @@ init() {
     print_info "Initializing Wine prefix..."
 
     # Install system-level apt packages required by wine-gaming tooling.
-    # icoutils: wrestool — used to extract .ico from installed .exe files for desktop shortcuts.
+    # icoutils: wrestool + icotool — extract and convert .exe icons for desktop shortcuts.
     print_info "Installing system dependencies (apt)..."
     if command -v apt-get &>/dev/null; then
         sudo apt-get install -y icoutils 2>&1 \
