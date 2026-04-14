@@ -70,7 +70,12 @@ restore() {
 
 # Initialise a fresh Wine prefix with all required dependencies.
 init() {
-    print_info "Initializing Wine prefix..."
+    if [ -d "${WINEPREFIX:-}" ]; then
+        print_info "Prefix already exists at $WINEPREFIX — re-running dependencies non-destructively"
+        print_info "(Use './setup full' to start completely fresh)"
+    else
+        print_info "Initializing Wine prefix..."
+    fi
 
     # Install system-level apt packages required by wine-gaming tooling.
     # icoutils: wrestool + icotool — extract and convert .exe icons for desktop shortcuts.
@@ -85,7 +90,7 @@ init() {
     mkdir -p "${HOME}/.config/winetricks"
     touch "${HOME}/.config/winetricks/enable-latest-version-check"
 
-    wineboot -u
+    wineboot -u 2>/dev/null
 
     print_info "Installing Wine dependencies via winetricks..."
     # vcrun*: Visual C++ runtimes | d3dcompiler/d3dx: DirectX | dxvk/vkd3d/d9vk: GPU layers
