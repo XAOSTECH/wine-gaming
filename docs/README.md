@@ -41,7 +41,7 @@
 <!-- Optional: Stability/Maturity Badge -->
 <p align="center">
   <img alt="Stability" src="https://img.shields.io/badge/stability-experimental-orange?style=flat-square">
-  <img alt="Maintenance" src="https://img.shields.io/maintenance/yes/2025?style=flat-square">
+  <img alt="Maintenance" src="https://img.shields.io/maintenance/yes/2026?style=flat-square">
 </p>
 
 ---
@@ -53,7 +53,8 @@ Centralized bash script to manage multiple game launchers (EA Desktop, GOG Galax
 **Features:**
 - ✅ Automatic installer detection and downloading with caching
 - ✅ Install/uninstall/launch launchers via single command
-- ✅ Desktop shortcut creation for launchers
+- ✅ Desktop shortcut creation with auto icon extraction from installer `.exe`
+- ✅ Global `wig` command — runs from anywhere, survives folder moves
 - ✅ Batch operations (install-all, list status)
 - ✅ Wine prefix management (init, backup, restore, purge)
 - ✅ Z: drive mount control (for disk space reporting fixes)
@@ -66,9 +67,7 @@ Centralized bash script to manage multiple game launchers (EA Desktop, GOG Galax
 ```bash
 # Ubuntu/Debian
 sudo apt install wine winetricks wget
-cd ~/PRO/SYS/WINE/wine-gaming
-
-# OR use your existing path
+# icoutils (wrestool + icotool) is auto-installed by ./setup init
 cd /path/to/wine-gaming
 ```
 
@@ -77,27 +76,28 @@ cd /path/to/wine-gaming
 # 1. Install Proton-GE (one time only)
 ./setup install-proton
 
-# 2. Initialise Wine prefix with dependencies
+# 2. Initialise Wine prefix with dependencies (also installs icoutils + sets up wig)
 ./setup init
 
-# 3. Install all launchers
+# 3. Activate the wig global command (or open a new terminal)
+source ~/.bashrc
+
+# 4. Install all launchers
 ./setup install-all
 
-# 4. List installed apps
+# 5. List installed apps
 ./setup list
 ```
 
 ### Daily Usage
 ```bash
-# Launch a launcher
-./setup launch gog-galaxy
+# Using the global wig command (works from anywhere after init)
+wig launch gog-galaxy
+wig install ea-desktop
+wig list
+
+# Or with the full path as before
 ./setup launch epic-games
-
-# Check status
-./setup list
-
-# Install a specific launcher
-./setup install ea-desktop
 ```
 
 ## Commands
@@ -137,9 +137,26 @@ cd /path/to/wine-gaming
 
 ### Desktop Shortcuts
 ```bash
-./setup install-shortcut <app-key>  # Create .desktop file
+./setup install-shortcut <app-key>  # Create .desktop file (auto-extracts icon from .exe)
 ./setup remove-shortcut <app-key>   # Remove shortcut
 ```
+
+### Aliases & Global `wig` Command
+```bash
+./setup install-aliases             # Create ~/.local/bin/wig + wire aliases into ~/.bashrc
+./setup remove-aliases              # Remove wig wrapper and ~/.bashrc entry
+./setup show-aliases                # Show current alias targets
+```
+
+After `install-aliases` (or `init`), reload the shell (`source ~/.bashrc`) and use `wig` from any directory:
+```bash
+wig launch gog-galaxy
+wig install ea-desktop
+wig list
+wig-launch ubisoft-connect          # wig-* aliases are thin wrappers around wig
+```
+
+If the wine-gaming folder is moved, re-run `./setup install-aliases` from the new location.
 
 ## Available Launchers
 
@@ -228,13 +245,16 @@ PROTON_VERSION="GE-Proton9-18"           # Version (in install_proton function)
 
 ```
 ~/.wine-gaming/
-├── prefix/pfx/              # Wine prefix (Windows filesystem)
-├── proton-ge/               # Proton executable
-├── bin/                     # Generated launcher scripts
-└── backup/                  # Backup DLLs/packages
+├── prefix/pfx/                    # Wine prefix (Windows filesystem)
+├── proton-ge/                     # Proton executable
+├── bin/                           # Generated launcher scripts
+└── backup/                        # Backup DLLs/packages
 
-~/.cache/wine-installers/    # Downloaded installers (cached)
-~/.local/share/applications/ # Desktop shortcuts
+~/.cache/wine-installers/          # Downloaded installers (cached)
+~/.config/wine-gaming/             # Config dir (location file for wig)
+~/.local/bin/wig                   # Global command wrapper
+~/.local/share/applications/       # Desktop shortcuts (.desktop files)
+~/.local/share/icons/wine-gaming/  # Extracted launcher icons (.png / .ico)
 ```
 
 ## Troubleshooting
@@ -361,6 +381,7 @@ Want to add another launcher?
 
 - ⚠️ **Wine drive letters in file dialogues**: Custom drive letters (D:, E:) don't always show in Proton app dialogues; Z: at "/" is Wine standard behaviour
 - ⚠️ **Z: drive warnings**: "Read access denied" errors are harmless; use `suppress-z-warnings` to mute
+- ⚠️ **EA Desktop icon**: The installer's `.ico` contains a corrupt frame that icotool refuses; falls back to raw `.ico` — gdk-pixbuf renders it from the first valid frame (may appear small)
 - ✅ **GPU acceleration**: Tested on NVIDIA RTX 2060+ (DXVK v2.4.1)
 - ✅ **Disk space reporting**: Use `unmount-z` before EA Desktop's disk checks
 
@@ -369,6 +390,12 @@ Want to add another launcher?
 GPL-3 - Free to use and modify
 
 ## Changelog
+
+### v1.1 (Apr 2026)
+- ✅ Global `wig` wrapper — runs from anywhere, survives folder moves via location-file indirection
+- ✅ Shell aliases (`wig-launch`, `wig-install`, etc.) auto-wired into `~/.bashrc` on `init`
+- ✅ Auto icon extraction from installer `.exe` on shortcut creation (PNG-first via icoutils, `.ico` fallback)
+- ✅ `icoutils` auto-installed in `./setup init`
 
 ### v1.0 (Nov 2025)
 - ✅ Initial release with 6 launchers
