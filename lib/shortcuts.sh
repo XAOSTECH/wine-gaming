@@ -3,6 +3,75 @@
 # Sourced by setup; do not execute directly.
 # Depends on: lib/config.sh, lib/utils.sh, lib/registry.sh
 
+# Attempt to extract the best available icon from a Windows .exe using icoutils.
+# Usage: extract_exe_icon "app-key" "exe_path"
+# Outputs: absolute path to the extracted .png, or nothing on failure.
+# Requires: icoutils package (wrestool + icotool). Silent no-op if absent.
+extract_exe_icon() {
+    local app_key="$1"
+    local exe_path="$2"
+
+    local icon_dir="${HOME}/.local/share/icons/wine-gaming"
+    local png_out="${icon_dir}/wine-gaming-${app_key}.png"
+    local work_dir
+    work_dir=$(mktemp -d) || return 1
+
+    mkdir -p "$icon_dir"
+
+    if ! command -v wrestool &>/dev/null || ! command -v icotool &>/dev/null; then
+        print_warning "icoutils not installed — skipping icon extraction (run: sudo apt install icoutils)"
+        rm -rf "$work_dir"
+        return 1
+    fi
+
+    # Extract all RT_GROUP_ICON resources from the exe into a temp dir
+    if ! wrestool -x -t 14 --output="$work_dir" "$exe_path" 2>/dev/null; then
+        rm -rf "$work_dir"
+        return 1
+    fi
+
+    # Pick the largest .ico file (most sizes = most likely the main app icon)
+    local ico_file=""
+    local best_ico_size=0
+    while IFS= read -r -d '' f; do
+        local sz
+        sz=$(stat -c%s "$f" 2>/dev/null || echo 0)
+        if (( sz > best_ico_size )); then
+            best_ico_size=$sz
+            ico_file="$f"
+        fi
+    done < <(find "$work_dir" -name "*.ico" -print0 2>/dev/null)
+
+    if [ -z "$ico_file" ]; then
+        rm -rf "$work_dir"
+        return 1
+    fi
+
+    # Convert .ico → multiple .png sizes; keep the highest-resolution result
+    icotool -x -o "$work_dir" "$ico_file" 2>/dev/null
+
+    local best_png=""
+    local best_png_size=0
+    while IFS= read -r -d '' f; do
+        local sz
+        sz=$(stat -c%s "$f" 2>/dev/null || echo 0)
+        if (( sz > best_png_size )); then
+            best_png_size=$sz
+            best_png="$f"
+        fi
+    done < <(find "$work_dir" -name "*.png" -print0 2>/dev/null)
+
+    if [ -n "$best_png" ]; then
+        cp "$best_png" "$png_out"
+        rm -rf "$work_dir"
+        echo "$png_out"
+        return 0
+    fi
+
+    rm -rf "$work_dir"
+    return 1
+}
+
 # Create a .desktop shortcut and a wrapper launcher script for an app.
 # Usage: create_shortcut "app-key" [display_name]
 create_shortcut() {
@@ -19,6 +88,17 @@ create_shortcut() {
     fi
 
     display_name="${display_name:-$APP_NAME}"
+
+    # Attempt to extract the app icon from the installed exe for a better desktop shortcut.
+    local app_icon="application-x-ms-dos-executable"
+    local extracted_icon
+    extracted_icon=$(extract_exe_icon "$app_key" "$exe_path")
+    if [ -n "$extracted_icon" ]; then
+        app_icon="$extracted_icon"
+        print_info "Extracted app icon: $(basename "$extracted_icon")"
+    else
+        print_warning "Icon extraction failed — using default icon. Re-run after: sudo apt install icoutils"
+    fi
 
     local launcher="$BIN_DIR/$app_key"
     local desktop="$APPS_DIR/${app_key}.desktop"
@@ -91,7 +171,7 @@ Type=Application
 Categories=Game;
 Terminal=false
 StartupNotify=true
-Icon=application-x-ms-dos-executable
+Icon=$app_icon
 DESKTOP_EOF
 
     chmod 644 "$desktop"

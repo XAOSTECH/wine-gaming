@@ -70,7 +70,17 @@ restore() {
 
 # Initialise a fresh Wine prefix with all required dependencies.
 init() {
-    print_info "Initialising Wine prefix..."
+    print_info "Initializing Wine prefix..."
+
+    # Install system-level apt packages required by wine-gaming tooling.
+    # icoutils: wrestool + icotool — used to extract app icons from installed .exe files.
+    print_info "Installing system dependencies (apt)..."
+    if command -v apt-get &>/dev/null; then
+        sudo apt-get install -y icoutils 2>&1 \
+            | grep -v "^Reading\|^Building\|^(Reading\|^Selecting\|^Setting\|^Preparing" || true
+    else
+        print_warning "apt-get not available — skipping icoutils install (icon extraction will be skipped)"
+    fi
 
     mkdir -p "${HOME}/.config/winetricks"
     touch "${HOME}/.config/winetricks/enable-latest-version-check"
@@ -97,6 +107,12 @@ init() {
     wine reg add "HKEY_CURRENT_USER\Software\Wine\Direct3D" /v "CSMT"           /t REG_SZ /d "enabled" /f >/dev/null 2>&1 || true
 
     print_success "Wine prefix initialised"
+
+    # Auto-install the wig wrapper and aliases so wine-gaming commands work globally.
+    if [ -n "${SETUP_SCRIPT_PATH:-}" ] && [ -f "${SETUP_SCRIPT_PATH:-}" ]; then
+        echo ""
+        install_aliases
+    fi
 }
 
 # Helper: install one app with local-installer preference.
@@ -195,6 +211,12 @@ quick_setup() {
     print_info "Quick Setup Summary: Installed=$succeeded  Skipped=$skipped  Failed=$failed"
     [ "$failed" -gt 0 ] && echo -e "  Failed apps:$failed_apps"
     print_success "Quick setup complete"
+
+    # Refresh wig aliases (also updates location if the folder was moved).
+    if [ -n "${SETUP_SCRIPT_PATH:-}" ] && [ -f "${SETUP_SCRIPT_PATH:-}" ]; then
+        echo ""
+        install_aliases
+    fi
 }
 
 # Configure Wine drive letter mappings.

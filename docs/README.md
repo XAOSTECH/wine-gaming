@@ -366,7 +366,7 @@ Want to add another launcher?
 
 ## Licence
 
-MIT - Free to use and modify
+GPL-3 - Free to use and modify
 
 ## Changelog
 
