@@ -3,73 +3,53 @@
 # Sourced by setup; do not execute directly.
 # Depends on: lib/config.sh, lib/utils.sh, lib/registry.sh
 
-# Attempt to extract the best available icon from a Windows .exe using icoutils.
+# Extract the app icon from a Windows .exe as a .ico file.
+# GNOME/gdk-pixbuf reads .ico natively — no PNG conversion needed.
 # Usage: extract_exe_icon "app-key" "exe_path"
-# Outputs: absolute path to the extracted .png, or nothing on failure.
-# Requires: icoutils package (wrestool + icotool). Silent no-op if absent.
+# Outputs: absolute path to the extracted .ico, or nothing on failure.
+# Requires: icoutils (wrestool only).
 extract_exe_icon() {
     local app_key="$1"
     local exe_path="$2"
 
     local icon_dir="${HOME}/.local/share/icons/wine-gaming"
-    local png_out="${icon_dir}/wine-gaming-${app_key}.png"
-    local work_dir
-    work_dir=$(mktemp -d) || return 1
+    local ico_out="${icon_dir}/wine-gaming-${app_key}.ico"
 
     mkdir -p "$icon_dir"
 
-    if ! command -v wrestool &>/dev/null || ! command -v icotool &>/dev/null; then
+    if ! command -v wrestool &>/dev/null; then
         print_warning "icoutils not installed — skipping icon extraction (run: sudo apt install icoutils)"
-        rm -rf "$work_dir"
         return 1
     fi
 
-    # Extract all RT_GROUP_ICON resources from the exe into a temp dir
+    local work_dir
+    work_dir=$(mktemp -d) || return 1
+
+    # Extract the largest RT_GROUP_ICON resource (type=14) — biggest file = most frame sizes
     if ! wrestool -x -t 14 --output="$work_dir" "$exe_path" 2>/dev/null; then
         rm -rf "$work_dir"
         return 1
     fi
 
-    # Pick the largest .ico file (most sizes = most likely the main app icon)
-    local ico_file=""
-    local best_ico_size=0
+    local best_ico="" best_size=0
     while IFS= read -r -d '' f; do
         local sz
         sz=$(stat -c%s "$f" 2>/dev/null || echo 0)
-        if (( sz > best_ico_size )); then
-            best_ico_size=$sz
-            ico_file="$f"
+        if (( sz > best_size )); then
+            best_size=$sz
+            best_ico="$f"
         fi
     done < <(find "$work_dir" -name "*.ico" -print0 2>/dev/null)
 
-    if [ -z "$ico_file" ]; then
+    if [ -z "$best_ico" ]; then
         rm -rf "$work_dir"
         return 1
     fi
 
-    # Convert .ico → multiple .png sizes; keep the highest-resolution result
-    icotool -x -o "$work_dir" "$ico_file" 2>/dev/null
-
-    local best_png=""
-    local best_png_size=0
-    while IFS= read -r -d '' f; do
-        local sz
-        sz=$(stat -c%s "$f" 2>/dev/null || echo 0)
-        if (( sz > best_png_size )); then
-            best_png_size=$sz
-            best_png="$f"
-        fi
-    done < <(find "$work_dir" -name "*.png" -print0 2>/dev/null)
-
-    if [ -n "$best_png" ]; then
-        cp "$best_png" "$png_out"
-        rm -rf "$work_dir"
-        echo "$png_out"
-        return 0
-    fi
-
+    cp "$best_ico" "$ico_out"
     rm -rf "$work_dir"
-    return 1
+    echo "$ico_out"
+    return 0
 }
 
 # Create a .desktop shortcut and a wrapper launcher script for an app.
