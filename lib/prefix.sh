@@ -74,7 +74,7 @@ init() {
         print_info "Prefix already exists at $WINEPREFIX — re-running dependencies non-destructively"
         print_info "(Use './setup full' to start completely fresh)"
     else
-        print_info "Initializing Wine prefix..."
+        print_info "Initialising Wine prefix..."
     fi
 
     # Install system-level apt packages required by wine-gaming tooling.
