@@ -26,10 +26,18 @@ else
 fi
 
 GAC_BASE="${PREFIX}/drive_c/windows/Microsoft.NET/assembly/GAC_MSIL"
-if [ ! -d "$GAC_BASE" ]; then
-    echo "ERROR: GAC not found at $GAC_BASE" >&2
-    echo "       Run: ./setup init   (installs dotnet48 via winetricks)" >&2
-    exit 1
+WINE_MONO_GAC=""
+
+# Locate the Wine-Mono GAC (used when mscoree override falls back to builtin).
+# Path inside proton-ge: .../wine-mono-X.Y.Z/lib/mono/gac/
+if [ -d "${WINE_DIR}/proton-ge" ]; then
+    WINE_MONO_GAC=$(find "${WINE_DIR}/proton-ge" -type d -path "*/wine-mono-*/lib/mono/gac" 2>/dev/null | head -1 || true)
+fi
+
+if [ ! -d "$GAC_BASE" ] && [ -z "$WINE_MONO_GAC" ]; then
+    echo "WARN: No GAC found (neither native .NET nor Wine-Mono)."
+    echo "      Stubs will only be placed in the app directory — that's"
+    echo "      Mono's first probe location anyway, so it usually works."
 fi
 
 APP_DIR_HINT="${1:-}"
@@ -63,14 +71,28 @@ for il_src in "$SCRIPT_DIR"/*.il; do
     fi
 
     # GAC path: GAC_MSIL/<Name>/v4.0_<ver>__null/<Name>.dll
-    gac_dest="${GAC_BASE}/${asm_name}/v4.0_${asm_ver}__null"
-    mkdir -p "$gac_dest"
-    cp "$dll_out" "$gac_dest/${asm_name}.dll"
-    echo "      → GAC: $gac_dest"
+    if [ -d "$GAC_BASE" ]; then
+        gac_dest="${GAC_BASE}/${asm_name}/v4.0_${asm_ver}__null"
+        mkdir -p "$gac_dest"
+        cp "$dll_out" "$gac_dest/${asm_name}.dll"
+        echo "      → native GAC: $gac_dest"
+    fi
 
-    # Also drop alongside the installer if a path was provided.
+    # Wine-Mono GAC: gac/<Name>/<ver>__<token>/<Name>.dll
+    # (Wine-Mono uses Mono's GAC layout, not native .NET's.)
+    if [ -n "$WINE_MONO_GAC" ]; then
+        wm_dest="${WINE_MONO_GAC}/${asm_name}/${asm_ver}__null"
+        mkdir -p "$wm_dest"
+        cp "$dll_out" "$wm_dest/${asm_name}.dll"
+        echo "      → Wine-Mono GAC: $wm_dest"
+    fi
+
+    # Also drop alongside the installer if a path was provided — Mono's
+    # probing order checks the application directory first, which is the
+    # most reliable resolution path regardless of GAC state.
     if [ -n "$APP_DIR_HINT" ] && [ -d "$APP_DIR_HINT" ]; then
         cp "$dll_out" "$APP_DIR_HINT/"
+        echo "      → app dir:    $APP_DIR_HINT"
     fi
 done
 
@@ -81,5 +103,4 @@ fi
 
 echo ""
 echo "Built and installed $count stub(s)."
-[ -n "$APP_DIR_HINT" ] && echo "Also copied into: $APP_DIR_HINT"
 echo "Next: ./try-stubbed.sh /path/to/XboxInstaller.exe"
