@@ -31,4 +31,19 @@ cp "$STUB_DLL" "$EXE_DIR/" 2>/dev/null || true
 
 export WINEDLLOVERRIDES="mscoree,mscorwks,clr=n,b"
 
+# Iter 9: optional service-query trace.
+#   TRACE_SERVICES=1 ./try-stubbed.sh ...
+# Captures every Wine advapi32 service-control-manager call to a log so we
+# can see exactly which service names the installer asks for.
+if [ "${TRACE_SERVICES:-0}" = "1" ]; then
+    LOG="${SCRIPT_DIR}/service-trace.log"
+    echo "[trace] Writing service trace to: $LOG"
+    echo "[trace] Filter the log with: grep -E 'OpenServiceW|QueryServiceStatus|StartService' \"$LOG\""
+    : > "$LOG"
+    export WINEDEBUG="+advapi,+service"
+    export WINE_LOG_FILE="$LOG"  # honoured by wine builds; harmless if not
+    # wig launch-exe detaches; redirect stderr to capture WINEDEBUG output too
+    exec wig launch-exe "$EXE" 2>&1 | tee -a "$LOG"
+fi
+
 exec wig launch-exe "$EXE"
