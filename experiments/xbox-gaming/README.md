@@ -92,18 +92,32 @@ Added a minimal `Windows.UI.ViewManagement.UISettings` class with:
 - `TextScaleFactor` property → returns `1.0` (no scaling)
 - `TextScaleFactorChanged` event → no-op add/remove
 
-This gives Mono enough metadata to compute field layout for
-`UnsafeUiSettings:_uiSettings` and lets `TextScaling`'s static constructor
-complete. **Re-run** `./build-and-install-stub.sh` after pulling.
+Result: progress! Failure shifted from `UnsafeUiSettings:_uiSettings` (field
+load) to `SafeUiSettings..ctor` (called) — `TextScaling` has a
+try/catch that falls back to a different `UISettings` accessor when the
+unsafe path fails. New missing assembly:
+
+```
+Could not load file or assembly
+'Windows.Foundation.FoundationContract, Version=3.0.0.0,
+ Culture=neutral, PublicKeyToken=null'
+```
+
+#### Iteration 3 — generalise to multiple stub assemblies
+
+Build script now compiles every `*.il` in this directory and installs each
+to its correct GAC path. Added empty `FoundationContract.il` (3.0.0.0) — we'll
+let Mono surface the next type-resolution error to drive iter 4.
 
 ## Files
 
 | File | Purpose |
 |------|---------|
-| `UniversalApiContract.il` | Hand-written CIL stub for the WinRT contract |
-| `build-and-install-stub.sh` | Compile via `ilasm` and place into prefix GAC |
+| `UniversalApiContract.il` | Stub for WinRT contract — defines `UISettings` skeleton |
+| `FoundationContract.il` | Stub for `Windows.Foundation.FoundationContract` (iter 3) |
+| `build-and-install-stub.sh` | Compile every `*.il` and place into prefix GAC |
 | `try-native-dotnet.sh` | Launch wrapper using `mscoree=n` override |
-| `try-stubbed.sh` | Launch wrapper after stub is installed |
+| `try-stubbed.sh` | Launch wrapper after stubs are installed |
 
 ## Honest ceiling
 

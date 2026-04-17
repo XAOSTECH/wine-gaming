@@ -1,9 +1,12 @@
 #!/bin/bash
-# build-and-install-stub.sh — compile the WinRT contract stub and place it
-# into the wine-gaming prefix so Mono can resolve the reference.
+# build-and-install-stub.sh — compile every .il in this directory and place the
+# resulting .dll into the wine-gaming prefix so Mono can resolve the references.
 #
-# Requires: ilasm  (apt: mono-devel, OR shipped inside Wine-Mono)
-# Usage:    ./build-and-install-stub.sh
+# Iterative stub strategy: each missing WinRT contract assembly gets its own
+# .il file. Add new ones as Mono surfaces them; this script picks them all up.
+#
+# Requires: ilasm  (apt: mono-devel)
+# Usage:    ./build-and-install-stub.sh [optional-app-dir-to-also-copy-into]
 
 set -euo pipefail
 
@@ -11,39 +14,17 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WINE_DIR="${WINE_GAMING_HOME:-${HOME}/.wine-gaming}"
 PREFIX="${WINE_DIR}/prefix/pfx"
 
-IL_SRC="${SCRIPT_DIR}/UniversalApiContract.il"
-DLL_OUT="${SCRIPT_DIR}/Windows.Foundation.UniversalApiContract.dll"
-
-if [ ! -f "$IL_SRC" ]; then
-    echo "ERROR: $IL_SRC not found" >&2
-    exit 1
-fi
-
-# Locate ilasm — prefer system Mono, fall back to Wine-Mono's bundled one.
+# Locate ilasm.
 ILASM=""
 if command -v ilasm &>/dev/null; then
     ILASM="ilasm"
 elif command -v ilasm-4 &>/dev/null; then
     ILASM="ilasm-4"
 else
-    # Wine-Mono ships ilasm.exe under proton-ge — would need wine to invoke
-    cand=$(find "${WINE_DIR}/proton-ge" -name "ilasm*" -type f 2>/dev/null | head -1 || true)
-    if [ -n "$cand" ]; then
-        echo "Found bundled ilasm at $cand — but it's a Windows binary."
-        echo "Install host ilasm instead: sudo apt install mono-devel"
-        exit 1
-    fi
     echo "ERROR: ilasm not found. Install with: sudo apt install mono-devel" >&2
     exit 1
 fi
 
-echo "[1/3] Compiling stub via $ILASM..."
-cd "$SCRIPT_DIR"
-"$ILASM" /dll /output:"$DLL_OUT" "$IL_SRC"
-
-echo "[2/3] Locating .NET 4 GAC inside prefix..."
-# Native .NET 4.x GAC layout (after winetricks dotnet48):
-#   <prefix>/drive_c/windows/Microsoft.NET/assembly/GAC_MSIL/<name>/v4.0_<ver>__<token>/<name>.dll
 GAC_BASE="${PREFIX}/drive_c/windows/Microsoft.NET/assembly/GAC_MSIL"
 if [ ! -d "$GAC_BASE" ]; then
     echo "ERROR: GAC not found at $GAC_BASE" >&2
@@ -51,19 +32,47 @@ if [ ! -d "$GAC_BASE" ]; then
     exit 1
 fi
 
-GAC_DEST="${GAC_BASE}/Windows.Foundation.UniversalApiContract/v4.0_7.0.0.0__null"
-mkdir -p "$GAC_DEST"
-
-echo "[3/3] Installing to $GAC_DEST"
-cp "$DLL_OUT" "$GAC_DEST/Windows.Foundation.UniversalApiContract.dll"
-
-# Also drop a copy alongside the installer .exe — Mono checks the application
-# directory before the GAC, which is the most reliable resolution path.
 APP_DIR_HINT="${1:-}"
-if [ -n "$APP_DIR_HINT" ] && [ -d "$APP_DIR_HINT" ]; then
-    cp "$DLL_OUT" "$APP_DIR_HINT/"
-    echo "      Also copied to: $APP_DIR_HINT"
+shopt -s nullglob
+
+count=0
+for il_src in "$SCRIPT_DIR"/*.il; do
+    count=$((count + 1))
+    base=$(basename "$il_src" .il)
+
+    # Read assembly name + version from the .il itself — single source of truth.
+    asm_name=$(awk '/^\.assembly[[:space:]]+[A-Za-z]/ {print $2; exit}' "$il_src")
+    asm_ver=$(awk 'inblock && /\.ver[[:space:]]+/ {gsub(":", ".", $2); print $2; exit}
+                   /^\.assembly[[:space:]]+[A-Za-z]/ {inblock=1}' "$il_src")
+
+    if [ -z "$asm_name" ] || [ -z "$asm_ver" ]; then
+        echo "WARN: $il_src — could not parse assembly name/version, skipping"
+        continue
+    fi
+
+    dll_out="${SCRIPT_DIR}/${asm_name}.dll"
+
+    echo "[${count}] Compiling $base.il → $asm_name $asm_ver"
+    "$ILASM" /nologo /quiet /dll /output:"$dll_out" "$il_src" >/dev/null
+
+    # GAC path: GAC_MSIL/<Name>/v4.0_<ver>__null/<Name>.dll
+    gac_dest="${GAC_BASE}/${asm_name}/v4.0_${asm_ver}__null"
+    mkdir -p "$gac_dest"
+    cp "$dll_out" "$gac_dest/${asm_name}.dll"
+    echo "      → GAC: $gac_dest"
+
+    # Also drop alongside the installer if a path was provided.
+    if [ -n "$APP_DIR_HINT" ] && [ -d "$APP_DIR_HINT" ]; then
+        cp "$dll_out" "$APP_DIR_HINT/"
+    fi
+done
+
+if [ $count -eq 0 ]; then
+    echo "No .il files found in $SCRIPT_DIR"
+    exit 1
 fi
 
 echo ""
-echo "Stub installed. Next: ./try-stubbed.sh /path/to/XboxInstaller.exe"
+echo "Built and installed $count stub(s)."
+[ -n "$APP_DIR_HINT" ] && echo "Also copied into: $APP_DIR_HINT"
+echo "Next: ./try-stubbed.sh /path/to/XboxInstaller.exe"
