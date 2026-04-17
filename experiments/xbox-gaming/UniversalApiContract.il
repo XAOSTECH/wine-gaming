@@ -1,16 +1,16 @@
-// UniversalApiContract.il — empty stub for Windows.Foundation.UniversalApiContract
+// UniversalApiContract.il — stub for Windows.Foundation.UniversalApiContract
 //
-// Compile:   ilasm /dll /key=<snk> UniversalApiContract.il
-// Install:   gacutil /i Windows.Foundation.UniversalApiContract.dll
-//            (or copy into prefix .NET GAC manually)
+// Compile:   ilasm /dll UniversalApiContract.il
 //
-// This is a metadata-only "contract" assembly — like the real WinRT facade,
-// it contains no executable types, only the assembly identity. Just having
-// the assembly resolve is enough to satisfy Mono's type loader and stop the
-// cascading failure in WPF's Setter initialisation.
+// Iteration 2: empty shell wasn't enough. Mono loaded the assembly but failed
+// to resolve `Windows.UI.ViewManagement.UISettings` inside it. Now we define
+// the type skeleton so Mono's class loader can compute field layout for
+// XboxInstaller.Helpers.TextScaling+UnsafeUiSettings:_uiSettings.
 //
-// Note: PublicKeyToken in the original error is "null", meaning unsigned —
-// so we don't actually need a strong-name key. ilasm /dll alone is enough.
+// The methods themselves return harmless defaults — TextScaling's static
+// constructor likely instantiates UISettings and reads TextScaleFactor;
+// we return 1.0 (no scaling) and accept that any other property access
+// will return zero/null.
 
 .assembly extern mscorlib
 {
@@ -25,7 +25,60 @@
 
 .module Windows.Foundation.UniversalApiContract.dll
 
-// Deliberately empty — metadata-only contract assembly.
-// Real WinRT contracts contain type-forwarders to Windows.* implementation
-// DLLs that don't exist on Wine; an empty assembly is a strict superset of
-// "nothing loadable" for our purpose (preventing the AssemblyLoadException).
+// ============================================================================
+// Windows.UI.ViewManagement.UISettings — accessibility/DPI settings facade
+// ============================================================================
+.class public auto ansi Windows.UI.ViewManagement.UISettings
+       extends [mscorlib]System.Object
+{
+  // Parameterless constructor — UnsafeUiSettings probably does `new UISettings()`
+  .method public hidebysig specialname rtspecialname
+          instance void .ctor() cil managed
+  {
+    ldarg.0
+    call instance void [mscorlib]System.Object::.ctor()
+    ret
+  }
+
+  // TextScaleFactor (double) — return 1.0 = 100% (no scaling)
+  // Most likely property TextScaling reads. Real range: 1.0..2.25
+  .method public hidebysig specialname
+          instance float64 get_TextScaleFactor() cil managed
+  {
+    ldc.r8 1.0
+    ret
+  }
+
+  .property instance float64 TextScaleFactor()
+  {
+    .get instance float64 Windows.UI.ViewManagement.UISettings::get_TextScaleFactor()
+  }
+
+  // TextScaleFactorChanged event — needed if the app subscribes to it.
+  // add/remove no-op (the event will never fire).
+  .method public hidebysig specialname
+          instance void add_TextScaleFactorChanged(
+            class [mscorlib]System.EventHandler`2<
+              class Windows.UI.ViewManagement.UISettings,
+              object> 'value') cil managed
+  {
+    ret
+  }
+
+  .method public hidebysig specialname
+          instance void remove_TextScaleFactorChanged(
+            class [mscorlib]System.EventHandler`2<
+              class Windows.UI.ViewManagement.UISettings,
+              object> 'value') cil managed
+  {
+    ret
+  }
+
+  .event class [mscorlib]System.EventHandler`2<
+            class Windows.UI.ViewManagement.UISettings,
+            object> TextScaleFactorChanged
+  {
+    .addon instance void Windows.UI.ViewManagement.UISettings::add_TextScaleFactorChanged(class [mscorlib]System.EventHandler`2<class Windows.UI.ViewManagement.UISettings, object>)
+    .removeon instance void Windows.UI.ViewManagement.UISettings::remove_TextScaleFactorChanged(class [mscorlib]System.EventHandler`2<class Windows.UI.ViewManagement.UISettings, object>)
+  }
+}

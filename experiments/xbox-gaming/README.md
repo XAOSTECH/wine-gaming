@@ -72,6 +72,30 @@ initialisation can complete.
 
 **See:** `UniversalApiContract.il` and `build-and-install-stub.sh`.
 
+#### Iteration 1 — empty assembly
+
+Mono *did* load the empty stub, but failed at the next step:
+
+```
+Could not resolve type with token 0100008d from typeref
+(expected class 'Windows.UI.ViewManagement.UISettings'
+ in assembly 'Windows.Foundation.UniversalApiContract...')
+```
+
+Progress: assembly resolution succeeded, type resolution failed.
+
+#### Iteration 2 — define the UISettings class skeleton
+
+Added a minimal `Windows.UI.ViewManagement.UISettings` class with:
+
+- Parameterless constructor (`new UISettings()`)
+- `TextScaleFactor` property → returns `1.0` (no scaling)
+- `TextScaleFactorChanged` event → no-op add/remove
+
+This gives Mono enough metadata to compute field layout for
+`UnsafeUiSettings:_uiSettings` and lets `TextScaling`'s static constructor
+complete. **Re-run** `./build-and-install-stub.sh` after pulling.
+
 ## Files
 
 | File | Purpose |
