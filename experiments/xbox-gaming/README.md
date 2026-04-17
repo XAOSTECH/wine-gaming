@@ -153,3 +153,65 @@ Even if the installer succeeds, the Xbox app needs:
 
 Crossing those walls is an order of magnitude harder than this installer crash.
 This branch exists to document the boundary.
+
+## Iteration 5 (final) — UI rendered, hit the real walls
+
+Massive jump: the WPF `MainWindow` actually constructed, DXVK + D3D9
+came up, and a real dialog window appeared on screen ("Windows needs
+an update"). The user clicked through it. Then silent fail.
+
+Stack analysis of the new errors:
+
+1. **`Windows.ApplicationModel.Package`** — needed by `PackageManagerHelper`'s
+   enumeration of installed packages. Stubbed (returns null).
+2. **`Windows.System.Profile.AnalyticsInfo`** — telemetry/version probe.
+   Stubbed with `DeviceFamily = "Windows.Desktop"`.
+3. **`System.EventHandler\`2`** — misleading; cascading failure from above.
+
+But two **non-fixable** walls also surfaced:
+
+### Wall A — `MonoBtlsPkcs12.Import` failures (~1000 occurrences)
+
+Mono's BoringSSL TLS stack cannot parse the PKCS#12 certificate bundle
+the installer ships. The installer uses these to authenticate to
+Microsoft's update servers. Without working cert handling, no MSIX
+bundle can be downloaded.
+
+This is a Mono limitation, not a stub problem. Switching to native
+.NET 4.8 (`mscoree=n,b`) might help — but `winetricks dotnet48` did
+not fully populate the GAC on this prefix, and even with a working
+.NET install, wall B remains.
+
+### Wall B — `Read access denied for device L"\\??\\Z:\\"`
+
+The installer tried to enumerate the root filesystem (Z: drive in
+Wine = `/`). Wine's policy denied it. The installer bails when it
+can't probe the filesystem.
+
+### Wall C — MSIX activation (predicted, still standing)
+
+Even if A and B were solved, the next `PackageManager` call would
+throw our explicit "Wine has no UWP/MSIX support" message. The Xbox
+app is delivered as an MSIX bundle requiring UWP package activation
+which Wine fundamentally does not implement.
+
+## Conclusion
+
+**This experiment succeeded as a diagnostic.** We:
+
+- ✅ Proved WinRT contract assemblies can be stubbed via `ilasm`
+- ✅ Got a real WPF window rendered under wine-mono + DXVK
+- ✅ Mapped the *actual* boundary: it's not WPF, not WinRT type loading,
+  not even XAML — it's the Mono TLS stack + Wine's filesystem policy +
+  the absence of UWP package activation
+- ❌ Could not install the Xbox PC app — and confirmed *why* with
+  specific error frames
+
+The community consensus ("Xbox PC app will never work on Linux Wine")
+is correct, but the *reason* is more subtle than usually stated. It's
+not just MSIX — there are at least three independent walls.
+
+This branch is preserved as documentation. Not recommended for merge
+into production, but useful reference if anyone wants to re-attempt
+when wine-mono ships a non-BoringSSL TLS backend or when Wine adds
+experimental UWP activation (neither imminent).

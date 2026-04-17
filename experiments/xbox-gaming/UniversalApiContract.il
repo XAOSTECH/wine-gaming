@@ -145,3 +145,66 @@
     throw
   }
 }
+
+// ============================================================================
+// Windows.ApplicationModel.Package — represents an installed UWP package
+// ============================================================================
+// Iter 5: PackageManagerHelper iterates installed packages. Stub the type
+// so type-load succeeds; properties return null/empty defaults.
+// ============================================================================
+.class public auto ansi Windows.ApplicationModel.Package
+       extends [mscorlib]System.Object
+{
+  .method public hidebysig specialname rtspecialname
+          instance void .ctor() cil managed
+  {
+    ldarg.0
+    call instance void [mscorlib]System.Object::.ctor()
+    ret
+  }
+
+  .method public hidebysig specialname
+          instance string get_Id() cil managed
+  {
+    ldnull
+    ret
+  }
+
+  .property instance string Id()
+  {
+    .get instance string Windows.ApplicationModel.Package::get_Id()
+  }
+}
+
+// ============================================================================
+// Windows.System.Profile.AnalyticsInfo — telemetry/version info facade
+// ============================================================================
+// Iter 5: WPF telemetry path queries this. Stub returns nothing useful.
+// ============================================================================
+.class public abstract auto ansi sealed Windows.System.Profile.AnalyticsInfo
+       extends [mscorlib]System.Object
+{
+  .method public hidebysig specialname static
+          string get_DeviceFamily() cil managed
+  {
+    ldstr "Windows.Desktop"
+    ret
+  }
+
+  .property string DeviceFamily()
+  {
+    .get string Windows.System.Profile.AnalyticsInfo::get_DeviceFamily()
+  }
+
+  .method public hidebysig specialname static
+          object get_VersionInfo() cil managed
+  {
+    ldnull
+    ret
+  }
+
+  .property object VersionInfo()
+  {
+    .get object Windows.System.Profile.AnalyticsInfo::get_VersionInfo()
+  }
+}
