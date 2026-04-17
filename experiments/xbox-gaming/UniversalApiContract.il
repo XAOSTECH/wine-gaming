@@ -108,23 +108,55 @@
     ret
   }
 
-  // Common entry points the installer is likely to call. Each throws so
-  // we get a clear "Wine cannot install MSIX packages" failure instead of
-  // a confusing crash inside Mono.
-  .method public hidebysig instance object FindPackagesForUser(string user) cil managed
+  // Iter 6: Real signatures matter. Mono uses strict signature matching for
+  // MissingMethodException — `object FindPackagesForUser(string)` does NOT
+  // satisfy a call to `IEnumerable<Package> FindPackagesForUser(string,string)`.
+  //
+  // Strategy shift: return EMPTY collections instead of throwing. This lets
+  // `IsInstalled()` return false naturally and the app proceeds past the
+  // gate to whatever it actually does next (download? register? launch
+  // browser?). That's the trace we want — the "what would the update do"
+  // information the user is hoping to see.
+
+  // FindPackagesForUser(packageFamilyName, userSecurityId) → IEnumerable<Package>
+  // The two-string overload Xbox installer uses.
+  .method public hidebysig instance class [mscorlib]System.Collections.Generic.IEnumerable`1<class Windows.ApplicationModel.Package>
+          FindPackagesForUser(string user, string packageFamilyName) cil managed
   {
-    ldstr "Wine has no UWP/MSIX support — Xbox app cannot be installed."
-    newobj instance void [mscorlib]System.NotSupportedException::.ctor(string)
-    throw
+    ldc.i4.0
+    newarr Windows.ApplicationModel.Package
+    ret
   }
 
-  .method public hidebysig instance object FindPackages() cil managed
+  // Single-arg overload (older API surface, kept for safety)
+  .method public hidebysig instance class [mscorlib]System.Collections.Generic.IEnumerable`1<class Windows.ApplicationModel.Package>
+          FindPackagesForUser(string user) cil managed
   {
-    ldstr "Wine has no UWP/MSIX support — Xbox app cannot be installed."
-    newobj instance void [mscorlib]System.NotSupportedException::.ctor(string)
-    throw
+    ldc.i4.0
+    newarr Windows.ApplicationModel.Package
+    ret
   }
 
+  // FindPackages() — no args overload
+  .method public hidebysig instance class [mscorlib]System.Collections.Generic.IEnumerable`1<class Windows.ApplicationModel.Package>
+          FindPackages() cil managed
+  {
+    ldc.i4.0
+    newarr Windows.ApplicationModel.Package
+    ret
+  }
+
+  // FindPackages(packageFamilyName) — single-string overload
+  .method public hidebysig instance class [mscorlib]System.Collections.Generic.IEnumerable`1<class Windows.ApplicationModel.Package>
+          FindPackages(string packageFamilyName) cil managed
+  {
+    ldc.i4.0
+    newarr Windows.ApplicationModel.Package
+    ret
+  }
+
+  // Register/Add still throw — these would actually attempt MSIX deployment.
+  // Throwing here is the explicit "this is the wall" signal.
   .method public hidebysig instance object RegisterPackageAsync(
             class [mscorlib]System.Uri packageUri,
             object dependencyPackageUris,
