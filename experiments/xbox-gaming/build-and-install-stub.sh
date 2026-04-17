@@ -41,19 +41,26 @@ for il_src in "$SCRIPT_DIR"/*.il; do
     base=$(basename "$il_src" .il)
 
     # Read assembly name + version from the .il itself — single source of truth.
-    asm_name=$(awk '/^\.assembly[[:space:]]+[A-Za-z]/ {print $2; exit}' "$il_src")
-    asm_ver=$(awk 'inblock && /\.ver[[:space:]]+/ {gsub(":", ".", $2); print $2; exit}
-                   /^\.assembly[[:space:]]+[A-Za-z]/ {inblock=1}' "$il_src")
+    # Exclude `.assembly extern <name>` lines (those declare references, not the asm itself).
+    asm_name=$(awk '/^\.assembly[[:space:]]+extern/ {next}
+                    /^\.assembly[[:space:]]+[A-Za-z]/ {print $2; exit}' "$il_src")
+    asm_ver=$(awk -v target="$asm_name" '
+                    $0 ~ "^\\.assembly[[:space:]]+" target "([[:space:]]|$)" {inblock=1; next}
+                    inblock && /\.ver[[:space:]]+/ {gsub(":", ".", $2); print $2; exit}
+                    inblock && /^}/ {exit}' "$il_src")
 
     if [ -z "$asm_name" ] || [ -z "$asm_ver" ]; then
-        echo "WARN: $il_src — could not parse assembly name/version, skipping"
+        echo "WARN: $il_src — could not parse assembly name/version (got name='$asm_name' ver='$asm_ver'), skipping"
         continue
     fi
 
     dll_out="${SCRIPT_DIR}/${asm_name}.dll"
 
     echo "[${count}] Compiling $base.il → $asm_name $asm_ver"
-    "$ILASM" /nologo /quiet /dll /output:"$dll_out" "$il_src" >/dev/null
+    if ! "$ILASM" /nologo /quiet /dll /output:"$dll_out" "$il_src"; then
+        echo "      ✗ ilasm FAILED on $il_src" >&2
+        exit 1
+    fi
 
     # GAC path: GAC_MSIL/<Name>/v4.0_<ver>__null/<Name>.dll
     gac_dest="${GAC_BASE}/${asm_name}/v4.0_${asm_ver}__null"
