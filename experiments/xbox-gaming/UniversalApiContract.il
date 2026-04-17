@@ -82,3 +82,66 @@
     .removeon instance void Windows.UI.ViewManagement.UISettings::remove_TextScaleFactorChanged(class [mscorlib]System.EventHandler`2<class Windows.UI.ViewManagement.UISettings, object>)
   }
 }
+
+// ============================================================================
+// Windows.Management.Deployment.PackageManager — UWP/MSIX package management
+// ============================================================================
+// THIS IS THE WALL. PackageManager is how the Xbox installer registers the
+// MSIX package containing the actual Xbox app. Wine has no MSIX activation
+// model, so even with the type stubbed, runtime calls will fail.
+//
+// We stub it here so the FIELD LOAD in PackageManagerHelper:_packageManager
+// succeeds — pushing the failure from "can't construct MainWindow" to
+// "MainWindow constructed but first PackageManager call throws". That tells
+// us which method gets called first and whether there's any path forward.
+//
+// All methods throw NotSupportedException; the .ctor is a no-op.
+// ============================================================================
+.class public auto ansi Windows.Management.Deployment.PackageManager
+       extends [mscorlib]System.Object
+{
+  .method public hidebysig specialname rtspecialname
+          instance void .ctor() cil managed
+  {
+    ldarg.0
+    call instance void [mscorlib]System.Object::.ctor()
+    ret
+  }
+
+  // Common entry points the installer is likely to call. Each throws so
+  // we get a clear "Wine cannot install MSIX packages" failure instead of
+  // a confusing crash inside Mono.
+  .method public hidebysig instance object FindPackagesForUser(string user) cil managed
+  {
+    ldstr "Wine has no UWP/MSIX support — Xbox app cannot be installed."
+    newobj instance void [mscorlib]System.NotSupportedException::.ctor(string)
+    throw
+  }
+
+  .method public hidebysig instance object FindPackages() cil managed
+  {
+    ldstr "Wine has no UWP/MSIX support — Xbox app cannot be installed."
+    newobj instance void [mscorlib]System.NotSupportedException::.ctor(string)
+    throw
+  }
+
+  .method public hidebysig instance object RegisterPackageAsync(
+            class [mscorlib]System.Uri packageUri,
+            object dependencyPackageUris,
+            int32 deploymentOptions) cil managed
+  {
+    ldstr "Wine has no UWP/MSIX support — Xbox app cannot be installed."
+    newobj instance void [mscorlib]System.NotSupportedException::.ctor(string)
+    throw
+  }
+
+  .method public hidebysig instance object AddPackageAsync(
+            class [mscorlib]System.Uri packageUri,
+            object dependencyPackageUris,
+            int32 deploymentOptions) cil managed
+  {
+    ldstr "Wine has no UWP/MSIX support — Xbox app cannot be installed."
+    newobj instance void [mscorlib]System.NotSupportedException::.ctor(string)
+    throw
+  }
+}

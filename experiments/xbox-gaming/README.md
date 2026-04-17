@@ -109,6 +109,29 @@ Build script now compiles every `*.il` in this directory and installs each
 to its correct GAC path. Added empty `FoundationContract.il` (3.0.0.0) — we'll
 let Mono surface the next type-resolution error to drive iter 4.
 
+#### Iteration 4 — TypedEventHandler + PackageManager (the wall)
+
+Got past `TextScaling` entirely. New stack frame:
+
+```
+at XboxInstaller.MainWindow.InitializeAsync ()
+```
+
+The static initialisers are done — we're now in real app code. Two new
+type-resolution failures:
+
+1. `Windows.Foundation.TypedEventHandler<TSender, TResult>` in
+   `FoundationContract` — the WinRT generic event delegate. Stubbed as a
+   normal MulticastDelegate.
+2. **`Windows.Management.Deployment.PackageManager`** in `UniversalApiContract`
+   — UWP/MSIX package management. **This is the hard wall.** Stubbed so the
+   field load succeeds, but every method throws `NotSupportedException`
+   with a clear message.
+
+After iter 4 we expect MainWindow to actually construct and the app to
+fail on the first `PackageManager` method call — which is the *real*
+limitation, not a Mono/Wine bug.
+
 ## Files
 
 | File | Purpose |

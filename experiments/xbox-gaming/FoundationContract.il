@@ -1,12 +1,8 @@
 // FoundationContract.il — stub for Windows.Foundation.FoundationContract
 //
-// SafeUiSettings (the fallback path of XboxInstaller.Helpers.TextScaling)
-// pulls in this contract — likely for IPropertyValue / IReference<T> /
-// the WinRT projection types used by UISettings property accessors.
-//
-// We don't know exactly which types it touches yet — this is iter 1 (empty).
-// Mono will tell us with a "Could not resolve type X in assembly
-// FoundationContract" message which we'll fill in next.
+// Iter 4: define TypedEventHandler<TSender, TResult> — the WinRT-style
+// generic event delegate used by UISettings.TextScaleFactorChanged etc.
+// SafeUiSettings ctor references this and crashed on field-load.
 
 .assembly extern mscorlib
 {
@@ -21,5 +17,35 @@
 
 .module Windows.Foundation.FoundationContract.dll
 
-// Empty for now — wait for Mono's next type-resolution error to tell us
-// which class skeleton to add.
+// ============================================================================
+// Windows.Foundation.TypedEventHandler<TSender, TResult>
+//   The WinRT projection of a delegate type — equivalent to
+//   System.EventHandler but with strongly-typed sender/args.
+// ============================================================================
+.class public auto ansi sealed Windows.Foundation.TypedEventHandler`2<TSender, TResult>
+       extends [mscorlib]System.MulticastDelegate
+{
+  .method public hidebysig specialname rtspecialname
+          instance void .ctor(object 'object', native int 'method') runtime managed
+  {
+  }
+
+  .method public hidebysig newslot virtual
+          instance void Invoke(!TSender sender, !TResult args) runtime managed
+  {
+  }
+
+  .method public hidebysig newslot virtual
+          instance class [mscorlib]System.IAsyncResult BeginInvoke(
+            !TSender sender,
+            !TResult args,
+            class [mscorlib]System.AsyncCallback callback,
+            object 'object') runtime managed
+  {
+  }
+
+  .method public hidebysig newslot virtual
+          instance void EndInvoke(class [mscorlib]System.IAsyncResult result) runtime managed
+  {
+  }
+}
