@@ -209,6 +209,62 @@
 }
 
 // ============================================================================
+// Windows.Management.Deployment.PackageVolume — install target volume
+// ============================================================================
+// Iter 8: After the EULA Install button, InstallManager.BeginInstallAsync
+// references AppInstallOptionsShim.TargetVolume of this type. Mono fails
+// the field's type-load if the type doesn't exist, even when the value
+// is null. Pure stub — no behaviour needed; installer treats null as
+// "system default volume", which is what we want anyway since we have
+// no real MSIX volume to point at.
+// ============================================================================
+.class public auto ansi Windows.Management.Deployment.PackageVolume
+       extends [mscorlib]System.Object
+{
+  .method public hidebysig specialname rtspecialname
+          instance void .ctor() cil managed
+  {
+    ldarg.0
+    call instance void [mscorlib]System.Object::.ctor()
+    ret
+  }
+
+  .method public hidebysig specialname
+          instance string get_Name() cil managed
+  {
+    ldstr ""
+    ret
+  }
+
+  .method public hidebysig specialname
+          instance bool get_IsSystemVolume() cil managed
+  {
+    ldc.i4.1
+    ret
+  }
+
+  .method public hidebysig specialname
+          instance bool get_IsOffline() cil managed
+  {
+    ldc.i4.0
+    ret
+  }
+
+  .property instance string Name()
+  {
+    .get instance string Windows.Management.Deployment.PackageVolume::get_Name()
+  }
+  .property instance bool IsSystemVolume()
+  {
+    .get instance bool Windows.Management.Deployment.PackageVolume::get_IsSystemVolume()
+  }
+  .property instance bool IsOffline()
+  {
+    .get instance bool Windows.Management.Deployment.PackageVolume::get_IsOffline()
+  }
+}
+
+// ============================================================================
 // Windows.System.Profile.AnalyticsInfo — telemetry/version info facade
 // ============================================================================
 // Iter 5: WPF telemetry path queries this. Stub returns nothing useful.
