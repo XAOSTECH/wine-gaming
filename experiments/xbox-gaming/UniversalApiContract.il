@@ -229,14 +229,57 @@
   }
 
   .method public hidebysig specialname static
-          object get_VersionInfo() cil managed
+          class Windows.System.Profile.AnalyticsVersionInfo get_VersionInfo() cil managed
   {
-    ldnull
+    newobj instance void Windows.System.Profile.AnalyticsVersionInfo::.ctor()
     ret
   }
 
-  .property object VersionInfo()
+  .property class Windows.System.Profile.AnalyticsVersionInfo VersionInfo()
   {
-    .get object Windows.System.Profile.AnalyticsInfo::get_VersionInfo()
+    .get class Windows.System.Profile.AnalyticsVersionInfo Windows.System.Profile.AnalyticsInfo::get_VersionInfo()
+  }
+}
+
+// ============================================================================
+// Windows.System.Profile.AnalyticsVersionInfo — version triplet returned by
+// AnalyticsInfo.VersionInfo. Iter 7: app calls .VersionInfo and expects a
+// real instance with DeviceFamily / DeviceFamilyVersion strings.
+// ============================================================================
+.class public auto ansi Windows.System.Profile.AnalyticsVersionInfo
+       extends [mscorlib]System.Object
+{
+  .method public hidebysig specialname rtspecialname
+          instance void .ctor() cil managed
+  {
+    ldarg.0
+    call instance void [mscorlib]System.Object::.ctor()
+    ret
+  }
+
+  // Match a recent Win10/11 build number — pretend to be 10.0.22621.x
+  // (Windows 11 22H2). Format is a packed UInt64 as a decimal string.
+  .method public hidebysig specialname
+          instance string get_DeviceFamilyVersion() cil managed
+  {
+    ldstr "2814751208898560"
+    ret
+  }
+
+  .property instance string DeviceFamilyVersion()
+  {
+    .get instance string Windows.System.Profile.AnalyticsVersionInfo::get_DeviceFamilyVersion()
+  }
+
+  .method public hidebysig specialname
+          instance string get_DeviceFamily() cil managed
+  {
+    ldstr "Windows.Desktop"
+    ret
+  }
+
+  .property instance string DeviceFamily()
+  {
+    .get instance string Windows.System.Profile.AnalyticsVersionInfo::get_DeviceFamily()
   }
 }
