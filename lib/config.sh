@@ -34,5 +34,5 @@ declare -A APP_REGISTRY=(
 
     [amazon-games]="Amazon Games|users/steamuser/AppData/Local/Amazon Games/App/Amazon Games.exe|https://download.amazongames.com/AmazonGamesSetup.exe|users/steamuser/AppData/Local/Amazon Games|users/steamuser/AppData/Roaming/Amazon Games|ProgramData/Amazon Games"
 
-    [legacy-games]="Legacy Games|Program Files/Legacy Games/Legacy Games/Legacy.exe|https://legacy.games/download|Program Files/Legacy Games|AppData/Local/Legacy Games"
+    [legacy-games]="Legacy Games|users/steamuser/AppData/Local/Programs/legacy-games-launcher/Legacy Games Launcher.exe|https://cdn.legacygames.com/LegacyGamesLauncher/legacy-games-launcher-setup-1.16.7-x64-full.exe|users/steamuser/AppData/Local/Programs/legacy-games-launcher|users/steamuser/AppData/Local/legacy-games-launcher-updater|users/steamuser/AppData/Roaming/Legacy Games Launcher"
 )
