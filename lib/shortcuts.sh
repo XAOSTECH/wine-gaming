@@ -150,15 +150,11 @@ EXE_BIN=$(basename "$EXE_PATH")
 
 cd "$EXE_DIR" || { echo "Error: Cannot cd to $EXE_DIR" >&2; exit 1; }
 
+LOG_FILE="$WINE_DIR/${APP_KEY}.log"
 if [ -x "$PROTON_DIR/proton" ]; then
-    "$PROTON_DIR/proton" run "$EXE_BIN" --no-sandbox \
-        --disable-gpu-sandbox \
-        --disable-software-rasterizer \
-        --disable-dev-shm-usage \
-        --disable-setuid-sandbox \
-        --in-process-gpu >/dev/null 2>&1 &
+    "$PROTON_DIR/proton" run "$EXE_BIN" >"$LOG_FILE" 2>&1 &
 else
-    wine "$EXE_BIN" >/dev/null 2>&1 &
+    wine "$EXE_BIN" >"$LOG_FILE" 2>&1 &
 fi
 LAUNCHER_EOF
 

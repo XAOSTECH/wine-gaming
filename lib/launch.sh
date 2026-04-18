@@ -36,21 +36,16 @@ launch_app() {
         export __GL_THREADED_OPTIMIZATION=1
 
         cd "$exe_dir"
-        "$PROTON_DIR/proton" run "$exe_bin" --no-sandbox \
-            --disable-gpu-sandbox \
-            --disable-software-rasterizer \
-            --disable-dev-shm-usage \
-            --disable-setuid-sandbox \
-            --in-process-gpu &
+        "$PROTON_DIR/proton" run "$exe_bin" >"$WINE_DIR/${app_key}.log" 2>&1 &
     else
         print_warning "Proton not available, using Wine fallback"
         export WINEDEBUG=-all
         export WINEPREFIX="$WINEPREFIX/pfx"
         cd "$exe_dir"
-        wine "$exe_bin" &
+        wine "$exe_bin" >"$WINE_DIR/${app_key}.log" 2>&1 &
     fi
 
-    print_success "$APP_NAME launched (PID: $!)"
+    print_success "$APP_NAME launched (PID: $!) — log: $WINE_DIR/${app_key}.log"
 }
 
 # Launch any external .exe or .msi in the managed wine-gaming prefix.
