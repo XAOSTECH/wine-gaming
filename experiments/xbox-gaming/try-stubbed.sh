@@ -33,17 +33,40 @@ export WINEDLLOVERRIDES="mscoree,mscorwks,clr=n,b"
 
 # Iter 9: optional service-query trace.
 #   TRACE_SERVICES=1 ./try-stubbed.sh ...
-# Captures every Wine advapi32 service-control-manager call to a log so we
-# can see exactly which service names the installer asks for.
+# Wine's debug channels are routed by Proton into ~/.wine-gaming/steam-*.log
+# (because wig sets PROTON_LOG=1). We enable +advapi,+service before launch
+# so Proton picks them up, then tail the resulting log.
 if [ "${TRACE_SERVICES:-0}" = "1" ]; then
-    LOG="${SCRIPT_DIR}/service-trace.log"
-    echo "[trace] Writing service trace to: $LOG"
-    echo "[trace] Filter the log with: grep -E 'OpenServiceW|QueryServiceStatus|StartService' \"$LOG\""
-    : > "$LOG"
+    PROTON_LOG_DIR="${HOME}/.wine-gaming"
+    SUMMARY="${SCRIPT_DIR}/service-trace.log"
+    echo "[trace] Enabling WINEDEBUG=+advapi,+service"
+    echo "[trace] Proton will write to: ${PROTON_LOG_DIR}/steam-*.log"
+    echo "[trace] Filtered summary will be at: ${SUMMARY}"
     export WINEDEBUG="+advapi,+service"
-    export WINE_LOG_FILE="$LOG"  # honoured by wine builds; harmless if not
-    # wig launch-exe detaches; redirect stderr to capture WINEDEBUG output too
-    exec wig launch-exe "$EXE" 2>&1 | tee -a "$LOG"
+    # Snapshot existing logs so we know which one is new
+    BEFORE=$(ls -1 "${PROTON_LOG_DIR}"/steam-*.log 2>/dev/null | sort)
+    wig launch-exe "$EXE"
+    sleep 3
+    AFTER=$(ls -1 "${PROTON_LOG_DIR}"/steam-*.log 2>/dev/null | sort)
+    NEW_LOG=$(comm -13 <(echo "$BEFORE") <(echo "$AFTER") | tail -1)
+    if [ -z "$NEW_LOG" ]; then
+        # Fall back to most recently modified
+        NEW_LOG=$(ls -t "${PROTON_LOG_DIR}"/steam-*.log 2>/dev/null | head -1)
+    fi
+    echo "[trace] Detected log: ${NEW_LOG:-<none>}"
+    if [ -n "$NEW_LOG" ]; then
+        echo "[trace] Tailing log live. Ctrl+C when EULA dialog appears."
+        echo "[trace] After Ctrl+C, summary is written to ${SUMMARY}"
+        # Live tail with extraction; on exit, build the summary
+        trap 'echo; echo "[trace] Building summary..."; \
+              grep -aE "OpenServiceW|QueryServiceStatus|StartServiceW|EnumServicesStatus|OpenSCManagerW" "$NEW_LOG" \
+                | sed -E "s/^.*(OpenServiceW|QueryServiceStatus|StartServiceW|EnumServicesStatus|OpenSCManagerW)/\1/" \
+                | sort -u > "$SUMMARY"; \
+              echo "[trace] Found $(wc -l < "$SUMMARY") unique service-related calls."; \
+              echo "[trace] Top hits:"; head -20 "$SUMMARY"; exit 0' INT
+        tail -f "$NEW_LOG"
+    fi
+    exit 0
 fi
 
 exec wig launch-exe "$EXE"
