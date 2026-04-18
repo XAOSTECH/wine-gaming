@@ -62,26 +62,40 @@ if [ "${TRACE_SERVICES:-0}" = "1" ]; then
     # Suppress Proton-style env to avoid invoking Proton's wrapper
     unset STEAM_COMPAT_DATA_PATH STEAM_COMPAT_CLIENT_INSTALL_PATH PROTON_LOG
 
-    trap '
+    SUMMARISED=0
+    WINESERVER_BIN="${PROTON_DIR}/bin/wineserver"
+
+    summarise() {
+        [ "$SUMMARISED" = "1" ] && return
+        SUMMARISED=1
+        trap - INT TERM EXIT
         echo
         echo "[trace] Stopping installer..."
-        pkill -TERM -f XboxInstaller 2>/dev/null
-        sleep 1
-        pkill -KILL -f XboxInstaller 2>/dev/null
+        # Kill via wineserver (clean) — avoids pkill matching our own argv
+        [ -x "$WINESERVER_BIN" ] && "$WINESERVER_BIN" -k 2>/dev/null
         echo "[trace] Building summary from $(wc -l < "$RAW") raw lines..."
-        grep -aE "OpenServiceW|OpenServiceA|QueryServiceStatus|StartServiceW|EnumServicesStatus|OpenSCManagerW|CreateServiceW" "$RAW" \
-            | grep -aoE "\b(OpenServiceW|OpenServiceA|QueryServiceStatus|StartServiceW|EnumServicesStatus|OpenSCManagerW|CreateServiceW)[^\\r\\n]{0,200}" \
-            | sort -u > "$SUMMARY" || true
-        echo "[trace] Found $(wc -l < "$SUMMARY") unique service-related calls."
-        echo "[trace] Top hits:"
-        head -30 "$SUMMARY"
-        exit 0
-    ' INT TERM
+        grep -aE "OpenServiceW|OpenServiceA|QueryServiceStatus|StartServiceW|EnumServicesStatus|OpenSCManagerW|CreateServiceW|RegisterEventSourceW|ReportEventW" "$RAW" \
+            | grep -aoE "(OpenServiceW|OpenServiceA|QueryServiceStatus[A-Za-z]*|StartServiceW|EnumServicesStatus[A-Za-z]*|OpenSCManagerW|CreateServiceW|RegisterEventSourceW|ReportEventW)[^]*{0,200}" \
+            | sort -u > "$SUMMARY" 2>/dev/null || true
+        # Simpler, more reliable extraction:
+        grep -aE "service:(OpenServiceW|OpenServiceA|StartServiceW|EnumServicesStatus|OpenSCManagerW|CreateServiceW|GetServiceKeyNameW)" "$RAW" \
+            | sed -E 's/^[0-9a-f]+://; s/^[[:space:]]+//' \
+            | sort -u > "$SUMMARY" 2>/dev/null || true
+        echo "[trace] Found $(wc -l < "$SUMMARY") unique service calls."
+        echo "[trace] Names the installer queried (likely missing from prefix):"
+        grep -oE 'L"[^"]+"' "$SUMMARY" | sort -u | head -40
+        echo
+        echo "[trace] Error-event sites in log (the 'something went wrong' moments):"
+        grep -nE "ReportEventW|RegisterEventSourceW" "$RAW" | head -10 || true
+    }
 
-    # Run wine in foreground; tee both to terminal and raw log
-    "$WINE_BIN" "$EXE" 2>&1 | tee "$RAW"
-    # If wine exits on its own, still build the summary
-    kill -INT $$ 2>/dev/null
+    trap 'summarise; exit 0' INT TERM
+
+    # Run wine in background so we have a real PID to wait on
+    "$WINE_BIN" "$EXE" > >(tee "$RAW") 2>&1 &
+    WINE_PID=$!
+    wait "$WINE_PID" 2>/dev/null || true
+    summarise
     exit 0
 fi
 
