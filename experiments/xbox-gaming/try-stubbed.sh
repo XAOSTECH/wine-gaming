@@ -31,41 +31,57 @@ cp "$STUB_DLL" "$EXE_DIR/" 2>/dev/null || true
 
 export WINEDLLOVERRIDES="mscoree,mscorwks,clr=n,b"
 
-# Iter 9: optional service-query trace.
+# Iter 9c: optional service-query trace, bypassing wig.
 #   TRACE_SERVICES=1 ./try-stubbed.sh ...
-# Wine's debug channels are routed by Proton into ~/.wine-gaming/steam-*.log
-# (because wig sets PROTON_LOG=1). We enable +advapi,+service before launch
-# so Proton picks them up, then tail the resulting log.
+# Calls wine directly with WINEDEBUG so stderr lands in our terminal and
+# can be tee'd to a log file. The installer GUI still opens normally; we
+# stay attached so Ctrl+C cleanly stops the trace.
 if [ "${TRACE_SERVICES:-0}" = "1" ]; then
-    PROTON_LOG_DIR="${HOME}/.wine-gaming"
     SUMMARY="${SCRIPT_DIR}/service-trace.log"
-    echo "[trace] Enabling WINEDEBUG=+advapi,+service"
-    echo "[trace] Proton will write to: ${PROTON_LOG_DIR}/steam-*.log"
-    echo "[trace] Filtered summary will be at: ${SUMMARY}"
+    RAW="${SCRIPT_DIR}/service-trace.raw.log"
+    PREFIX="${HOME}/.wine-gaming/prefix/pfx"
+    PROTON_DIR="${HOME}/.wine-gaming/proton-ge/files"
+    WINE_BIN="${PROTON_DIR}/bin/wine64"
+    [ -x "$WINE_BIN" ] || WINE_BIN="${PROTON_DIR}/bin/wine"
+    if [ ! -x "$WINE_BIN" ]; then
+        echo "[trace] ERROR: wine binary not found at ${PROTON_DIR}/bin/" >&2
+        exit 1
+    fi
+
+    echo "[trace] Bypassing wig — calling wine directly so stderr is ours."
+    echo "[trace] Wine binary: $WINE_BIN"
+    echo "[trace] Prefix:      $PREFIX"
+    echo "[trace] Raw log:     $RAW"
+    echo "[trace] Summary:     $SUMMARY"
+    echo "[trace] Press Ctrl+C in this terminal AFTER reaching EULA dialog."
+    echo
+
+    : > "$RAW"
+    export WINEPREFIX="$PREFIX"
     export WINEDEBUG="+advapi,+service"
-    # Snapshot existing logs so we know which one is new
-    BEFORE=$(ls -1 "${PROTON_LOG_DIR}"/steam-*.log 2>/dev/null | sort)
-    wig launch-exe "$EXE"
-    sleep 3
-    AFTER=$(ls -1 "${PROTON_LOG_DIR}"/steam-*.log 2>/dev/null | sort)
-    NEW_LOG=$(comm -13 <(echo "$BEFORE") <(echo "$AFTER") | tail -1)
-    if [ -z "$NEW_LOG" ]; then
-        # Fall back to most recently modified
-        NEW_LOG=$(ls -t "${PROTON_LOG_DIR}"/steam-*.log 2>/dev/null | head -1)
-    fi
-    echo "[trace] Detected log: ${NEW_LOG:-<none>}"
-    if [ -n "$NEW_LOG" ]; then
-        echo "[trace] Tailing log live. Ctrl+C when EULA dialog appears."
-        echo "[trace] After Ctrl+C, summary is written to ${SUMMARY}"
-        # Live tail with extraction; on exit, build the summary
-        trap 'echo; echo "[trace] Building summary..."; \
-              grep -aE "OpenServiceW|QueryServiceStatus|StartServiceW|EnumServicesStatus|OpenSCManagerW" "$NEW_LOG" \
-                | sed -E "s/^.*(OpenServiceW|QueryServiceStatus|StartServiceW|EnumServicesStatus|OpenSCManagerW)/\1/" \
-                | sort -u > "$SUMMARY"; \
-              echo "[trace] Found $(wc -l < "$SUMMARY") unique service-related calls."; \
-              echo "[trace] Top hits:"; head -20 "$SUMMARY"; exit 0' INT
-        tail -f "$NEW_LOG"
-    fi
+    # Suppress Proton-style env to avoid invoking Proton's wrapper
+    unset STEAM_COMPAT_DATA_PATH STEAM_COMPAT_CLIENT_INSTALL_PATH PROTON_LOG
+
+    trap '
+        echo
+        echo "[trace] Stopping installer..."
+        pkill -TERM -f XboxInstaller 2>/dev/null
+        sleep 1
+        pkill -KILL -f XboxInstaller 2>/dev/null
+        echo "[trace] Building summary from $(wc -l < "$RAW") raw lines..."
+        grep -aE "OpenServiceW|OpenServiceA|QueryServiceStatus|StartServiceW|EnumServicesStatus|OpenSCManagerW|CreateServiceW" "$RAW" \
+            | grep -aoE "\b(OpenServiceW|OpenServiceA|QueryServiceStatus|StartServiceW|EnumServicesStatus|OpenSCManagerW|CreateServiceW)[^\\r\\n]{0,200}" \
+            | sort -u > "$SUMMARY" || true
+        echo "[trace] Found $(wc -l < "$SUMMARY") unique service-related calls."
+        echo "[trace] Top hits:"
+        head -30 "$SUMMARY"
+        exit 0
+    ' INT TERM
+
+    # Run wine in foreground; tee both to terminal and raw log
+    "$WINE_BIN" "$EXE" 2>&1 | tee "$RAW"
+    # If wine exits on its own, still build the summary
+    kill -INT $$ 2>/dev/null
     exit 0
 fi
 
