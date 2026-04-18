@@ -32,7 +32,7 @@ declare -A APP_REGISTRY=(
 
     [ubisoft-connect]="Ubisoft Connect|Program Files/Ubisoft/Ubisoft Game Launcher/upc.exe|https://ubisoftconnect.com/en-US/downloads|Program Files/Ubisoft|AppData/Local/Ubisoft"
 
-    [amazon-games]="Amazon Games|Program Files/Amazon Games/Amazon Games App/AmazonGamesApp.exe|https://amazon-games-launcher.s3.amazonaws.com/AmazonGamesSetup.exe|Program Files/Amazon Games|AppData/Local/Amazon Games"
+    [amazon-games]="Amazon Games|users/steamuser/AppData/Local/Amazon Games/App/Amazon Games.exe|https://download.amazongames.com/AmazonGamesSetup.exe|users/steamuser/AppData/Local/Amazon Games|users/steamuser/AppData/Roaming/Amazon Games|ProgramData/Amazon Games"
 
     [legacy-games]="Legacy Games|Program Files/Legacy Games/Legacy Games/Legacy.exe|https://legacy.games/download|Program Files/Legacy Games|AppData/Local/Legacy Games"
 )
