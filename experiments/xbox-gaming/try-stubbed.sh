@@ -58,7 +58,11 @@ if [ "${TRACE_SERVICES:-0}" = "1" ]; then
 
     : > "$RAW"
     export WINEPREFIX="$PREFIX"
-    export WINEDEBUG="+advapi,+service"
+    # Iter 10: add HTTPS/auth channels so we can see the call that produces
+    # the "something went wrong" page after the Install button. +winhttp and
+    # +wininet capture the actual HTTP request; +secur32 shows SSL handshake;
+    # +urlmon catches higher-level URL fetches.
+    export WINEDEBUG="+advapi,+service,+winhttp,+wininet,+secur32,+urlmon"
     # Suppress Proton-style env to avoid invoking Proton's wrapper
     unset STEAM_COMPAT_DATA_PATH STEAM_COMPAT_CLIENT_INSTALL_PATH PROTON_LOG
 
@@ -87,6 +91,16 @@ if [ "${TRACE_SERVICES:-0}" = "1" ]; then
         echo
         echo "[trace] Error-event sites in log (the 'something went wrong' moments):"
         grep -nE "ReportEventW|RegisterEventSourceW" "$RAW" | head -10 || true
+        echo
+        echo "[trace] HTTPS / auth activity (what the installer tried to call):"
+        grep -anE "winhttp|wininet|secur32|urlmon" "$RAW" \
+            | grep -avE "TRACE|fixme:(winhttp|wininet):[a-zA-Z_]+ stub$" \
+            | grep -aiE "http[s]?://|connect|sendrequest|getheaders|querydata|receive|open|handshake|certif|CRYPT_E_|SEC_E_|hr 0x|status 0x|MapUrlToZone|microsoft\.com|xbox\.com|live\.com" \
+            | head -40 || true
+        echo
+        echo "[trace] All HRESULTs / status codes seen (ending nibble may match your error):"
+        grep -aoE "(hr|status|err|code)[= ]+0x[0-9a-fA-F]{8}" "$RAW" \
+            | sort -u | head -30 || true
     }
 
     trap 'summarise; exit 0' INT TERM
