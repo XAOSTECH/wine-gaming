@@ -3,6 +3,45 @@
 # Sourced by setup; do not execute directly.
 # Depends on: lib/config.sh, lib/utils.sh, lib/registry.sh, lib/installer.sh, lib/apps.sh
 
+# Curated winetricks verb list, split into "fast" (seconds each) and "heavy"
+# (minutes each, downloads MS installers). Streams output verbatim so the user
+# sees winetricks progress instead of a silent hang during dotnet/physx.
+_install_winetricks_verbs() {
+    local fast_verbs=(
+        vcrun2019 vcrun2015 vcrun2012
+        d3dcompiler_47 d3dcompiler_43 d3dx9 d3dx10_43 d3dx11_43
+        dxvk vkd3d d9vk
+        corefonts gdiplus
+        directmusic faudio xact directplay directshow
+        msctf
+    )
+    local heavy_verbs=( dotnet48 dotnet472 physx )
+
+    print_info "Installing fast winetricks verbs (${#fast_verbs[@]} packages)..."
+    local v
+    for v in "${fast_verbs[@]}"; do
+        printf "  → %s ... " "$v"
+        if WINETRICKS_LATEST_VERSION_CHECK=disabled \
+                winetricks -q --force "$v" >/dev/null 2>&1; then
+            echo "ok"
+        else
+            echo "FAILED (continuing)"
+        fi
+    done
+
+    print_warning "Installing heavy verbs (${heavy_verbs[*]}) — each may take several minutes"
+    print_info "Output is streamed below; press Ctrl-C to skip a verb."
+    for v in "${heavy_verbs[@]}"; do
+        echo ""
+        print_info "winetricks → $v"
+        WINETRICKS_LATEST_VERSION_CHECK=disabled \
+            winetricks -q --force "$v" 2>&1 \
+            | grep -v "warning: You are using a 64-bit WINEPREFIX" \
+            | grep -v "Note that many verbs only install 32-bit" \
+            || print_warning "$v failed or was skipped — continuing"
+    done
+}
+
 # Print the managed prefix paths and env-var exports for manual use.
 prefix_info() {
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -94,19 +133,7 @@ init() {
 
     wineboot -u 2>/dev/null
 
-    print_info "Installing Wine dependencies via winetricks..."
-    # vcrun*: Visual C++ runtimes | d3dcompiler/d3dx: DirectX | dxvk/vkd3d/d9vk: GPU layers
-    # dotnet/corefonts/gdiplus: .NET + UI | directmusic/faudio/xact: audio
-    # directplay/directshow/physx/msctf: legacy subsystems + physics + text services
-    WINETRICKS_LATEST_VERSION_CHECK=disabled winetricks -q \
-        vcrun2019 vcrun2015 vcrun2012 \
-        d3dcompiler_47 d3dcompiler_43 d3dx9 d3dx10_43 d3dx11_43 \
-        dxvk vkd3d d9vk \
-        corefonts dotnet48 dotnet472 gdiplus \
-        directmusic faudio xact directplay directshow \
-        physx msctf \
-        2>&1 | grep -v "warning: You are using a 64-bit WINEPREFIX" \
-              | grep -v "Note that many verbs only install 32-bit" || true
+    _install_winetricks_verbs
 
     print_info "Configuring Wine environment..."
     wine winecfg /v win10 >/dev/null 2>&1 || true
@@ -178,15 +205,7 @@ quick_setup() {
     wineboot -u
 
     print_info "Reinstalling Wine dependencies via winetricks (non-destructive)..."
-    WINETRICKS_LATEST_VERSION_CHECK=disabled winetricks -q \
-        vcrun2019 vcrun2015 vcrun2012 \
-        d3dcompiler_47 d3dcompiler_43 d3dx9 d3dx10_43 d3dx11_43 \
-        dxvk vkd3d d9vk \
-        corefonts dotnet48 dotnet472 gdiplus \
-        directmusic faudio xact directplay directshow \
-        physx msctf \
-        2>&1 | grep -v "warning: You are using a 64-bit WINEPREFIX" \
-              | grep -v "Note that many verbs only install 32-bit" || true
+    _install_winetricks_verbs
 
     print_info "Configuring Wine environment..."
     wine winecfg /v win10 >/dev/null 2>&1 || true
