@@ -130,14 +130,17 @@ export DXVK_HUD=0
 export WINEDLLOVERRIDES="winemenubuilder.exe=d"
 export VKD3D_SHADER_VERBOSE=0
 
-# Source lib modules to get parse_app_config / find_app_exe
-for _lib in config utils registry; do
+# Source lib modules to get parse_app_config / find_app_exe / load_profile
+for _lib in config utils registry profile; do
     # shellcheck source=/dev/null
     source "$SCRIPT_DIR/lib/${_lib}.sh"
 done
 unset _lib
 
 parse_app_config "$APP_KEY" || exit 1
+
+# Apply default + per-app profile (FPS cap, HUD, FSR, NVAPI, gamemode, …)
+load_profile "$APP_KEY"
 
 EXE_PATH=$(find_app_exe "$APP_KEY")
 if [ -z "$EXE_PATH" ]; then
@@ -152,9 +155,9 @@ cd "$EXE_DIR" || { echo "Error: Cannot cd to $EXE_DIR" >&2; exit 1; }
 
 LOG_FILE="$WINE_DIR/${APP_KEY}.log"
 if [ -x "$PROTON_DIR/proton" ]; then
-    "$PROTON_DIR/proton" run "$EXE_BIN" >"$LOG_FILE" 2>&1 &
+    eval "${WG_LAUNCH_PREFIX}\"\$PROTON_DIR/proton\" run \"\$EXE_BIN\"" >"$LOG_FILE" 2>&1 &
 else
-    wine "$EXE_BIN" >"$LOG_FILE" 2>&1 &
+    eval "${WG_LAUNCH_PREFIX}wine \"\$EXE_BIN\"" >"$LOG_FILE" 2>&1 &
 fi
 LAUNCHER_EOF
 

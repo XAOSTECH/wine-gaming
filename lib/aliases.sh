@@ -63,6 +63,7 @@ alias wig-init='wig init'
 alias wig-purge='wig purge'
 alias wig-info='wig prefix-info'
 alias wig-shortcuts='wig install-shortcut'
+alias wig-profile='wig profile'
 alias wig-help='wig help'
 ALIAS_EOF
 

@@ -23,26 +23,31 @@ launch_app() {
 
     print_info "Launching $APP_NAME..."
 
+    # Sensible defaults — overridable by the loaded profile.
+    export DXVK_HUD=0
+    export VKD3D_SHADER_VERBOSE=0
+    export WINEDLLOVERRIDES="winemenubuilder.exe=d"
+    export MESA_GL_VERSION_OVERRIDE=4.5
+    export __GL_SHADER_DISK_CACHE=1
+    export __GL_THREADED_OPTIMIZATION=1
+
+    # Apply default + per-app profile (FPS cap, HUD, FSR, NVAPI, …).
+    load_profile "$app_key"
+
     if [ -x "$PROTON_DIR/proton" ]; then
         export STEAM_COMPAT_DATA_PATH="$WINEPREFIX"
         export STEAM_COMPAT_CLIENT_INSTALL_PATH="$WINE_DIR/steam-root"
-        export PROTON_LOG=1
+        export PROTON_LOG="${PROTON_LOG:-1}"
         export PROTON_LOG_DIR="$WINE_DIR"
-        export DXVK_HUD=0
-        export VKD3D_SHADER_VERBOSE=0
-        export WINEDLLOVERRIDES="winemenubuilder.exe=d"
-        export MESA_GL_VERSION_OVERRIDE=4.5
-        export __GL_SHADER_DISK_CACHE=1
-        export __GL_THREADED_OPTIMIZATION=1
 
         cd "$exe_dir"
-        "$PROTON_DIR/proton" run "$exe_bin" >"$WINE_DIR/${app_key}.log" 2>&1 &
+        eval "${WG_LAUNCH_PREFIX}\"\$PROTON_DIR/proton\" run \"\$exe_bin\"" >"$WINE_DIR/${app_key}.log" 2>&1 &
     else
         print_warning "Proton not available, using Wine fallback"
-        export WINEDEBUG=-all
+        export WINEDEBUG="${WINEDEBUG:--all}"
         export WINEPREFIX="$WINEPREFIX/pfx"
         cd "$exe_dir"
-        wine "$exe_bin" >"$WINE_DIR/${app_key}.log" 2>&1 &
+        eval "${WG_LAUNCH_PREFIX}wine \"\$exe_bin\"" >"$WINE_DIR/${app_key}.log" 2>&1 &
     fi
 
     print_success "$APP_NAME launched (PID: $!) — log: $WINE_DIR/${app_key}.log"

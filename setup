@@ -11,7 +11,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SETUP_SCRIPT_PATH="$SCRIPT_DIR/setup"
 
 # Source library modules in dependency order
-for _lib in config utils registry installer shortcuts apps launch prefix aliases; do
+for _lib in config utils registry installer shortcuts apps launch prefix profile aliases; do
     # shellcheck source=/dev/null
     source "$SCRIPT_DIR/lib/${_lib}.sh"
 done
@@ -55,6 +55,15 @@ APP MANAGEMENT:
 SHORTCUT MANAGEMENT:
   install-shortcut <key>       Create .desktop launcher shortcut
   remove-shortcut <app-key>    Remove desktop shortcut
+
+PROFILE MANAGEMENT (per-app Proton/DXVK tuning):
+  profile menu  [app-key]      Interactive knob editor (FPS cap, HUD, FSR, …)
+  profile show  [app-key]      Show effective settings (default + overrides)
+  profile list                 List all profiles
+  profile set   [app] K=V …    Set values (defaults to global if no app)
+  profile unset [app] KEY …    Remove keys
+  profile edit  [app-key]      Open raw profile file in $EDITOR
+  profile reset [app-key]      Delete the profile file
 
 ALIAS MANAGEMENT:
   install-aliases              Write wig-* aliases → ~/.bashrc (run once)
@@ -131,6 +140,9 @@ main() {
         # Shortcut management
         install-shortcut)    create_shortcut "$2" "$3" ;;
         remove-shortcut)     remove_shortcut "$2" ;;
+
+        # Profiles
+        profile)             shift; profile_dispatch "$@" ;;
 
         # Alias management
         install-aliases)     install_aliases ;;
