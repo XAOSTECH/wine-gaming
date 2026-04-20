@@ -53,8 +53,8 @@ APP MANAGEMENT:
   prefix-info                  Show managed prefix paths and env vars
 
 SHORTCUT MANAGEMENT:
-  install-shortcut <key>       Create .desktop launcher shortcut
-  remove-shortcut <app-key>    Remove desktop shortcut
+  install-shortcut <key|all>   Create .desktop launcher shortcut (or all installed)
+  remove-shortcut  <key|all>   Remove desktop shortcut (or all)
 
 PROFILE MANAGEMENT (per-app Proton/DXVK tuning):
   profile menu  [app-key]      Interactive knob editor (FPS cap, HUD, FSR, …)
@@ -138,8 +138,12 @@ main() {
         prefix-info)         prefix_info ;;
 
         # Shortcut management
-        install-shortcut)    create_shortcut "$2" "$3" ;;
-        remove-shortcut)     remove_shortcut "$2" ;;
+        install-shortcut)
+            if [ "$2" = "all" ]; then create_all_shortcuts
+            else create_shortcut "$2" "$3"; fi ;;
+        remove-shortcut)
+            if [ "$2" = "all" ]; then remove_all_shortcuts
+            else remove_shortcut "$2"; fi ;;
 
         # Profiles
         profile)             shift; profile_dispatch "$@" ;;

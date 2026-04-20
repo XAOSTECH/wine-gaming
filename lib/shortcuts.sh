@@ -209,3 +209,28 @@ remove_shortcut() {
 
     return 0
 }
+
+# Recreate shortcuts for every installed launcher.
+# Skips apps not currently present in the prefix.
+create_all_shortcuts() {
+    print_info "Recreating shortcuts for all installed launchers..."
+    local created=0 skipped=0
+    for app_key in "${!APP_REGISTRY[@]}"; do
+        if find_app_exe "$app_key" >/dev/null 2>&1; then
+            create_shortcut "$app_key" && ((created++)) || true
+        else
+            ((skipped++))
+        fi
+    done
+    print_success "Shortcuts created: $created  (skipped, not installed: $skipped)"
+}
+
+# Remove shortcuts for every registered launcher.
+remove_all_shortcuts() {
+    print_info "Removing shortcuts for all registered launchers..."
+    local removed=0
+    for app_key in "${!APP_REGISTRY[@]}"; do
+        remove_shortcut "$app_key" >/dev/null 2>&1 && ((removed++)) || true
+    done
+    print_success "Shortcuts removed: $removed"
+}
