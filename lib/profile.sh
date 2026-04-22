@@ -29,23 +29,51 @@ unset _legacy_profile_dir
 # Curated knob catalogue used by the interactive menu and `set`/`unset` validation.
 # Format: [KEY]="Human description"
 declare -A PROFILE_KNOBS=(
+    # ── Frame pacing / FPS ────────────────────────────────────────────────────
     [DXVK_FRAME_RATE]="Hard FPS cap for D3D9/10/11 games (0 = uncapped)"
     [VKD3D_FRAME_RATE]="Hard FPS cap for D3D12 games via VKD3D-Proton (0 = uncapped)"
-    [DXVK_HUD]="Overlay: fps,frametimes,gpuload,memory,version,api,scale=1.5 (or 0)"
-    [DXVK_ASYNC]="Async shader compile, less stutter (1/0). Needs dxvk-async/gplasync"
-    [DXVK_FILTER_ANISOTROPY]="Force anisotropic filter level: 0/2/4/8/16"
-    [DXVK_ENABLE_NVAPI]="Expose NVAPI to game (1/0) — required for DLSS / Reflex"
-    [PROTON_ENABLE_NVAPI]="Proton-side NVAPI enable (1/0)"
-    [PROTON_HIDE_NVIDIA_GPU]="Pretend GPU is non-NVIDIA (1/0)"
-    [DXVK_NVAPI_DRS_NGX_DLSS_FG]="DLSS Frame Generation override (on/off/default)"
-    [WINE_FULLSCREEN_FSR]="AMD FSR upscaling in fullscreen (1/0)"
-    [WINE_FULLSCREEN_FSR_STRENGTH]="FSR sharpness 0–5 (lower = sharper)"
-    [WINE_FULLSCREEN_FSR_MODE]="FSR quality: ultra|quality|balanced|performance"
     [__GL_SYNC_TO_VBLANK]="NVIDIA driver VSync (1/0)"
-    [__GL_THREADED_OPTIMIZATION]="NVIDIA threaded GL (1/0)"
+    [__GL_MaxFramesAllowed]="NVIDIA pre-rendered frames (1=lowest latency, 3=default)"
+
+    # ── Overlays ──────────────────────────────────────────────────────────────
+    [DXVK_HUD]="DXVK overlay: fps,frametimes,gpuload,memory,version,api,scale=1.5 (or 0)"
     [MANGOHUD]="Wrap launch with MangoHud overlay (1/0)"
     [MANGOHUD_CONFIG]="MangoHud config string e.g. fps_limit=60,gpu_temp,cpu_temp"
+
+    # ── Shader / pipeline ─────────────────────────────────────────────────────
+    [DXVK_ASYNC]="Async shader compile, less stutter (1/0). Needs dxvk-async/gplasync"
+    [DXVK_FILTER_ANISOTROPY]="Force anisotropic filter level: 0/2/4/8/16"
+    [__GL_THREADED_OPTIMIZATION]="NVIDIA threaded GL (1/0)"
+    [__GL_SHADER_DISK_CACHE]="Persist shader cache to disk (1/0)"
+    [__GL_SHADER_DISK_CACHE_SIZE]="Shader cache size in bytes (e.g. 12000000000 = 12GB)"
+    [__GL_SHADER_DISK_CACHE_PATH]="Shader cache directory (default ~/.nv/GLCache)"
+
+    # ── NVAPI / DLSS / Reflex ─────────────────────────────────────────────────
+    # NB: most NVCP knobs do NOT exist on Linux — these expose what dxvk-nvapi does support.
+    # DLSS Super Resolution and Dynamic Resolution Scaling require GAME-SIDE support;
+    # they cannot be force-injected via env. The closest universal upscaler is FSR below.
+    [DXVK_ENABLE_NVAPI]="Expose NVAPI to game (1/0) — required for DLSS / Reflex"
+    [PROTON_ENABLE_NVAPI]="Proton-side NVAPI enable (1/0) — pair with the above"
+    [DXVK_NVAPI_ALLOW_OTHER_DRIVERS]="Force NVAPI on non-proprietary NVIDIA drivers (1/0) — needed on the open 590 driver"
+    [PROTON_HIDE_NVIDIA_GPU]="Pretend GPU is non-NVIDIA (1/0) — workaround for some games"
+    [DXVK_NVAPI_DRS_NGX_DLSS_FG]="DLSS Frame Generation override (on/off/default)"
+    [DXVK_NVAPI_DRS_NGX_DLSS_SR]="DLSS Super Resolution override (on/off/default) — only acts on DLSS-aware games"
+    [DXVK_NVAPI_DRS_NGX_DLSS_RR]="DLSS Ray Reconstruction override (on/off/default)"
+    [DXVK_NVAPI_LOG_LEVEL]="dxvk-nvapi log verbosity (0=off, 1=info, 2=debug)"
+
+    # ── Universal upscaling (game-agnostic alternative to DLSS) ───────────────
+    [WINE_FULLSCREEN_FSR]="AMD FSR upscaling in fullscreen (1/0) — works for ANY game; closest to DLSS-DRS without game support"
+    [WINE_FULLSCREEN_FSR_STRENGTH]="FSR sharpness 0–5 (lower = sharper)"
+    [WINE_FULLSCREEN_FSR_MODE]="FSR quality: ultra|quality|balanced|performance"
+    [WINE_FULLSCREEN_FSR_CUSTOM_MODE]="Custom internal render res e.g. 2560x1440 (overrides MODE)"
+
+    # ── Power / GPU clock ─────────────────────────────────────────────────────
+    [__GL_PowerMizerSettings]="NVIDIA power mode: 0x1=adaptive, 0x2=prefer max perf"
+
+    # ── Wrappers ──────────────────────────────────────────────────────────────
     [GAMEMODE]="Wrap launch with gamemoderun (1/0) — needs gamemode installed"
+
+    # ── Diagnostics ───────────────────────────────────────────────────────────
     [PROTON_LOG]="Verbose Proton logging (1/0)"
     [WINEDEBUG]="Wine debug channels e.g. -all, +seh, fixme-all"
     [WINEDLLOVERRIDES]="DLL overrides e.g. mscoree=n,b;crashreportclient.exe=d"
@@ -240,27 +268,26 @@ profile_menu() {
         echo "  File: $file"
         echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-        # Stable ordering for menu numbering.
+        # Stable ordering for menu numbering — grouped to match PROFILE_KNOBS sections.
         local keys=(
-            DXVK_FRAME_RATE
-            VKD3D_FRAME_RATE
-            DXVK_HUD
-            DXVK_ASYNC
-            DXVK_FILTER_ANISOTROPY
-            DXVK_ENABLE_NVAPI
-            PROTON_ENABLE_NVAPI
-            DXVK_NVAPI_DRS_NGX_DLSS_FG
-            WINE_FULLSCREEN_FSR
-            WINE_FULLSCREEN_FSR_STRENGTH
-            WINE_FULLSCREEN_FSR_MODE
-            __GL_SYNC_TO_VBLANK
-            __GL_THREADED_OPTIMIZATION
-            MANGOHUD
-            MANGOHUD_CONFIG
+            # Frame pacing / FPS
+            DXVK_FRAME_RATE VKD3D_FRAME_RATE __GL_SYNC_TO_VBLANK __GL_MaxFramesAllowed
+            # Overlays
+            DXVK_HUD MANGOHUD MANGOHUD_CONFIG
+            # Shader / pipeline
+            DXVK_ASYNC DXVK_FILTER_ANISOTROPY __GL_THREADED_OPTIMIZATION
+            __GL_SHADER_DISK_CACHE __GL_SHADER_DISK_CACHE_SIZE __GL_SHADER_DISK_CACHE_PATH
+            # NVAPI / DLSS / Reflex
+            DXVK_ENABLE_NVAPI PROTON_ENABLE_NVAPI DXVK_NVAPI_ALLOW_OTHER_DRIVERS PROTON_HIDE_NVIDIA_GPU
+            DXVK_NVAPI_DRS_NGX_DLSS_FG DXVK_NVAPI_DRS_NGX_DLSS_SR DXVK_NVAPI_DRS_NGX_DLSS_RR DXVK_NVAPI_LOG_LEVEL
+            # Universal upscaling
+            WINE_FULLSCREEN_FSR WINE_FULLSCREEN_FSR_STRENGTH WINE_FULLSCREEN_FSR_MODE WINE_FULLSCREEN_FSR_CUSTOM_MODE
+            # Power
+            __GL_PowerMizerSettings
+            # Wrappers
             GAMEMODE
-            PROTON_LOG
-            WINEDEBUG
-            WINEDLLOVERRIDES
+            # Diagnostics
+            PROTON_LOG WINEDEBUG WINEDLLOVERRIDES
         )
 
         local i=1 k cur
