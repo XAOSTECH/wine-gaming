@@ -3,10 +3,27 @@
 # Sourced by setup; do not execute directly.
 # Depends on: lib/config.sh, lib/utils.sh, lib/registry.sh
 
+# Parse `--profile NAME` out of an argv stream regardless of position.
+# Sets globals WG_PARSED_PROFILE and WG_PARSED_ARGS (array of leftovers).
+# Usage: _parse_profile_flag "$@"
+_parse_profile_flag() {
+    WG_PARSED_PROFILE=""
+    WG_PARSED_ARGS=()
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            --profile)        WG_PARSED_PROFILE="$2"; shift 2 ;;
+            --profile=*)      WG_PARSED_PROFILE="${1#--profile=}"; shift ;;
+            *)                WG_PARSED_ARGS+=("$1"); shift ;;
+        esac
+    done
+}
+
 # Launch a registered launcher via Proton (Wine fallback if Proton absent).
-# Usage: launch_app "app-key"
+# Usage: launch_app [--profile NAME] <app-key>   (flag accepted in any position)
 launch_app() {
-    local app_key="$1"
+    _parse_profile_flag "$@"
+    local app_key="${WG_PARSED_ARGS[0]:-}"
+    local profile_override="${WG_PARSED_PROFILE}"
 
     parse_app_config "$app_key" || return 1
 
@@ -32,7 +49,13 @@ launch_app() {
     export __GL_THREADED_OPTIMIZATION=1
 
     # Apply default + per-app profile (FPS cap, HUD, FSR, NVAPI, …).
-    load_profile "$app_key"
+    # If --profile was supplied, that named profile replaces the per-app one.
+    if [ -n "$profile_override" ]; then
+        load_profile "$profile_override"
+        print_info "Profile override: $profile_override"
+    else
+        load_profile "$app_key"
+    fi
 
     if [ -x "$PROTON_DIR/proton" ]; then
         export STEAM_COMPAT_DATA_PATH="$WINEPREFIX"

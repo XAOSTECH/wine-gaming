@@ -79,10 +79,14 @@ extract_exe_icon() {
 }
 
 # Create a .desktop shortcut and a wrapper launcher script for an app.
-# Usage: create_shortcut "app-key" [display_name]
+# Usage: create_shortcut [--profile NAME] <app-key> [display_name]
+# When --profile is given, the shortcut is suffixed (key-profile.desktop) so
+# multiple profile-specific shortcuts can coexist for one app.
 create_shortcut() {
-    local app_key="$1"
-    local display_name="${2:-}"
+    _parse_profile_flag "$@"
+    local app_key="${WG_PARSED_ARGS[0]:-}"
+    local display_name="${WG_PARSED_ARGS[1]:-}"
+    local profile_name="${WG_PARSED_PROFILE}"
 
     parse_app_config "$app_key" || return 1
 
@@ -94,6 +98,7 @@ create_shortcut() {
     fi
 
     display_name="${display_name:-$APP_NAME}"
+    [ -n "$profile_name" ] && display_name="$display_name ($profile_name)"
 
     # Attempt to extract the app icon from the installed exe for a better desktop shortcut.
     local app_icon="application-x-ms-dos-executable"
@@ -106,16 +111,23 @@ create_shortcut() {
         print_warning "Icon extraction failed — using default icon. Re-run after: sudo apt install icoutils"
     fi
 
-    local launcher="$BIN_DIR/$app_key"
-    local desktop="$APPS_DIR/${app_key}.desktop"
+    local file_suffix=""
+    [ -n "$profile_name" ] && file_suffix="-${profile_name}"
+    local launcher="$BIN_DIR/${app_key}${file_suffix}"
+    local desktop="$APPS_DIR/${app_key}${file_suffix}.desktop"
     local setup_script_path
     setup_script_path="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/setup"
+
+    # PROFILE_OVERRIDE is baked into the wrapper so the .desktop loads the named profile.
+    local profile_export=""
+    [ -n "$profile_name" ] && profile_export="WG_PROFILE_OVERRIDE=\"$profile_name\""
 
     # Generate a standalone wrapper script that sources this project's libs.
     cat > "$launcher" <<'LAUNCHER_EOF'
 #!/bin/bash
 # Auto-generated launcher for Wine Proton app — do not edit manually.
 APP_KEY="%APP_KEY%"
+WG_PROFILE_OVERRIDE="%PROFILE_OVERRIDE%"
 WINE_DIR="%WINE_DIR%"
 WINEPREFIX="%WINEPREFIX%"
 PROTON_DIR="%PROTON_DIR%"
@@ -131,7 +143,7 @@ export WINEDLLOVERRIDES="winemenubuilder.exe=d"
 export VKD3D_SHADER_VERBOSE=0
 
 # Source lib modules to get parse_app_config / find_app_exe / load_profile
-for _lib in config utils registry profile; do
+for _lib in config utils registry profile user_registry; do
     # shellcheck source=/dev/null
     source "$SCRIPT_DIR/lib/${_lib}.sh"
 done
@@ -140,7 +152,12 @@ unset _lib
 parse_app_config "$APP_KEY" || exit 1
 
 # Apply default + per-app profile (FPS cap, HUD, FSR, NVAPI, gamemode, …)
-load_profile "$APP_KEY"
+# If WG_PROFILE_OVERRIDE was baked in by --profile, that named profile wins.
+if [ -n "$WG_PROFILE_OVERRIDE" ]; then
+    load_profile "$WG_PROFILE_OVERRIDE"
+else
+    load_profile "$APP_KEY"
+fi
 
 EXE_PATH=$(find_app_exe "$APP_KEY")
 if [ -z "$EXE_PATH" ]; then
@@ -153,7 +170,7 @@ EXE_BIN=$(basename "$EXE_PATH")
 
 cd "$EXE_DIR" || { echo "Error: Cannot cd to $EXE_DIR" >&2; exit 1; }
 
-LOG_FILE="$WINE_DIR/${APP_KEY}.log"
+LOG_FILE="$WINE_DIR/${APP_KEY}${WG_PROFILE_OVERRIDE:+-$WG_PROFILE_OVERRIDE}.log"
 if [ -x "$PROTON_DIR/proton" ]; then
     eval "${WG_LAUNCH_PREFIX}\"\$PROTON_DIR/proton\" run \"\$EXE_BIN\"" >"$LOG_FILE" 2>&1 &
 else
@@ -162,6 +179,7 @@ fi
 LAUNCHER_EOF
 
     sed -i "s|%APP_KEY%|$app_key|g"              "$launcher"
+    sed -i "s|%PROFILE_OVERRIDE%|$profile_name|g" "$launcher"
     sed -i "s|%WINE_DIR%|$WINE_DIR|g"            "$launcher"
     sed -i "s|%WINEPREFIX%|$WINEPREFIX|g"        "$launcher"
     sed -i "s|%PROTON_DIR%|$PROTON_DIR|g"        "$launcher"

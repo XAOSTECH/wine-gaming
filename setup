@@ -49,6 +49,7 @@ APP MANAGEMENT:
   install-all                  Install all registered launchers
   uninstall <app-key>          Remove a launcher from the prefix
   launch <key>                 Launch any registered app (launcher or user)
+  launch <key> --profile <p>   Launch with a specific profile (also: --profile <p> <key>)
   launch-exe <path>            Launch any external .exe/.msi in managed prefix
   prefix-info                  Show managed prefix paths and env vars
 
@@ -58,8 +59,9 @@ USER APP REGISTRY (games, standalone .exes):
   remove <key>                 Remove a user entry
 
 SHORTCUT MANAGEMENT:
-  install-shortcut <key|all>   Create .desktop launcher shortcut (or all installed)
-  remove-shortcut  <key|all>   Remove desktop shortcut (or all)
+  install-shortcut <key|all>          Create .desktop launcher shortcut (or all installed)
+  install-shortcut --profile <p> <key> Create profile-specific shortcut (key-p.desktop)
+  remove-shortcut  <key|all>          Remove desktop shortcut (or all)
 
 PROFILE MANAGEMENT (per-app Proton/DXVK tuning):
   profile menu  [app-key]      Interactive knob editor (FPS cap, HUD, FSR, …)
@@ -138,7 +140,7 @@ main() {
         install)             install_app "$2" "$3" ;;
         install-all)         install_all_launchers ;;
         uninstall)           uninstall_app "$2" ;;
-        launch)              launch_app "$2" ;;
+        launch)              shift; launch_app "$@" ;;
         launch-exe)          launch_external_exe "$2" ;;
         prefix-info)         prefix_info ;;
 
@@ -148,8 +150,9 @@ main() {
 
         # Shortcut management
         install-shortcut)
-            if [ "$2" = "all" ]; then create_all_shortcuts
-            else create_shortcut "$2" "$3"; fi ;;
+            shift
+            if [ "$1" = "all" ]; then create_all_shortcuts
+            else create_shortcut "$@"; fi ;;
         remove-shortcut)
             if [ "$2" = "all" ]; then remove_all_shortcuts
             else remove_shortcut "$2"; fi ;;
