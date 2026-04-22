@@ -11,8 +11,20 @@
 # Any KEY/VALUE pair may be set; this module ships a curated menu of well-known
 # DXVK / VKD3D / Wine / Proton / NVAPI knobs but does not restrict the set.
 
-PROFILE_DIR="${WINE_DIR}/profiles"
+# XDG-compliant config location. Migrates legacy $WINE_DIR/profiles on first run.
+WG_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/wine-gaming"
+PROFILE_DIR="${WG_CONFIG_DIR}/profiles"
 mkdir -p "$PROFILE_DIR" 2>/dev/null || true
+
+# One-shot migration from legacy ~/.wine-gaming/profiles → XDG.
+_legacy_profile_dir="${WINE_DIR}/profiles"
+if [ -d "$_legacy_profile_dir" ] && [ "$_legacy_profile_dir" != "$PROFILE_DIR" ]; then
+    if compgen -G "$_legacy_profile_dir/*.conf" >/dev/null; then
+        mv -n "$_legacy_profile_dir"/*.conf "$PROFILE_DIR/" 2>/dev/null || true
+    fi
+    rmdir "$_legacy_profile_dir" 2>/dev/null || true
+fi
+unset _legacy_profile_dir
 
 # Curated knob catalogue used by the interactive menu and `set`/`unset` validation.
 # Format: [KEY]="Human description"
