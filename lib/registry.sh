@@ -9,13 +9,22 @@
 parse_app_config() {
     local app_key="$1"
 
-    if [ -z "${APP_REGISTRY[$app_key]}" ]; then
-        print_error "Unknown app: $app_key"
-        return 1
+    if [ -n "${APP_REGISTRY[$app_key]:-}" ]; then
+        IFS='|' read -r APP_NAME APP_EXE APP_URL APP_UNINSTALL_PATHS <<< "${APP_REGISTRY[$app_key]}"
+        return 0
     fi
 
-    IFS='|' read -r APP_NAME APP_EXE APP_URL APP_UNINSTALL_PATHS <<< "${APP_REGISTRY[$app_key]}"
-    return 0
+    # Fallback: user-registered app (Name|LauncherKey|ExePath).
+    if [ -n "${USER_APP_REGISTRY[$app_key]:-}" ]; then
+        local _ulauncher
+        IFS='|' read -r APP_NAME _ulauncher APP_EXE <<< "${USER_APP_REGISTRY[$app_key]}"
+        APP_URL=""
+        APP_UNINSTALL_PATHS=""
+        return 0
+    fi
+
+    print_error "Unknown app: $app_key"
+    return 1
 }
 
 # Locate the app executable inside the Wine prefix.
@@ -24,6 +33,12 @@ parse_app_config() {
 find_app_exe() {
     local app_key="$1"
     parse_app_config "$app_key" || return 1
+
+    # User-registered apps may store an absolute host path.
+    if [ "${APP_EXE:0:1}" = "/" ]; then
+        [ -f "$APP_EXE" ] && echo "$APP_EXE" && return 0
+        return 1
+    fi
 
     local exe_filename
     exe_filename=$(basename "$APP_EXE")
@@ -65,6 +80,14 @@ list_apps() {
 
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo "Total registered apps: $count | Installed: $installed | Remaining: $((count - installed))"
+
+    echo ""
+    echo "User-registered apps (games / standalone exes):"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    if declare -F list_user_apps >/dev/null; then
+        list_user_apps
+    fi
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 }
 
 # Find a matching installer in ./installers/ for the given app key.

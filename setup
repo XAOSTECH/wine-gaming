@@ -11,7 +11,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SETUP_SCRIPT_PATH="$SCRIPT_DIR/setup"
 
 # Source library modules in dependency order
-for _lib in config utils registry installer shortcuts apps launch prefix profile aliases; do
+for _lib in config utils registry installer shortcuts apps launch prefix profile user_registry aliases; do
     # shellcheck source=/dev/null
     source "$SCRIPT_DIR/lib/${_lib}.sh"
 done
@@ -48,9 +48,14 @@ APP MANAGEMENT:
   install <app-key> <path>     Install with a custom local installer
   install-all                  Install all registered launchers
   uninstall <app-key>          Remove a launcher from the prefix
-  launch <app-key>             Launch an installed launcher via Proton/Wine
+  launch <key>                 Launch any registered app (launcher or user)
   launch-exe <path>            Launch any external .exe/.msi in managed prefix
   prefix-info                  Show managed prefix paths and env vars
+
+USER APP REGISTRY (games, standalone .exes):
+  add <key> <exe> [name] [--launcher <launcher-key>]
+                               Register an exe under a short key (grouped by launcher for display only)
+  remove <key>                 Remove a user entry
 
 SHORTCUT MANAGEMENT:
   install-shortcut <key|all>   Create .desktop launcher shortcut (or all installed)
@@ -136,6 +141,10 @@ main() {
         launch)              launch_app "$2" ;;
         launch-exe)          launch_external_exe "$2" ;;
         prefix-info)         prefix_info ;;
+
+        # User app registry (games, standalone exes)
+        add)                 shift; add_user_app "$@" ;;
+        remove)              remove_user_app "$2" ;;
 
         # Shortcut management
         install-shortcut)
