@@ -3,10 +3,395 @@
     "repository": "wine-gaming",
     "current_branch": "main",
     "repo_url": "https://github.com/XAOSTECH/wine-gaming",
-    "generated": "2026-04-13T02:05:43Z",
+    "generated": "2026-05-04T02:13:41Z",
     "max_commits": 500
   },
   "commits": [
+  {
+    "sha": "b5b27a9ab20f2fe141c28c162063977b31c8639c",
+    "short": "b5b27a9",
+    "parents": "e7cff5f46f9426117a97d477ad4912add54e4026",
+    "author": "xaos-bot",
+    "email": "262248812+xaos-bot@users.noreply.github.com",
+    "date": "2026-04-27T02:10:01Z",
+    "timestamp": 1777255801,
+    "subject": "chore: update CHANGELOG for v0.1.1 (re-release)",
+    "refs": "HEAD -> main, tag: v0.1.1, tag: latest, origin/main"
+  },
+  {
+    "sha": "e7cff5f46f9426117a97d477ad4912add54e4026",
+    "short": "e7cff5f",
+    "parents": "a52b8ea60153c0bae16b1c34839967b90704166b",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-22T03:23:09+02:00",
+    "timestamp": 1776820989,
+    "subject": "feat(profile): --profile flag for launch and install-shortcut",
+    "refs": ""
+  },
+  {
+    "sha": "a52b8ea60153c0bae16b1c34839967b90704166b",
+    "short": "a52b8ea",
+    "parents": "879eb5bc348bb0e865fe36234da6f8f2bf6b7621",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-22T03:21:43+02:00",
+    "timestamp": 1776820903,
+    "subject": "feat(registry): user app registry with optional launcher grouping; wig add/remove",
+    "refs": ""
+  },
+  {
+    "sha": "879eb5bc348bb0e865fe36234da6f8f2bf6b7621",
+    "short": "879eb5b",
+    "parents": "ba4452d9202808c0480baa1b9180b1d16d8f6eae",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-22T03:20:13+02:00",
+    "timestamp": 1776820813,
+    "subject": "refactor(profile): move profiles to XDG_CONFIG_HOME with auto-migration",
+    "refs": ""
+  },
+  {
+    "sha": "ba4452d9202808c0480baa1b9180b1d16d8f6eae",
+    "short": "ba4452d",
+    "parents": "d72fed889c96c6816449406b4c2e0915e99731b4",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-20T21:08:19+02:00",
+    "timestamp": 1776712099,
+    "subject": "fix(init): split winetricks into per-verb passes with progress; stream heavy verbs",
+    "refs": ""
+  },
+  {
+    "sha": "d72fed889c96c6816449406b4c2e0915e99731b4",
+    "short": "d72fed8",
+    "parents": "858067d2b3baa48a611fb9003ccf514037779c72",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-20T20:46:34+02:00",
+    "timestamp": 1776710794,
+    "subject": "feat: install gamemode/mangohud via apt; add install-shortcut all",
+    "refs": ""
+  },
+  {
+    "sha": "858067d2b3baa48a611fb9003ccf514037779c72",
+    "short": "858067d",
+    "parents": "f150135c1f54a481ac2f062d7b2052e6687ec3f9",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-20T20:40:43+02:00",
+    "timestamp": 1776710443,
+    "subject": "feat(profile): per-launcher launch profiles for FPS cap, HUD, FSR, NVAPI, gamemode",
+    "refs": ""
+  },
+  {
+    "sha": "f150135c1f54a481ac2f062d7b2052e6687ec3f9",
+    "short": "f150135",
+    "parents": "bd78834dc07948359f5743999a4f747eef273af9",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-18T06:15:42+02:00",
+    "timestamp": 1776485742,
+    "subject": "fix: send log helpers to stderr; drop chromium flags; redirect proton output",
+    "refs": ""
+  },
+  {
+    "sha": "bd78834dc07948359f5743999a4f747eef273af9",
+    "short": "bd78834",
+    "parents": "0355d350d9072d904447f7ad175149c8f685ae69",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-18T05:15:05+02:00",
+    "timestamp": 1776482105,
+    "subject": "fix(legacy-games): update install paths",
+    "refs": ""
+  },
+  {
+    "sha": "0355d350d9072d904447f7ad175149c8f685ae69",
+    "short": "0355d35",
+    "parents": "88b253c75ddfa60dc24b0ce2dcbe08bc35fe8394",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-18T05:07:35+02:00",
+    "timestamp": 1776481655,
+    "subject": "fix(amazon-games): update download link and install paths",
+    "refs": ""
+  },
+  {
+    "sha": "2910c99bf1c63f9de4a1d059dc2f5a6c5850c4ca",
+    "short": "2910c99",
+    "parents": "dfebc0028ecf5550d0e05a246e0be5e169299aba",
+    "author": "agent",
+    "email": "agent@local",
+    "date": "2026-04-18T04:01:29+02:00",
+    "timestamp": 1776477689,
+    "subject": "experiment(xbox): iter 10 — add HTTPS/auth trace channels",
+    "refs": "origin/experiment/xbox-gaming"
+  },
+  {
+    "sha": "dfebc0028ecf5550d0e05a246e0be5e169299aba",
+    "short": "dfebc00",
+    "parents": "38c6f7010493969a27f8a38de105ff8b722058ca",
+    "author": "agent",
+    "email": "agent@local",
+    "date": "2026-04-18T03:53:43+02:00",
+    "timestamp": 1776477223,
+    "subject": "experiment(xbox): iter 9d — fix trap loop, add error-event reporting",
+    "refs": ""
+  },
+  {
+    "sha": "38c6f7010493969a27f8a38de105ff8b722058ca",
+    "short": "38c6f70",
+    "parents": "daf1ae90ec0291f403fa532d46f6b36b0b5fde8f",
+    "author": "agent",
+    "email": "agent@local",
+    "date": "2026-04-18T03:44:37+02:00",
+    "timestamp": 1776476677,
+    "subject": "experiment(xbox): iter 9c — bypass wig in trace mode",
+    "refs": ""
+  },
+  {
+    "sha": "daf1ae90ec0291f403fa532d46f6b36b0b5fde8f",
+    "short": "daf1ae9",
+    "parents": "044d8d399a885b926a5b574e5e04856f4eae56d8",
+    "author": "agent",
+    "email": "agent@local",
+    "date": "2026-04-18T03:05:32+02:00",
+    "timestamp": 1776474332,
+    "subject": "experiment(xbox): iter 9b — fix tracer to read Proton log",
+    "refs": ""
+  },
+  {
+    "sha": "044d8d399a885b926a5b574e5e04856f4eae56d8",
+    "short": "044d8d3",
+    "parents": "509c00b54d238981257911a00a2e715e12509aa7",
+    "author": "agent",
+    "email": "agent@local",
+    "date": "2026-04-18T01:25:05+02:00",
+    "timestamp": 1776468305,
+    "subject": "experiment(xbox): iter 9 — opt-in service-query tracer",
+    "refs": ""
+  },
+  {
+    "sha": "509c00b54d238981257911a00a2e715e12509aa7",
+    "short": "509c00b",
+    "parents": "1a6b03d1dcc2c711ba4b90f9a36dca3d86e5bcce",
+    "author": "agent",
+    "email": "agent@local",
+    "date": "2026-04-18T01:16:15+02:00",
+    "timestamp": 1776467775,
+    "subject": "experiment(xbox): iter 8 — PackageVolume stub",
+    "refs": ""
+  },
+  {
+    "sha": "1a6b03d1dcc2c711ba4b90f9a36dca3d86e5bcce",
+    "short": "1a6b03d",
+    "parents": "d96250892b407234f95b99d7c9b682b31d1ee536",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-18T00:32:16+02:00",
+    "timestamp": 1776465136,
+    "subject": "experiment(xbox): iter 7 — AnalyticsVersionInfo stub + download tracer",
+    "refs": ""
+  },
+  {
+    "sha": "d96250892b407234f95b99d7c9b682b31d1ee536",
+    "short": "d962508",
+    "parents": "380a2798d6f7713117c3ba79d977689ef99c9a87",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-17T23:46:46+02:00",
+    "timestamp": 1776462406,
+    "subject": "experiment(xbox): iter 6 — fix PackageManager signatures, return empty enumerables",
+    "refs": ""
+  },
+  {
+    "sha": "380a2798d6f7713117c3ba79d977689ef99c9a87",
+    "short": "380a279",
+    "parents": "4e4d62c2cad9f631d8e534ed0897d59d82c9cf90",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-17T23:40:44+02:00",
+    "timestamp": 1776462044,
+    "subject": "experiment(xbox): iter 5 (final) — Package + AnalyticsInfo stubs + conclusion",
+    "refs": ""
+  },
+  {
+    "sha": "4e4d62c2cad9f631d8e534ed0897d59d82c9cf90",
+    "short": "4e4d62c",
+    "parents": "548abda2e5c2a0226e78177fc6b03e5f075fec26",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-17T23:31:13+02:00",
+    "timestamp": 1776461473,
+    "subject": "experiment(xbox): iter 4 — TypedEventHandler + PackageManager (the MSIX wall)",
+    "refs": ""
+  },
+  {
+    "sha": "548abda2e5c2a0226e78177fc6b03e5f075fec26",
+    "short": "548abda",
+    "parents": "2e41761e55805c3162303218b20a513ce8884993",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-17T23:28:55+02:00",
+    "timestamp": 1776461335,
+    "subject": "fix(xbox-stub): make native GAC optional, add Wine-Mono GAC path",
+    "refs": ""
+  },
+  {
+    "sha": "2e41761e55805c3162303218b20a513ce8884993",
+    "short": "2e41761",
+    "parents": "759a5c62c1ca494afa62057d0a5df411485431c4",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-17T23:22:23+02:00",
+    "timestamp": 1776460943,
+    "subject": "fix(xbox-stub): awk skipped real .assembly because '.assembly extern' matched first",
+    "refs": ""
+  },
+  {
+    "sha": "759a5c62c1ca494afa62057d0a5df411485431c4",
+    "short": "759a5c6",
+    "parents": "613638fdf57cceb97e68993ef516b2a6e3d6e596",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-17T23:20:21+02:00",
+    "timestamp": 1776460821,
+    "subject": "experiment(xbox): iter 3 — multi-stub build, add FoundationContract",
+    "refs": ""
+  },
+  {
+    "sha": "613638fdf57cceb97e68993ef516b2a6e3d6e596",
+    "short": "613638f",
+    "parents": "0a5787c9565e4f93ca408021a094cd09bfe83f98",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-17T23:13:33+02:00",
+    "timestamp": 1776460413,
+    "subject": "chore(xbox): gitignore built stub dll, untrack stale artifact",
+    "refs": ""
+  },
+  {
+    "sha": "0a5787c9565e4f93ca408021a094cd09bfe83f98",
+    "short": "0a5787c",
+    "parents": "6a7d91ca6c51dbd6c775ba087d7255c26e8ecb3b",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-17T23:13:19+02:00",
+    "timestamp": 1776460399,
+    "subject": "experiment(xbox): iter 2 — define UISettings skeleton in WinRT stub",
+    "refs": ""
+  },
+  {
+    "sha": "6a7d91ca6c51dbd6c775ba087d7255c26e8ecb3b",
+    "short": "6a7d91c",
+    "parents": "88b253c75ddfa60dc24b0ce2dcbe08bc35fe8394",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-17T23:08:28+02:00",
+    "timestamp": 1776460108,
+    "subject": "experiment(xbox): document attempts + stub WinRT contract assembly",
+    "refs": ""
+  },
+  {
+    "sha": "88b253c75ddfa60dc24b0ce2dcbe08bc35fe8394",
+    "short": "88b253c",
+    "parents": "bdba0f24f3331c70167530a04a96feaac5f4878a 7acf70f8c4820f5badf4cfbe729b69a9564e66d4",
+    "author": "github-actions[bot]",
+    "email": "41898282+github-actions[bot]@users.noreply.github.com",
+    "date": "2026-04-15T23:27:32Z",
+    "timestamp": 1776295652,
+    "subject": "Merge pull request #2 from XAOSTECH/anglicise/20260415-232714",
+    "refs": ""
+  },
+  {
+    "sha": "7acf70f8c4820f5badf4cfbe729b69a9564e66d4",
+    "short": "7acf70f",
+    "parents": "bdba0f24f3331c70167530a04a96feaac5f4878a",
+    "author": "xaos-bot",
+    "email": "262248812+xaos-bot@users.noreply.github.com",
+    "date": "2026-04-15T23:27:14Z",
+    "timestamp": 1776295634,
+    "subject": "chore: convert American spellings to British English",
+    "refs": ""
+  },
+  {
+    "sha": "bdba0f24f3331c70167530a04a96feaac5f4878a",
+    "short": "bdba0f2",
+    "parents": "1f8d8fb23ce5c61dd9c49c0bfc9b19774b8dc5f2",
+    "author": "xaos-bot",
+    "email": "262248812+xaos-bot@users.noreply.github.com",
+    "date": "2026-04-15T22:26:36Z",
+    "timestamp": 1776291996,
+    "subject": "chore: update CHANGELOG for v0.1.1 (re-release)",
+    "refs": ""
+  },
+  {
+    "sha": "1f8d8fb23ce5c61dd9c49c0bfc9b19774b8dc5f2",
+    "short": "1f8d8fb",
+    "parents": "2a4a94b260d42c615cf5dabbb16a76b8e7200050",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-15T01:11:36+02:00",
+    "timestamp": 1776208296,
+    "subject": "fix(init): notice on re-run when prefix exists, suppress wineboot stderr noise",
+    "refs": ""
+  },
+  {
+    "sha": "2a4a94b260d42c615cf5dabbb16a76b8e7200050",
+    "short": "2a4a94b",
+    "parents": "b0d069287c019edd14dd6c13e90493c905c80d3b",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-15T01:07:41+02:00",
+    "timestamp": 1776208061,
+    "subject": "chore(readme): document wig global command, icon extraction, new commands, directories, v1.1 changelog",
+    "refs": ""
+  },
+  {
+    "sha": "b0d069287c019edd14dd6c13e90493c905c80d3b",
+    "short": "b0d0692",
+    "parents": "8313f5128025ae36f05aa45ddf9c95d1df6d53db",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-15T00:59:13+02:00",
+    "timestamp": 1776207553,
+    "subject": "fix: PNG-first icon extraction with .ico fallback for corrupt group_icons",
+    "refs": ""
+  },
+  {
+    "sha": "8313f5128025ae36f05aa45ddf9c95d1df6d53db",
+    "short": "8313f51",
+    "parents": "556c807015a93e4d9c99a5e005a7049617641551",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-15T00:51:12+02:00",
+    "timestamp": 1776207072,
+    "subject": "refactor: simplify icon extraction — .ico direct, drop icotool",
+    "refs": ""
+  },
+  {
+    "sha": "556c807015a93e4d9c99a5e005a7049617641551",
+    "short": "556c807",
+    "parents": "f0f78f250e79eca1bcebb7424c5e94e510a5ba8f",
+    "author": "XAOSTECH",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-04-15T00:23:59+02:00",
+    "timestamp": 1776205439,
+    "subject": "feat: global wig wrapper, auto-icon extraction for desktop shortcuts",
+    "refs": ""
+  },
+  {
+    "sha": "f0f78f250e79eca1bcebb7424c5e94e510a5ba8f",
+    "short": "f0f78f2",
+    "parents": "99c088437f52bafad58f15efc3d9289545586f3f",
+    "author": "xaos-bot",
+    "email": "262248812+xaos-bot@users.noreply.github.com",
+    "date": "2026-04-13T02:05:43Z",
+    "timestamp": 1776045943,
+    "subject": "chore: update git tree visualisation",
+    "refs": ""
+  },
   {
     "sha": "99c088437f52bafad58f15efc3d9289545586f3f",
     "short": "99c0884",
@@ -16,7 +401,7 @@
     "date": "2026-04-06T01:57:12Z",
     "timestamp": 1775440632,
     "subject": "chore: update git tree visualisation",
-    "refs": "HEAD -> main, origin/main"
+    "refs": ""
   },
   {
     "sha": "838b9c4ee0993e3c6dbe90666d75143317b5bc47",
@@ -49,7 +434,7 @@
     "date": "2026-03-30T01:56:42Z",
     "timestamp": 1774835802,
     "subject": "chore: update CHANGELOG for v0.1.1 (re-release)",
-    "refs": "tag: v0.1.1, tag: latest"
+    "refs": ""
   },
   {
     "sha": "7a60e2ae390c8a2aa5d4509ee91d724d18bebcc9",
@@ -185,11 +570,11 @@
   }
 ],
   "branches": [
-  {"name":"99c088437f52bafad58f15efc3d9289545586f3f chore: update git tree visualisation","sha":"*","current":false,"merged":false}
+  {"name":"b5b27a9ab20f2fe141c28c162063977b31c8639c chore: update CHANGELOG for v0.1.1 (re-release)","sha":"*","current":false,"merged":false}
 ],
   "tags": [
   {"name":"Main","sha":"4854ca978c51879d8b16481359344c3754590c0b"},
-  {"name":"latest","sha":"b728a947d259fd334791a6c02e0bbb34f2c4e52d"},
-  {"name":"v0.1.1","sha":"568218cc10bd24b975fe582bbf12de9d7ea22355"}
+  {"name":"latest","sha":"adeed57d28e8fc2e606771df92514e644e114bff"},
+  {"name":"v0.1.1","sha":"f167e81ba83695cd8a26dec4fe6779980db4d676"}
 ]
 }
