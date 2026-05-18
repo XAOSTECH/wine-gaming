@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" 
      xmlns:xlink="http://www.w3.org/1999/xlink"
-     width="2560" height="2940" 
-     viewBox="0 0 2560 2940">
+     width="2560" height="2980" 
+     viewBox="0 0 2560 2980">
   <defs>
     <radialGradient id="leafGradient">
       <stop offset="0%" style="stop-color:#22c55e;stop-opacity:1" />
@@ -29,13 +29,13 @@
     </style>
   </defs>
   
-  <rect width="2560" height="2940" fill="#f8fafc"/>
+  <rect width="2560" height="2980" fill="#f8fafc"/>
   <defs>
     <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
       <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#e2e8f0" stroke-width="0.5" opacity="0.3"/>
     </pattern>
   </defs>
-  <rect width="2560" height="2940" fill="url(#grid)"/>
+  <rect width="2560" height="2980" fill="url(#grid)"/>
   
   <!-- Branch connection lines -->
   <g id="branches">
@@ -49,27 +49,27 @@
     <line class="trunk-line" x1="600" y1="340" x2="600" y2="380"/>
     <line class="trunk-line" x1="600" y1="380" x2="600" y2="420"/>
     <line class="trunk-line" x1="600" y1="420" x2="600" y2="460"/>
-    <line class="trunk-line" x1="600" y1="460" x2="600" y2="1780"/>
-    <path class="branch-line" d="M 720 500 C 720 532, 480 548, 480 580"/>
-    <path class="branch-line" d="M 480 580 C 480 612, 840 628, 840 660"/>
-    <path class="branch-line" d="M 840 660 C 840 692, 360 708, 360 740"/>
-    <path class="branch-line" d="M 360 740 C 360 772, 960 788, 960 820"/>
-    <path class="branch-line" d="M 960 820 C 960 852, 240 868, 240 900"/>
-    <path class="branch-line" d="M 240 900 C 240 932, 1080 948, 1080 980"/>
-    <path class="branch-line" d="M 1080 980 C 1080 1012, 120 1028, 120 1060"/>
-    <path class="branch-line" d="M 120 1060 C 120 1092, 1200 1108, 1200 1140"/>
-    <path class="branch-line" d="M 1200 1140 C 1200 1172, 0 1188, 0 1220"/>
-    <path class="branch-line" d="M 0 1220 C 0 1252, 1320 1268, 1320 1300"/>
-    <path class="branch-line" d="M 1320 1300 C 1320 1332, -120 1348, -120 1380"/>
-    <path class="branch-line" d="M -120 1380 C -120 1412, 1440 1428, 1440 1460"/>
-    <path class="branch-line" d="M 1440 1460 C 1440 1492, -240 1508, -240 1540"/>
-    <path class="branch-line" d="M -240 1540 C -240 1572, 1560 1588, 1560 1620"/>
-    <path class="branch-line" d="M 1560 1620 C 1560 1652, -360 1668, -360 1700"/>
-    <path class="branch-line" d="M -360 1700 C -360 1732, 600 1748, 600 1780"/>
-    <line class="trunk-line" x1="600" y1="1780" x2="600" y2="1900"/>
-    <path class="branch-line" d="M 600 1780 C 600 1796, 1680 1804, 1680 1820"/>
-    <path class="branch-line" d="M 1680 1820 C 1680 1852, 600 1868, 600 1900"/>
-    <line class="trunk-line" x1="600" y1="1900" x2="600" y2="1940"/>
+    <line class="trunk-line" x1="600" y1="460" x2="600" y2="500"/>
+    <line class="trunk-line" x1="600" y1="500" x2="600" y2="1820"/>
+    <path class="branch-line" d="M 720 540 C 720 572, 480 588, 480 620"/>
+    <path class="branch-line" d="M 480 620 C 480 652, 840 668, 840 700"/>
+    <path class="branch-line" d="M 840 700 C 840 732, 360 748, 360 780"/>
+    <path class="branch-line" d="M 360 780 C 360 812, 960 828, 960 860"/>
+    <path class="branch-line" d="M 960 860 C 960 892, 240 908, 240 940"/>
+    <path class="branch-line" d="M 240 940 C 240 972, 1080 988, 1080 1020"/>
+    <path class="branch-line" d="M 1080 1020 C 1080 1052, 120 1068, 120 1100"/>
+    <path class="branch-line" d="M 120 1100 C 120 1132, 1200 1148, 1200 1180"/>
+    <path class="branch-line" d="M 1200 1180 C 1200 1212, 0 1228, 0 1260"/>
+    <path class="branch-line" d="M 0 1260 C 0 1292, 1320 1308, 1320 1340"/>
+    <path class="branch-line" d="M 1320 1340 C 1320 1372, -120 1388, -120 1420"/>
+    <path class="branch-line" d="M -120 1420 C -120 1452, 1440 1468, 1440 1500"/>
+    <path class="branch-line" d="M 1440 1500 C 1440 1532, -240 1548, -240 1580"/>
+    <path class="branch-line" d="M -240 1580 C -240 1612, 1560 1628, 1560 1660"/>
+    <path class="branch-line" d="M 1560 1660 C 1560 1692, -360 1708, -360 1740"/>
+    <path class="branch-line" d="M -360 1740 C -360 1772, 600 1788, 600 1820"/>
+    <line class="trunk-line" x1="600" y1="1820" x2="600" y2="1940"/>
+    <path class="branch-line" d="M 600 1820 C 600 1836, 1680 1844, 1680 1860"/>
+    <path class="branch-line" d="M 1680 1860 C 1680 1892, 600 1908, 600 1940"/>
     <line class="trunk-line" x1="600" y1="1940" x2="600" y2="1980"/>
     <line class="trunk-line" x1="600" y1="1980" x2="600" y2="2020"/>
     <line class="trunk-line" x1="600" y1="2020" x2="600" y2="2060"/>
@@ -77,10 +77,10 @@
     <line class="trunk-line" x1="600" y1="2100" x2="600" y2="2140"/>
     <line class="trunk-line" x1="600" y1="2140" x2="600" y2="2180"/>
     <line class="trunk-line" x1="600" y1="2180" x2="600" y2="2220"/>
-    <line class="trunk-line" x1="600" y1="2220" x2="600" y2="2340"/>
-    <path class="branch-line" d="M 600 2220 C 600 2236, -480 2244, -480 2260"/>
-    <path class="branch-line" d="M -480 2260 C -480 2292, 600 2308, 600 2340"/>
-    <line class="trunk-line" x1="600" y1="2340" x2="600" y2="2380"/>
+    <line class="trunk-line" x1="600" y1="2220" x2="600" y2="2260"/>
+    <line class="trunk-line" x1="600" y1="2260" x2="600" y2="2380"/>
+    <path class="branch-line" d="M 600 2260 C 600 2276, -480 2284, -480 2300"/>
+    <path class="branch-line" d="M -480 2300 C -480 2332, 600 2348, 600 2380"/>
     <line class="trunk-line" x1="600" y1="2380" x2="600" y2="2420"/>
     <line class="trunk-line" x1="600" y1="2420" x2="600" y2="2460"/>
     <line class="trunk-line" x1="600" y1="2460" x2="600" y2="2500"/>
@@ -92,61 +92,63 @@
     <line class="trunk-line" x1="600" y1="2700" x2="600" y2="2740"/>
     <line class="trunk-line" x1="600" y1="2740" x2="600" y2="2780"/>
     <line class="trunk-line" x1="600" y1="2780" x2="600" y2="2820"/>
+    <line class="trunk-line" x1="600" y1="2820" x2="600" y2="2860"/>
   </g>
   <!-- Commit nodes -->
   <g id="commits">
-    <circle class="commit-leaf" cx="600" cy="60" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>b685aa5: chore: update git tree visualisation</title></circle>
-    <circle class="commit-leaf" cx="600" cy="100" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>b5b27a9: chore: update CHANGELOG for v0.1.1 (re-release)</title></circle>
-    <circle class="commit-leaf" cx="600" cy="140" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>e7cff5f: feat(profile): --profile flag for launch and install-shortcut</title></circle>
-    <circle class="commit-leaf" cx="600" cy="180" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>a52b8ea: feat(registry): user app registry with optional launcher grouping; wig add/remove</title></circle>
-    <circle class="commit-leaf" cx="600" cy="220" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>879eb5b: refactor(profile): move profiles to XDG_CONFIG_HOME with auto-migration</title></circle>
-    <circle class="commit-leaf" cx="600" cy="260" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>ba4452d: fix(init): split winetricks into per-verb passes with progress; stream heavy verbs</title></circle>
-    <circle class="commit-leaf" cx="600" cy="300" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>d72fed8: feat: install gamemode/mangohud via apt; add install-shortcut all</title></circle>
-    <circle class="commit-leaf" cx="600" cy="340" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>858067d: feat(profile): per-launcher launch profiles for FPS cap, HUD, FSR, NVAPI, gamemode</title></circle>
-    <circle class="commit-leaf" cx="600" cy="380" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>f150135: fix: send log helpers to stderr; drop chromium flags; redirect proton output</title></circle>
-    <circle class="commit-leaf" cx="600" cy="420" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>bd78834: fix(legacy-games): update install paths</title></circle>
-    <circle class="commit-leaf" cx="600" cy="460" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>0355d35: fix(amazon-games): update download link and install paths</title></circle>
-    <circle class="commit-leaf" cx="720" cy="500" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>2910c99: experiment(xbox): iter 10 — add HTTPS/auth trace channels</title></circle>
-    <circle class="commit-leaf" cx="480" cy="580" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>dfebc00: experiment(xbox): iter 9d — fix trap loop, add error-event reporting</title></circle>
-    <circle class="commit-leaf" cx="840" cy="660" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>38c6f70: experiment(xbox): iter 9c — bypass wig in trace mode</title></circle>
-    <circle class="commit-leaf" cx="360" cy="740" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>daf1ae9: experiment(xbox): iter 9b — fix tracer to read Proton log</title></circle>
-    <circle class="commit-leaf" cx="960" cy="820" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>044d8d3: experiment(xbox): iter 9 — opt-in service-query tracer</title></circle>
-    <circle class="commit-leaf" cx="240" cy="900" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>509c00b: experiment(xbox): iter 8 — PackageVolume stub</title></circle>
-    <circle class="commit-leaf" cx="1080" cy="980" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>1a6b03d: experiment(xbox): iter 7 — AnalyticsVersionInfo stub + download tracer</title></circle>
-    <circle class="commit-leaf" cx="120" cy="1060" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>d962508: experiment(xbox): iter 6 — fix PackageManager signatures, return empty enumerables</title></circle>
-    <circle class="commit-leaf" cx="1200" cy="1140" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>380a279: experiment(xbox): iter 5 (final) — Package + AnalyticsInfo stubs + conclusion</title></circle>
-    <circle class="commit-leaf" cx="0" cy="1220" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>4e4d62c: experiment(xbox): iter 4 — TypedEventHandler + PackageManager (the MSIX wall)</title></circle>
-    <circle class="commit-leaf" cx="1320" cy="1300" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>548abda: fix(xbox-stub): make native GAC optional, add Wine-Mono GAC path</title></circle>
-    <circle class="commit-leaf" cx="-120" cy="1380" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>2e41761: fix(xbox-stub): awk skipped real .assembly because '.assembly extern' matched first</title></circle>
-    <circle class="commit-leaf" cx="1440" cy="1460" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>759a5c6: experiment(xbox): iter 3 — multi-stub build, add FoundationContract</title></circle>
-    <circle class="commit-leaf" cx="-240" cy="1540" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>613638f: chore(xbox): gitignore built stub dll, untrack stale artifact</title></circle>
-    <circle class="commit-leaf" cx="1560" cy="1620" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>0a5787c: experiment(xbox): iter 2 — define UISettings skeleton in WinRT stub</title></circle>
-    <circle class="commit-leaf" cx="-360" cy="1700" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>6a7d91c: experiment(xbox): document attempts + stub WinRT contract assembly</title></circle>
-    <circle class="commit-leaf" cx="600" cy="1780" r="10" fill="url(#mergeGradient)" stroke="#7c3aed" stroke-width="1.5"><title>88b253c: Merge pull request #2 from XAOSTECH/anglicise/20260415-232714</title></circle>
-    <circle class="commit-leaf" cx="1680" cy="1820" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>7acf70f: chore: convert American spellings to British English</title></circle>
-    <circle class="commit-leaf" cx="600" cy="1900" r="9" fill="url(#forkGradient)" stroke="#ea580c" stroke-width="1.5"><title>bdba0f2: chore: update CHANGELOG for v0.1.1 (re-release)</title></circle>
-    <circle class="commit-leaf" cx="600" cy="1940" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>1f8d8fb: fix(init): notice on re-run when prefix exists, suppress wineboot stderr noise</title></circle>
-    <circle class="commit-leaf" cx="600" cy="1980" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>2a4a94b: chore(readme): document wig global command, icon extraction, new commands, directories, v1.1 changelog</title></circle>
-    <circle class="commit-leaf" cx="600" cy="2020" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>b0d0692: fix: PNG-first icon extraction with .ico fallback for corrupt group_icons</title></circle>
-    <circle class="commit-leaf" cx="600" cy="2060" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>8313f51: refactor: simplify icon extraction — .ico direct, drop icotool</title></circle>
-    <circle class="commit-leaf" cx="600" cy="2100" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>556c807: feat: global wig wrapper, auto-icon extraction for desktop shortcuts</title></circle>
-    <circle class="commit-leaf" cx="600" cy="2140" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>f0f78f2: chore: update git tree visualisation</title></circle>
-    <circle class="commit-leaf" cx="600" cy="2180" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>99c0884: chore: update git tree visualisation</title></circle>
-    <circle class="commit-leaf" cx="600" cy="2220" r="10" fill="url(#mergeGradient)" stroke="#7c3aed" stroke-width="1.5"><title>838b9c4: Merge pull request #1 from XAOSTECH/anglicise/20260401-002733</title></circle>
-    <circle class="commit-leaf" cx="-480" cy="2260" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>6b90c0c: chore: convert American spellings to British English</title></circle>
-    <circle class="commit-leaf" cx="600" cy="2340" r="9" fill="url(#forkGradient)" stroke="#ea580c" stroke-width="1.5"><title>56414f6: chore: update CHANGELOG for v0.1.1 (re-release)</title></circle>
-    <circle class="commit-leaf" cx="600" cy="2380" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>7a60e2a: chore(dc-init): load workflows,actions</title></circle>
-    <circle class="commit-leaf" cx="600" cy="2420" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>6c844c9: chore(dc-init): load workflows,actions</title></circle>
-    <circle class="commit-leaf" cx="600" cy="2460" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>9e895c3: chore(dc-init): update workflows,actions</title></circle>
-    <circle class="commit-leaf" cx="600" cy="2500" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>ba2a231: chore(dc-init): recover interrupted update</title></circle>
-    <circle class="commit-leaf" cx="600" cy="2540" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>d9474fe: refactor: modularise into lib/ directory</title></circle>
-    <circle class="commit-leaf" cx="600" cy="2580" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>5f04186: chore: clean up docs</title></circle>
-    <circle class="commit-leaf" cx="600" cy="2620" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>7c5f6f6: chore: update CHANGELOG for v0.1.1</title></circle>
-    <circle class="commit-leaf" cx="600" cy="2660" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>730899f: Add managed prefix info and external EXE launcher command</title></circle>
-    <circle class="commit-leaf" cx="600" cy="2700" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>ff3d29b: security: add global and command route rate limiting</title></circle>
-    <circle class="commit-leaf" cx="600" cy="2740" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>b6ce59b: chore(dc-init): update workflows and actions</title></circle>
-    <circle class="commit-leaf" cx="600" cy="2780" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>d3a6357: gc-init</title></circle>
-    <circle class="commit-leaf" cx="600" cy="2820" r="6" fill="url(#tagGradient)" stroke="#0284c7" stroke-width="1.5"><title>4854ca9: Init</title></circle>
+    <circle class="commit-leaf" cx="600" cy="60" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>683af7c: chore: update git tree visualisation</title></circle>
+    <circle class="commit-leaf" cx="600" cy="100" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>b685aa5: chore: update git tree visualisation</title></circle>
+    <circle class="commit-leaf" cx="600" cy="140" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>b5b27a9: chore: update CHANGELOG for v0.1.1 (re-release)</title></circle>
+    <circle class="commit-leaf" cx="600" cy="180" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>e7cff5f: feat(profile): --profile flag for launch and install-shortcut</title></circle>
+    <circle class="commit-leaf" cx="600" cy="220" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>a52b8ea: feat(registry): user app registry with optional launcher grouping; wig add/remove</title></circle>
+    <circle class="commit-leaf" cx="600" cy="260" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>879eb5b: refactor(profile): move profiles to XDG_CONFIG_HOME with auto-migration</title></circle>
+    <circle class="commit-leaf" cx="600" cy="300" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>ba4452d: fix(init): split winetricks into per-verb passes with progress; stream heavy verbs</title></circle>
+    <circle class="commit-leaf" cx="600" cy="340" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>d72fed8: feat: install gamemode/mangohud via apt; add install-shortcut all</title></circle>
+    <circle class="commit-leaf" cx="600" cy="380" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>858067d: feat(profile): per-launcher launch profiles for FPS cap, HUD, FSR, NVAPI, gamemode</title></circle>
+    <circle class="commit-leaf" cx="600" cy="420" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>f150135: fix: send log helpers to stderr; drop chromium flags; redirect proton output</title></circle>
+    <circle class="commit-leaf" cx="600" cy="460" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>bd78834: fix(legacy-games): update install paths</title></circle>
+    <circle class="commit-leaf" cx="600" cy="500" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>0355d35: fix(amazon-games): update download link and install paths</title></circle>
+    <circle class="commit-leaf" cx="720" cy="540" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>2910c99: experiment(xbox): iter 10 — add HTTPS/auth trace channels</title></circle>
+    <circle class="commit-leaf" cx="480" cy="620" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>dfebc00: experiment(xbox): iter 9d — fix trap loop, add error-event reporting</title></circle>
+    <circle class="commit-leaf" cx="840" cy="700" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>38c6f70: experiment(xbox): iter 9c — bypass wig in trace mode</title></circle>
+    <circle class="commit-leaf" cx="360" cy="780" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>daf1ae9: experiment(xbox): iter 9b — fix tracer to read Proton log</title></circle>
+    <circle class="commit-leaf" cx="960" cy="860" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>044d8d3: experiment(xbox): iter 9 — opt-in service-query tracer</title></circle>
+    <circle class="commit-leaf" cx="240" cy="940" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>509c00b: experiment(xbox): iter 8 — PackageVolume stub</title></circle>
+    <circle class="commit-leaf" cx="1080" cy="1020" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>1a6b03d: experiment(xbox): iter 7 — AnalyticsVersionInfo stub + download tracer</title></circle>
+    <circle class="commit-leaf" cx="120" cy="1100" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>d962508: experiment(xbox): iter 6 — fix PackageManager signatures, return empty enumerables</title></circle>
+    <circle class="commit-leaf" cx="1200" cy="1180" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>380a279: experiment(xbox): iter 5 (final) — Package + AnalyticsInfo stubs + conclusion</title></circle>
+    <circle class="commit-leaf" cx="0" cy="1260" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>4e4d62c: experiment(xbox): iter 4 — TypedEventHandler + PackageManager (the MSIX wall)</title></circle>
+    <circle class="commit-leaf" cx="1320" cy="1340" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>548abda: fix(xbox-stub): make native GAC optional, add Wine-Mono GAC path</title></circle>
+    <circle class="commit-leaf" cx="-120" cy="1420" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>2e41761: fix(xbox-stub): awk skipped real .assembly because '.assembly extern' matched first</title></circle>
+    <circle class="commit-leaf" cx="1440" cy="1500" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>759a5c6: experiment(xbox): iter 3 — multi-stub build, add FoundationContract</title></circle>
+    <circle class="commit-leaf" cx="-240" cy="1580" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>613638f: chore(xbox): gitignore built stub dll, untrack stale artifact</title></circle>
+    <circle class="commit-leaf" cx="1560" cy="1660" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>0a5787c: experiment(xbox): iter 2 — define UISettings skeleton in WinRT stub</title></circle>
+    <circle class="commit-leaf" cx="-360" cy="1740" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>6a7d91c: experiment(xbox): document attempts + stub WinRT contract assembly</title></circle>
+    <circle class="commit-leaf" cx="600" cy="1820" r="10" fill="url(#mergeGradient)" stroke="#7c3aed" stroke-width="1.5"><title>88b253c: Merge pull request #2 from XAOSTECH/anglicise/20260415-232714</title></circle>
+    <circle class="commit-leaf" cx="1680" cy="1860" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>7acf70f: chore: convert American spellings to British English</title></circle>
+    <circle class="commit-leaf" cx="600" cy="1940" r="9" fill="url(#forkGradient)" stroke="#ea580c" stroke-width="1.5"><title>bdba0f2: chore: update CHANGELOG for v0.1.1 (re-release)</title></circle>
+    <circle class="commit-leaf" cx="600" cy="1980" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>1f8d8fb: fix(init): notice on re-run when prefix exists, suppress wineboot stderr noise</title></circle>
+    <circle class="commit-leaf" cx="600" cy="2020" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>2a4a94b: chore(readme): document wig global command, icon extraction, new commands, directories, v1.1 changelog</title></circle>
+    <circle class="commit-leaf" cx="600" cy="2060" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>b0d0692: fix: PNG-first icon extraction with .ico fallback for corrupt group_icons</title></circle>
+    <circle class="commit-leaf" cx="600" cy="2100" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>8313f51: refactor: simplify icon extraction — .ico direct, drop icotool</title></circle>
+    <circle class="commit-leaf" cx="600" cy="2140" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>556c807: feat: global wig wrapper, auto-icon extraction for desktop shortcuts</title></circle>
+    <circle class="commit-leaf" cx="600" cy="2180" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>f0f78f2: chore: update git tree visualisation</title></circle>
+    <circle class="commit-leaf" cx="600" cy="2220" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>99c0884: chore: update git tree visualisation</title></circle>
+    <circle class="commit-leaf" cx="600" cy="2260" r="10" fill="url(#mergeGradient)" stroke="#7c3aed" stroke-width="1.5"><title>838b9c4: Merge pull request #1 from XAOSTECH/anglicise/20260401-002733</title></circle>
+    <circle class="commit-leaf" cx="-480" cy="2300" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>6b90c0c: chore: convert American spellings to British English</title></circle>
+    <circle class="commit-leaf" cx="600" cy="2380" r="9" fill="url(#forkGradient)" stroke="#ea580c" stroke-width="1.5"><title>56414f6: chore: update CHANGELOG for v0.1.1 (re-release)</title></circle>
+    <circle class="commit-leaf" cx="600" cy="2420" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>7a60e2a: chore(dc-init): load workflows,actions</title></circle>
+    <circle class="commit-leaf" cx="600" cy="2460" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>6c844c9: chore(dc-init): load workflows,actions</title></circle>
+    <circle class="commit-leaf" cx="600" cy="2500" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>9e895c3: chore(dc-init): update workflows,actions</title></circle>
+    <circle class="commit-leaf" cx="600" cy="2540" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>ba2a231: chore(dc-init): recover interrupted update</title></circle>
+    <circle class="commit-leaf" cx="600" cy="2580" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>d9474fe: refactor: modularise into lib/ directory</title></circle>
+    <circle class="commit-leaf" cx="600" cy="2620" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>5f04186: chore: clean up docs</title></circle>
+    <circle class="commit-leaf" cx="600" cy="2660" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>7c5f6f6: chore: update CHANGELOG for v0.1.1</title></circle>
+    <circle class="commit-leaf" cx="600" cy="2700" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>730899f: Add managed prefix info and external EXE launcher command</title></circle>
+    <circle class="commit-leaf" cx="600" cy="2740" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>ff3d29b: security: add global and command route rate limiting</title></circle>
+    <circle class="commit-leaf" cx="600" cy="2780" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>b6ce59b: chore(dc-init): update workflows and actions</title></circle>
+    <circle class="commit-leaf" cx="600" cy="2820" r="6" fill="url(#leafGradient)" stroke="#16a34a" stroke-width="1.5"><title>d3a6357: gc-init</title></circle>
+    <circle class="commit-leaf" cx="600" cy="2860" r="6" fill="url(#tagGradient)" stroke="#0284c7" stroke-width="1.5"><title>4854ca9: Init</title></circle>
   </g>
   
   <!-- Legend -->
@@ -163,12 +165,12 @@
   </g>
   
   <!-- Repository info -->
-  <g id="info" transform="translate(20, 2900)">
+  <g id="info" transform="translate(20, 2940)">
     <text x="0" y="0" class="branch-label" font-size="12" fill="#666">
       Repository: wine-gaming
     </text>
     <text x="0" y="20" class="branch-label" font-size="10" fill="#999">
-      Generated: 2026-05-11 02:36:09 UTC
+      Generated: 2026-05-18 02:44:06 UTC
     </text>
   </g>
 </svg>
