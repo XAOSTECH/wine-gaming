@@ -1,4 +1,31 @@
 
+## [0.1.1] - 2026-06-08 (re-release)
+
+### Added
+- --profile flag for launch and install-shortcut
+- user app registry with optional launcher grouping; wig add/remove
+- install gamemode/mangohud via apt; add install-shortcut all
+- per-launcher launch profiles for FPS cap, HUD, FSR, NVAPI, gamemode
+
+### Fixed
+- split winetricks into per-verb passes with progress; stream heavy verbs
+- send log helpers to stderr; drop chromium flags; redirect proton output
+- update install paths
+- update download link and install paths
+- notice on re-run when prefix exists, suppress wineboot stderr noise
+
+### Changed
+- chore: update git tree visualisation
+- chore: update git tree visualisation
+- chore: update git tree visualisation
+- chore: update git tree visualisation
+- chore: update git tree visualisation
+- chore: update CHANGELOG for v0.1.1 (re-release)
+- refactor(profile): move profiles to XDG_CONFIG_HOME with auto-migration
+- Merge pull request #2 from XAOSTECH/anglicise/20260415-232714
+- chore: convert American spellings to British English
+- chore: update CHANGELOG for v0.1.1 (re-release)
+
 ## [0.1.1] - 2026-04-27 (re-release)
 
 ### Added
