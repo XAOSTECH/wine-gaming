@@ -3,10 +3,32 @@
     "repository": "wine-gaming",
     "current_branch": "main",
     "repo_url": "https://github.com/XAOSTECH/wine-gaming",
-    "generated": "2026-06-01T02:59:23Z",
+    "generated": "2026-06-15T03:33:01Z",
     "max_commits": 500
   },
   "commits": [
+  {
+    "sha": "8026d2ba437b777bdf6de558b50a07c907c8124d",
+    "short": "8026d2b",
+    "parents": "7684ec3faf45759485388ef64bdd9fd5ae787577",
+    "author": "xaos-bot",
+    "email": "262248812+xaos-bot@users.noreply.github.com",
+    "date": "2026-06-08T02:57:15Z",
+    "timestamp": 1780887435,
+    "subject": "chore: update CHANGELOG for v0.1.1 (re-release)",
+    "refs": "HEAD -> main, tag: v0.1.1, tag: latest, origin/main"
+  },
+  {
+    "sha": "7684ec3faf45759485388ef64bdd9fd5ae787577",
+    "short": "7684ec3",
+    "parents": "0e66077578cc04991cfa3bd58b18f043eea93f72",
+    "author": "xaos-bot",
+    "email": "262248812+xaos-bot@users.noreply.github.com",
+    "date": "2026-06-01T02:59:23Z",
+    "timestamp": 1780282763,
+    "subject": "chore: update git tree visualisation",
+    "refs": ""
+  },
   {
     "sha": "0e66077578cc04991cfa3bd58b18f043eea93f72",
     "short": "0e66077",
@@ -16,7 +38,7 @@
     "date": "2026-05-25T02:50:25Z",
     "timestamp": 1779677425,
     "subject": "chore: update git tree visualisation",
-    "refs": "HEAD -> main, origin/main"
+    "refs": ""
   },
   {
     "sha": "cbe3472ce0a36fb168eacc37b31b5b9ad905f27a",
@@ -60,7 +82,7 @@
     "date": "2026-04-27T02:10:01Z",
     "timestamp": 1777255801,
     "subject": "chore: update CHANGELOG for v0.1.1 (re-release)",
-    "refs": "tag: v0.1.1, tag: latest"
+    "refs": ""
   },
   {
     "sha": "e7cff5f46f9426117a97d477ad4912add54e4026",
@@ -614,11 +636,11 @@
   }
 ],
   "branches": [
-  {"name":"0e66077578cc04991cfa3bd58b18f043eea93f72 chore: update git tree visualisation","sha":"*","current":false,"merged":false}
+  {"name":"8026d2ba437b777bdf6de558b50a07c907c8124d chore: update CHANGELOG for v0.1.1 (re-release)","sha":"*","current":false,"merged":false}
 ],
   "tags": [
   {"name":"Main","sha":"4854ca978c51879d8b16481359344c3754590c0b"},
-  {"name":"latest","sha":"adeed57d28e8fc2e606771df92514e644e114bff"},
-  {"name":"v0.1.1","sha":"f167e81ba83695cd8a26dec4fe6779980db4d676"}
+  {"name":"latest","sha":"87e1ea70bc713a55c4f31c88a5e92f5ea04f1d67"},
+  {"name":"v0.1.1","sha":"4d3093319ef6d874839b4576b3f5216ad55c3c50"}
 ]
 }
