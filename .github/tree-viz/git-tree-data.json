@@ -3,10 +3,21 @@
     "repository": "wine-gaming",
     "current_branch": "main",
     "repo_url": "https://github.com/XAOSTECH/wine-gaming",
-    "generated": "2026-06-15T03:33:01Z",
+    "generated": "2026-06-22T03:34:12Z",
     "max_commits": 500
   },
   "commits": [
+  {
+    "sha": "30033b62e75873f562f18e711f8696ebebf6b93a",
+    "short": "30033b6",
+    "parents": "8026d2ba437b777bdf6de558b50a07c907c8124d",
+    "author": "xaos-bot",
+    "email": "262248812+xaos-bot@users.noreply.github.com",
+    "date": "2026-06-15T03:33:01Z",
+    "timestamp": 1781494381,
+    "subject": "chore: update git tree visualisation",
+    "refs": "HEAD -> main, origin/main"
+  },
   {
     "sha": "8026d2ba437b777bdf6de558b50a07c907c8124d",
     "short": "8026d2b",
@@ -16,7 +27,7 @@
     "date": "2026-06-08T02:57:15Z",
     "timestamp": 1780887435,
     "subject": "chore: update CHANGELOG for v0.1.1 (re-release)",
-    "refs": "HEAD -> main, tag: v0.1.1, tag: latest, origin/main"
+    "refs": "tag: v0.1.1, tag: latest"
   },
   {
     "sha": "7684ec3faf45759485388ef64bdd9fd5ae787577",
@@ -636,7 +647,7 @@
   }
 ],
   "branches": [
-  {"name":"8026d2ba437b777bdf6de558b50a07c907c8124d chore: update CHANGELOG for v0.1.1 (re-release)","sha":"*","current":false,"merged":false}
+  {"name":"30033b62e75873f562f18e711f8696ebebf6b93a chore: update git tree visualisation","sha":"*","current":false,"merged":false}
 ],
   "tags": [
   {"name":"Main","sha":"4854ca978c51879d8b16481359344c3754590c0b"},
