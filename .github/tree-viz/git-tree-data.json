@@ -3,10 +3,21 @@
     "repository": "wine-gaming",
     "current_branch": "main",
     "repo_url": "https://github.com/XAOSTECH/wine-gaming",
-    "generated": "2026-07-06T02:35:30Z",
+    "generated": "2026-07-13T02:08:20Z",
     "max_commits": 500
   },
   "commits": [
+  {
+    "sha": "8dc2389f5d442b205498dac0a8ce5792f762ef6e",
+    "short": "8dc2389",
+    "parents": "43e72d3bc64f2bf9b1e09f24ee887da02f0e4784",
+    "author": "xaos-bot",
+    "email": "262248812+xaos-bot@users.noreply.github.com",
+    "date": "2026-07-06T02:35:30Z",
+    "timestamp": 1783305330,
+    "subject": "chore: update git tree visualisation",
+    "refs": "HEAD -> main, origin/main"
+  },
   {
     "sha": "43e72d3bc64f2bf9b1e09f24ee887da02f0e4784",
     "short": "43e72d3",
@@ -16,7 +27,7 @@
     "date": "2026-06-29T02:51:19Z",
     "timestamp": 1782701479,
     "subject": "chore: update git tree visualisation",
-    "refs": "HEAD -> main, origin/main"
+    "refs": ""
   },
   {
     "sha": "74f97a27d18d6cfe2d1f2db1b3c5e3ab7c44ede5",
@@ -669,7 +680,7 @@
   }
 ],
   "branches": [
-  {"name":"43e72d3bc64f2bf9b1e09f24ee887da02f0e4784 chore: update git tree visualisation","sha":"*","current":false,"merged":false}
+  {"name":"8dc2389f5d442b205498dac0a8ce5792f762ef6e chore: update git tree visualisation","sha":"*","current":false,"merged":false}
 ],
   "tags": [
   {"name":"Main","sha":"4854ca978c51879d8b16481359344c3754590c0b"},
