@@ -15,5 +15,28 @@ check_proton() {
         print_error "Proton not found at $PROTON_DIR. Run: $0 install-proton"
         return 1
     fi
+    # A missing bundled kernel32.dll means an on-access AV quarantined it as a
+    # false positive; without it Proton dies mid-prefix-build with a raw traceback.
+    if [ ! -f "$PROTON_DIR/files/share/default_pfx/drive_c/windows/syswow64/kernel32.dll" ]; then
+        print_error "Proton-GE is incomplete — bundled kernel32.dll is gone."
+        print_error "An on-access scanner (e.g. clamav-clamonacc) likely quarantined it (false positive)."
+        print_error "Recover: sudo systemctl stop clamav-clamonacc && $0 install-proton && sudo systemctl start clamav-clamonacc"
+        print_error "To stop it recurring, exclude \"$PROTON_DIR\" from on-access scanning (see docs/README)."
+        return 1
+    fi
     return 0
+}
+
+# Run "$@" with clamav on-access scanning paused, if it is active. ClamAV
+# false-positives on Proton's bundled Windows PE DLLs and can quarantine them
+# as they are written. No-op when clamonacc isn't running.
+run_without_oas() {
+    if command -v systemctl &>/dev/null && systemctl is-active --quiet clamav-clamonacc 2>/dev/null; then
+        print_warning "Pausing clamav-clamonacc for this step (avoids DLL false-positive quarantine)..."
+        sudo systemctl stop clamav-clamonacc
+        "$@"; local rc=$?
+        sudo systemctl start clamav-clamonacc && print_info "clamav-clamonacc resumed."
+        return $rc
+    fi
+    "$@"
 }
