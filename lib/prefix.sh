@@ -388,7 +388,7 @@ install_proton() {
     fi
 
     print_info "Extracting Proton-GE..."
-    tar -xf "$archive" -C "$PROTON_DIR" --strip-components=1
+    run_without_oas tar -xf "$archive" -C "$PROTON_DIR" --strip-components=1
     rm -f "$archive"
 
     print_success "Proton-GE installed to $PROTON_DIR"
