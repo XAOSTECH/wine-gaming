@@ -24,9 +24,18 @@ install_app() {
 
     export STEAM_COMPAT_DATA_PATH="$WINEPREFIX"
     export STEAM_COMPAT_CLIENT_INSTALL_PATH="$WINE_DIR/steam-root"
+    export PROTON_LOG="${PROTON_LOG:-1}"
+    export PROTON_LOG_DIR="$WINE_DIR"
     mkdir -p "$WINE_DIR/steam-root"
     # Proton locks $STEAM_COMPAT_DATA_PATH/pfx.lock; the dir must exist first.
     mkdir -p "$WINEPREFIX"
+
+    # First run builds the prefix (copies thousands of DLLs) before the installer
+    # window appears, during which Proton is silent — warn so it isn't mistaken for a hang.
+    if [ ! -d "$WINEPREFIX/pfx" ]; then
+        print_warning "First run: building the Wine prefix — this takes a minute or two with no output."
+    fi
+    print_info "Proton log: $WINE_DIR/steam-*.log"
 
     if "$PROTON_DIR/proton" run "$installer_path"; then
         print_success "$APP_NAME installed successfully"
