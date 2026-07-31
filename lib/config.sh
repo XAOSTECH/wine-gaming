@@ -26,7 +26,7 @@ mkdir -p "$WINE_DIR" "$BACKUP_DIR" "$CACHE_DIR" "$BIN_DIR" "$APPS_DIR" 2>/dev/nu
 declare -A APP_REGISTRY=(
     [ea-desktop]="EA Desktop|Program Files/Electronic Arts/EA Desktop/EA Desktop/EADesktop.exe|https://origin-a.akamaihd.net/EA-Desktop-Client-Download/installer/Pc/EAappInstaller.exe|Program Files/Electronic Arts|AppData/Local/Electronic Arts|AppData/Roaming/Electronic Arts"
 
-    [gog-galaxy]="GOG Galaxy|Program Files (x86)/GOG Galaxy/GalaxyClient.exe|https://cdn.gog.com/Open/GOG%20Galaxy/GOG_Galaxy_2.0.exe|Program Files (x86)/GOG Galaxy|AppData/Local/GOG.com|AppData/Roaming/GOG.com"
+    [gog-galaxy]="GOG Galaxy|Program Files (x86)/GOG Galaxy/GalaxyClient.exe|https://webinstallers.gog-statics.com/download/GOG_Galaxy_2.0.exe|Program Files (x86)/GOG Galaxy|AppData/Local/GOG.com|AppData/Roaming/GOG.com"
 
     [epic-games]="Epic Games Launcher|ProgramData/Epic/EpicGamesLauncher/Data/Update/Install/Portal/Binaries/Win64/EpicGamesLauncher.exe|https://launcher-public-service-prod.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi|Program Files/Epic Games|AppData/Local/EpicGamesLauncher|ProgramData/Epic"
 

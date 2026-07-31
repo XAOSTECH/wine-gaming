@@ -10,10 +10,11 @@ _install_winetricks_verbs() {
     local fast_verbs=(
         vcrun2019 vcrun2015 vcrun2012
         d3dcompiler_47 d3dcompiler_43 d3dx9 d3dx10_43 d3dx11_43
-        dxvk vkd3d d9vk
+        dxvk vkd3d
         corefonts gdiplus
         directmusic faudio xact directplay directshow
         msctf
+        gamemode
     )
     local heavy_verbs=( dotnet48 dotnet472 physx )
 
