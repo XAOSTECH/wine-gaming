@@ -9,6 +9,11 @@
 parse_app_config() {
     local app_key="$1"
 
+    if [ -z "$app_key" ]; then
+        print_error "No app specified"
+        return 1
+    fi
+
     if [ -n "${APP_REGISTRY[$app_key]:-}" ]; then
         IFS='|' read -r APP_NAME APP_EXE APP_URL APP_UNINSTALL_PATHS <<< "${APP_REGISTRY[$app_key]}"
         return 0
