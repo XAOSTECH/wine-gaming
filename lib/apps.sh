@@ -36,13 +36,26 @@ install_app() {
         print_warning "First run: building the Wine prefix — this takes a minute or two with no output."
     fi
     print_info "Proton log: $WINE_DIR/steam-*.log"
+    print_info "An installer window may open — complete it there; this step waits until it closes."
 
-    if "$PROTON_DIR/proton" run "$installer_path"; then
+    # MSI packages must be driven through msiexec; handing the .msi straight to
+    # Proton only opens it and exits, so nothing installs (e.g. Epic, Ubisoft).
+    local -a run_cmd
+    case "${installer_path,,}" in
+        *.msi) run_cmd=(msiexec /i "$installer_path") ;;
+        *)     run_cmd=("$installer_path") ;;
+    esac
+
+    "$PROTON_DIR/proton" run "${run_cmd[@]}"
+
+    # Proton's exit status reflects the wrapper, not whether the app landed, so
+    # verify the real executable exists before claiming success.
+    if find_app_exe "$app_key" >/dev/null 2>&1; then
         print_success "$APP_NAME installed successfully"
         create_shortcut "$app_key" && print_success "Desktop shortcut created" || true
         return 0
     else
-        print_error "Installation of $APP_NAME failed"
+        print_error "$APP_NAME did not install ($APP_EXE not found) — see $WINE_DIR/steam-*.log"
         return 1
     fi
 }
