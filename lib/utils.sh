@@ -21,7 +21,7 @@ check_proton() {
         print_error "Proton-GE is incomplete — bundled kernel32.dll is gone."
         print_error "An on-access scanner (e.g. clamav-clamonacc) likely quarantined it (false positive)."
         print_error "Recover: sudo systemctl stop clamav-clamonacc && $0 install-proton && sudo systemctl start clamav-clamonacc"
-        print_error "To stop it recurring, exclude \"$PROTON_DIR\" from on-access scanning (OnAccessExcludePath /home/$USER/.wine-gaming)."
+        print_error "To stop it recurring, exclude \"$WINE_DIR\" from on-access scanning (OnAccessExcludePath $WINE_DIR)."
         return 1
     fi
     return 0
