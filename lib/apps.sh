@@ -25,6 +25,8 @@ install_app() {
     export STEAM_COMPAT_DATA_PATH="$WINEPREFIX"
     export STEAM_COMPAT_CLIENT_INSTALL_PATH="$WINE_DIR/steam-root"
     mkdir -p "$WINE_DIR/steam-root"
+    # Proton locks $STEAM_COMPAT_DATA_PATH/pfx.lock; the dir must exist first.
+    mkdir -p "$WINEPREFIX"
 
     if "$PROTON_DIR/proton" run "$installer_path"; then
         print_success "$APP_NAME installed successfully"
