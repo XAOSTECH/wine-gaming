@@ -121,12 +121,35 @@ init() {
     # icoutils:    wrestool + icotool — extract and convert .exe icons for desktop shortcuts.
     # gamemode:    gamemoderun wrapper — CPU governor + niceness tuning for games.
     # mangohud:    in-game perf overlay (FPS, frametime, GPU/CPU); also enforces fps_limit.
+    # winetricks:  helper to install Windows DLL/runtime packages into a Wine prefix.
+    # wine/wine64: Wine itself — wineserver must be present for winetricks to work.
+    # wine32:i386: 32-bit Wine runtime — required by many 32-bit Windows binaries.
     print_info "Installing system dependencies (apt)..."
     if command -v apt-get &>/dev/null; then
-        sudo apt-get install -y icoutils gamemode mangohud 2>&1 \
+        # Enable i386 arch for wine32; dpkg --add-architecture is idempotent.
+        if ! dpkg --print-foreign-architectures 2>/dev/null | grep -q i386; then
+            sudo dpkg --add-architecture i386
+            sudo apt-get update -qq 2>&1 | tail -1 || true
+        fi
+        sudo apt-get install -y icoutils gamemode mangohud winetricks \
+            wine wine64 wine32:i386 2>&1 \
             | grep -v "^Reading\|^Building\|^(Reading\|^Selecting\|^Setting\|^Preparing" || true
     else
-        print_warning "apt-get not available — skipping icoutils/gamemode/mangohud install"
+        print_warning "apt-get not available — skipping system package install"
+    fi
+
+    # Download winetricks directly if apt didn't install it (e.g. no sudo or apt failure).
+    if ! command -v winetricks &>/dev/null; then
+        print_info "winetricks not in PATH; downloading to ~/.local/bin (no sudo needed)..."
+        mkdir -p "${HOME}/.local/bin"
+        if wget -q -O "${HOME}/.local/bin/winetricks" \
+                "https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks" \
+                && chmod +x "${HOME}/.local/bin/winetricks"; then
+            export PATH="${HOME}/.local/bin:${PATH}"
+            print_success "winetricks installed to ~/.local/bin/winetricks"
+        else
+            print_warning "winetricks download failed — verb installation will be skipped"
+        fi
     fi
 
     mkdir -p "${HOME}/.config/winetricks"
