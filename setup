@@ -31,9 +31,10 @@ WINE PREFIX MANAGEMENT:
   purge                        Delete Wine prefix and start fresh
   backup                       Backup essential DLLs and packages
   restore                      Restore from backup
-  init                         Initialize Wine prefix with dependencies
-  full                         Complete setup: purge + init + install all
-  quick                        Reinit deps + install any missing launchers
+  init [--reinstall]           Initialize Wine prefix with dependencies
+  init --reinstall             Force reinstall Wine apt packages (fixes broken wine)
+  full [--reinstall]           Complete setup: purge + init + install all
+  quick [--reinstall]          Reinit deps + install any missing launchers
   install-proton               Download and install Proton-GE
   fix-z-drive                  Permanently remove Z: drive mount
   unmount-z                    Temporarily hide Z: (stops /mnt disk warnings)
@@ -124,9 +125,9 @@ main() {
         purge)               purge ;;
         backup)              backup ;;
         restore)             restore ;;
-        init)                init ;;
-        full)                full_setup ;;
-        quick)               quick_setup ;;
+        init)                shift; init "$@" ;;
+        full)                shift; full_setup "$@" ;;
+        quick)               shift; quick_setup "$@" ;;
         install-proton)      install_proton ;;
         fix-z-drive)         fix_z_drive ;;
         unmount-z)           unmount_z ;;
