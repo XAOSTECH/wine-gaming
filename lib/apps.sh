@@ -24,8 +24,9 @@ install_app() {
 
     export STEAM_COMPAT_DATA_PATH="$WINEPREFIX"
     export STEAM_COMPAT_CLIENT_INSTALL_PATH="$WINE_DIR/steam-root"
-    export PROTON_LOG="${PROTON_LOG:-1}"
-    export PROTON_LOG_DIR="$WINE_DIR"
+    # Capture all Proton/Wine output to a named log; pipe a filtered view to suppress DXVK/vkd3d noise.
+    unset PROTON_LOG PROTON_LOG_DIR
+    local install_log="$WINE_DIR/${app_key}-install.log"
     mkdir -p "$WINE_DIR/steam-root"
     # Proton locks $STEAM_COMPAT_DATA_PATH/pfx.lock; the dir must exist first.
     mkdir -p "$WINEPREFIX"
@@ -35,8 +36,8 @@ install_app() {
     if [ ! -d "$WINEPREFIX/pfx" ]; then
         print_warning "First run: building the Wine prefix — this takes a minute or two with no output."
     fi
-    print_info "Proton log: $WINE_DIR/steam-*.log"
     print_info "An installer window may open — complete it there; this step waits until it closes."
+    print_info "Install log: $install_log"
 
     # MSI packages must be driven through msiexec; handing the .msi straight to
     # Proton only opens it and exits, so nothing installs (e.g. Epic, Ubisoft).
@@ -46,7 +47,10 @@ install_app() {
         *)     run_cmd=("$installer_path") ;;
     esac
 
-    "$PROTON_DIR/proton" run "${run_cmd[@]}"
+    "$PROTON_DIR/proton" run "${run_cmd[@]}" 2>&1 \
+        | tee "$install_log" \
+        | grep -Ev '^info:|^warn:|^vkd3d:|GnuTLS error:|^\[[0-9a-f]+:\]|Mono\.Btls\.|MonoBtlsPkcs12|Missing private key|wine: Read access denied|^[0-9]+\.[0-9]+:[0-9a-f]+:[0-9a-f]+:' \
+        || true
 
     # Proton's exit status reflects the wrapper, not whether the app landed, so
     # verify the real executable exists before claiming success.
@@ -55,7 +59,7 @@ install_app() {
         create_shortcut "$app_key" && print_success "Desktop shortcut created" || true
         return 0
     else
-        print_error "$APP_NAME did not install ($APP_EXE not found) — see $WINE_DIR/steam-*.log"
+        print_error "$APP_NAME did not install ($APP_EXE not found) — see $install_log"
         return 1
     fi
 }
