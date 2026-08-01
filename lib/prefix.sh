@@ -117,7 +117,11 @@ restore() {
 }
 
 # Initialise a fresh Wine prefix with all required dependencies.
+# --reinstall  Force apt-get --reinstall on wine packages (fixes broken wine installation).
 init() {
+    local _reinstall=0
+    [[ "${1:-}" == "--reinstall" ]] && _reinstall=1
+
     if [ -d "${WINEPREFIX:-}" ]; then
         print_info "Prefix already exists at $WINEPREFIX — re-running dependencies non-destructively"
         print_info "(Use './setup full' to start completely fresh)"
@@ -139,7 +143,9 @@ init() {
             sudo dpkg --add-architecture i386
             sudo apt-get update -qq 2>&1 | tail -1 || true
         fi
-        sudo apt-get install -y icoutils gamemode mangohud winetricks \
+        local _apt_args=( install -y )
+        [ "$_reinstall" -eq 1 ] && { _apt_args=( install --reinstall -y ); print_info "Forcing package reinstall (--reinstall)..."; }
+        sudo apt-get "${_apt_args[@]}" icoutils gamemode mangohud winetricks \
             wine wine64 wine32:i386 2>&1 \
             | grep -v "^Reading\|^Building\|^(Reading\|^Selecting\|^Setting\|^Preparing" || true
     else
@@ -199,9 +205,12 @@ _install_with_fallback() {
 
 # Full setup: purge → init → install all launchers.
 full_setup() {
+    local _reinstall_flag=""
+    [[ "${1:-}" == "--reinstall" ]] && _reinstall_flag="--reinstall"
+
     print_info "Running full setup..."
     purge
-    init
+    init ${_reinstall_flag:+"$_reinstall_flag"}
     backup
 
     print_info "Installing all registered launchers..."
@@ -228,23 +237,31 @@ full_setup() {
 
 # Quick setup: re-run dependencies non-destructively, install any missing launchers.
 quick_setup() {
-    print_info "Running quick setup..."
+    local _reinstall_flag=""
+    [[ "${1:-}" == "--reinstall" ]] && _reinstall_flag="--reinstall"
 
     if [ ! -d "$WINEPREFIX" ]; then
         print_warning "Wine prefix not found, running full setup instead"
-        full_setup
+        full_setup ${_reinstall_flag:+"$_reinstall_flag"}
         return 0
     fi
 
-    wineboot -u
+    print_info "Running quick setup..."
 
-    print_info "Reinstalling Wine dependencies via winetricks (non-destructive)..."
-    _install_winetricks_verbs
+    if [ -n "$_reinstall_flag" ]; then
+        # --reinstall: force-reinstall wine packages + wineboot + winetricks via init
+        init --reinstall
+    else
+        wineboot -u
 
-    print_info "Configuring Wine environment..."
-    wine winecfg /v win10 >/dev/null 2>&1 || true
-    wine reg add "HKEY_CURRENT_USER\Software\Wine\Direct3D" /v "VideoMemorySize" /t REG_SZ /d "8192" /f >/dev/null 2>&1 || true
-    wine reg add "HKEY_CURRENT_USER\Software\Wine\Direct3D" /v "CSMT"           /t REG_SZ /d "enabled" /f >/dev/null 2>&1 || true
+        print_info "Reinstalling Wine dependencies via winetricks (non-destructive)..."
+        _install_winetricks_verbs
+
+        print_info "Configuring Wine environment..."
+        wine winecfg /v win10 >/dev/null 2>&1 || true
+        wine reg add "HKEY_CURRENT_USER\Software\Wine\Direct3D" /v "VideoMemorySize" /t REG_SZ /d "8192" /f >/dev/null 2>&1 || true
+        wine reg add "HKEY_CURRENT_USER\Software\Wine\Direct3D" /v "CSMT"           /t REG_SZ /d "enabled" /f >/dev/null 2>&1 || true
+    fi
 
     print_info "Installing any missing launchers..."
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
