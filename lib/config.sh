@@ -24,7 +24,7 @@ mkdir -p "$WINE_DIR" "$BACKUP_DIR" "$CACHE_DIR" "$BIN_DIR" "$APPS_DIR" 2>/dev/nu
 # Add new launchers by appending entries here.
 #
 declare -A APP_REGISTRY=(
-    [ea-desktop]="EA Desktop|Program Files/Electronic Arts/EA Desktop/EA Desktop/EADesktop.exe|https://origin-a.akamaihd.net/EA-Desktop-Client-Download/installer/Pc/EAappInstaller.exe|Program Files/Electronic Arts|AppData/Local/Electronic Arts|AppData/Roaming/Electronic Arts"
+    [ea-desktop]="EA Desktop|Program Files/Electronic Arts/EA Desktop/EA Desktop.exe|https://origin-a.akamaihd.net/EA-Desktop-Client-Download/installer/Pc/EAappInstaller.exe|Program Files/Electronic Arts|AppData/Local/Electronic Arts|AppData/Roaming/Electronic Arts"
 
     [gog-galaxy]="GOG Galaxy|Program Files (x86)/GOG Galaxy/GalaxyClient.exe|https://webinstallers.gog-statics.com/download/GOG_Galaxy_2.0.exe|Program Files (x86)/GOG Galaxy|AppData/Local/GOG.com|AppData/Roaming/GOG.com"
 

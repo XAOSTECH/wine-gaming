@@ -18,11 +18,20 @@ _install_winetricks_verbs() {
     )
     local heavy_verbs=( dotnet48 dotnet472 physx )
 
+    # Proton-GE bundles dxvk, vkd3d, vcrun, and other DLLs natively.
+    # Winetricks requires a complete Wine prefix (system32 must exist).
+    if [ ! -d "${WINEPREFIX}/drive_c/windows/system32" ]; then
+        print_warning "Skipping winetricks: Wine prefix has no system32."
+        print_info "Proton-GE provides these DLLs natively. Run winetricks manually if needed:"
+        print_info "  WINEPREFIX=\"\$WINEPREFIX/pfx\" winetricks <verb>"
+        return 0
+    fi
+
     print_info "Installing fast winetricks verbs (${#fast_verbs[@]} packages)..."
     local v
     for v in "${fast_verbs[@]}"; do
         printf "  → %s ... " "$v"
-        if WINETRICKS_LATEST_VERSION_CHECK=disabled \
+        if WINETRICKS_LATEST_VERSION_CHECK=enabled \
                 winetricks -q --force "$v" >/dev/null 2>&1; then
             echo "ok"
         else
@@ -35,10 +44,9 @@ _install_winetricks_verbs() {
     for v in "${heavy_verbs[@]}"; do
         echo ""
         print_info "winetricks → $v"
-        WINETRICKS_LATEST_VERSION_CHECK=disabled \
+        WINETRICKS_LATEST_VERSION_CHECK=enabled \
             winetricks -q --force "$v" 2>&1 \
-            | grep -v "warning: You are using a 64-bit WINEPREFIX" \
-            | grep -v "Note that many verbs only install 32-bit" \
+            | grep -Ev "^warning:|winetricks latest version check|^Executing cd|^-{10,}$|^WINEPREFIX INFO:|Drive C: total|^[dl-][-rwx]{9} |^Registry info:|/#arch=|^$" \
             || print_warning "$v failed or was skipped — continuing"
     done
 }
@@ -154,8 +162,10 @@ init() {
 
     mkdir -p "${HOME}/.config/winetricks"
     touch "${HOME}/.config/winetricks/enable-latest-version-check"
+    export WINETRICKS_LATEST_VERSION_CHECK=enabled
 
-    wineboot -u 2>/dev/null
+    print_info "Initialising Wine prefix (wineboot)..."
+    wineboot -u 2>&1 || true
 
     _install_winetricks_verbs
 
