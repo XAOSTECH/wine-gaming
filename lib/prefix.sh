@@ -18,37 +18,55 @@ _install_winetricks_verbs() {
     )
     local heavy_verbs=( dotnet48 dotnet472 physx )
 
-    # Proton-GE bundles dxvk, vkd3d, vcrun, and other DLLs natively.
-    # Winetricks requires a complete Wine prefix (system32 must exist).
-    if [ ! -d "${WINEPREFIX}/drive_c/windows/system32" ]; then
-        print_warning "Skipping winetricks: Wine prefix has no system32."
-        print_info "Proton-GE provides these DLLs natively. Run winetricks manually if needed:"
-        print_info "  WINEPREFIX=\"\$WINEPREFIX/pfx\" winetricks <verb>"
+    # Winetricks must target Proton's pfx/ prefix, not the bare STEAM_COMPAT_DATA_PATH.
+    # pfx/ is created by Proton on the first installer run — run `wig install <app>` first.
+    local _wt_prefix="$WINEPREFIX/pfx"
+    if [ ! -d "$_wt_prefix/drive_c/windows/system32" ]; then
+        print_warning "Skipping winetricks: Proton prefix not yet initialised."
+        print_info "Run \`wig install <app>\` first (builds the prefix), then \`wig init\` for verbs."
+        print_info "Proton-GE provides dxvk/vkd3d/vcrun natively; most verbs are optional."
         return 0
     fi
 
-    print_info "Installing fast winetricks verbs (${#fast_verbs[@]} packages)..."
-    local v
-    for v in "${fast_verbs[@]}"; do
-        printf "  → %s ... " "$v"
-        if WINETRICKS_LATEST_VERSION_CHECK=enabled \
-                winetricks -q --force "$v" >/dev/null 2>&1; then
-            echo "ok"
-        else
-            echo "FAILED (continuing)"
-        fi
+    # Prefer Proton's bundled wine binary; system wine may not function on this host.
+    local _wine_bin="wine"
+    local _candidate
+    for _candidate in "$PROTON_DIR/files/bin/wine64" "$PROTON_DIR/files/bin/wine"; do
+        [ -x "$_candidate" ] && { _wine_bin="$_candidate"; break; }
     done
 
-    print_warning "Installing heavy verbs (${heavy_verbs[*]}) — each may take several minutes"
-    print_info "Output is streamed below; press Ctrl-C to skip a verb."
-    for v in "${heavy_verbs[@]}"; do
-        echo ""
-        print_info "winetricks → $v"
-        WINETRICKS_LATEST_VERSION_CHECK=enabled \
-            winetricks -q --force "$v" 2>&1 \
-            | grep -Ev "^warning:|winetricks latest version check|^Executing cd|^-{10,}$|^WINEPREFIX INFO:|Drive C: total|^[dl-][-rwx]{9} |^Registry info:|/#arch=|^$" \
-            || print_warning "$v failed or was skipped — continuing"
-    done
+    # Subshell isolates wine env overrides from the rest of the script.
+    (
+        export WINE="$_wine_bin"
+        export WINESERVER="$(dirname "$_wine_bin")/wineserver"
+        export WINEPREFIX="$_wt_prefix"
+        if [ -d "$PROTON_DIR/files/lib64" ]; then
+            export LD_LIBRARY_PATH="$PROTON_DIR/files/lib:$PROTON_DIR/files/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+        fi
+
+        print_info "Installing fast winetricks verbs (${#fast_verbs[@]} packages)..."
+        local v
+        for v in "${fast_verbs[@]}"; do
+            printf "  → %s ... " "$v"
+            if WINETRICKS_LATEST_VERSION_CHECK=enabled \
+                    winetricks -q --force "$v" >/dev/null 2>&1; then
+                echo "ok"
+            else
+                echo "FAILED (continuing)"
+            fi
+        done
+
+        print_warning "Installing heavy verbs (${heavy_verbs[*]}) — each may take several minutes"
+        print_info "Output is streamed below; press Ctrl-C to skip a verb."
+        for v in "${heavy_verbs[@]}"; do
+            echo ""
+            print_info "winetricks → $v"
+            WINETRICKS_LATEST_VERSION_CHECK=enabled \
+                winetricks -q --force "$v" 2>&1 \
+                | grep -Ev "^warning:|winetricks latest version check|^Executing cd|^-{10,}$|^WINEPREFIX INFO:|Drive C: total|^[dl-][-rwx]{9} |^Registry info:|/#arch=|^$" \
+                || print_warning "$v failed or was skipped — continuing"
+        done
+    )
 }
 
 # Print the managed prefix paths and env-var exports for manual use.
@@ -170,15 +188,7 @@ init() {
     touch "${HOME}/.config/winetricks/enable-latest-version-check"
     export WINETRICKS_LATEST_VERSION_CHECK=enabled
 
-    print_info "Initialising Wine prefix (wineboot)..."
-    wineboot -u 2>&1 || true
-
     _install_winetricks_verbs
-
-    print_info "Configuring Wine environment..."
-    wine winecfg /v win10 >/dev/null 2>&1 || true
-    wine reg add "HKEY_CURRENT_USER\Software\Wine\Direct3D" /v "VideoMemorySize" /t REG_SZ /d "8192" /f >/dev/null 2>&1 || true
-    wine reg add "HKEY_CURRENT_USER\Software\Wine\Direct3D" /v "CSMT"           /t REG_SZ /d "enabled" /f >/dev/null 2>&1 || true
 
     print_success "Wine prefix initialised"
 
@@ -252,15 +262,8 @@ quick_setup() {
         # --reinstall: force-reinstall wine packages + wineboot + winetricks via init
         init --reinstall
     else
-        wineboot -u
-
         print_info "Reinstalling Wine dependencies via winetricks (non-destructive)..."
         _install_winetricks_verbs
-
-        print_info "Configuring Wine environment..."
-        wine winecfg /v win10 >/dev/null 2>&1 || true
-        wine reg add "HKEY_CURRENT_USER\Software\Wine\Direct3D" /v "VideoMemorySize" /t REG_SZ /d "8192" /f >/dev/null 2>&1 || true
-        wine reg add "HKEY_CURRENT_USER\Software\Wine\Direct3D" /v "CSMT"           /t REG_SZ /d "enabled" /f >/dev/null 2>&1 || true
     fi
 
     print_info "Installing any missing launchers..."
