@@ -66,12 +66,18 @@ install_app() {
 
     # MSI packages must be driven through msiexec; handing the .msi straight to
     # Proton only opens it and exits, so nothing installs (e.g. Epic, Ubisoft).
-    # MSIFASTINSTALL=3: disable rollback so files survive a failing custom action.
-    # EAX_LAUNCH_CLIENT=0: EA App MSI won't try to start the client post-install (would fail as 1627).
+    # ea-desktop: /a (admin install) extracts files without running the service-registration
+    # custom action that causes ERROR_FUNCTION_FAILED (0x8007065b) under Wine.
     local -a run_cmd
     case "${installer_path,,}" in
-        *.msi) run_cmd=(msiexec /i "$installer_path" MSIFASTINSTALL=3 EAX_LAUNCH_CLIENT=0) ;;
-        *)     run_cmd=("$installer_path") ;;
+        *.msi)
+            if [ "$app_key" = "ea-desktop" ]; then
+                run_cmd=(msiexec /a "$installer_path" TARGETDIR="C:\\Program Files")
+            else
+                run_cmd=(msiexec /i "$installer_path")
+            fi
+            ;;
+        *) run_cmd=("$installer_path") ;;
     esac
 
     # With PROTON_LOG=1, wine subprocess output goes to steam-*.log (not through this pipe).
