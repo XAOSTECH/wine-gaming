@@ -112,6 +112,15 @@ launch_external_exe() {
         mkdir -p "$WINE_DIR/steam-root"
         # Proton locks $STEAM_COMPAT_DATA_PATH/pfx.lock; the dir must exist first.
         mkdir -p "$WINEPREFIX"
+        # Create Windows special directories and remove Z: drive via shell and Proton cmd.
+        if [ -d "$WINEPREFIX/pfx" ]; then
+            local _pfx_c="$WINEPREFIX/pfx/drive_c"
+            mkdir -p "$_pfx_c/ProgramData/Microsoft/Windows/Start Menu/Programs" 2>/dev/null || true
+            PROTON_LOG=0 "$PROTON_DIR/proton" run cmd.exe /c \
+                "md \"%ProgramData%\\Microsoft\\Windows\\Start Menu\\Programs\" 2>nul" \
+                >/dev/null 2>&1 || true
+            rm -f "$WINEPREFIX/pfx/dosdevices/z:" "$WINEPREFIX/pfx/dosdevices/z::" 2>/dev/null || true
+        fi
         "$PROTON_DIR/proton" run "$exe_path" &
     else
         print_warning "Proton not available, using Wine fallback"
