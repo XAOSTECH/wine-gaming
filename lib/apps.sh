@@ -24,12 +24,37 @@ install_app() {
 
     export STEAM_COMPAT_DATA_PATH="$WINEPREFIX"
     export STEAM_COMPAT_CLIENT_INSTALL_PATH="$WINE_DIR/steam-root"
-    # Capture all Proton/Wine output to a named log; pipe a filtered view to suppress DXVK/vkd3d noise.
-    unset PROTON_LOG PROTON_LOG_DIR
+    # Prevent Wine from processing shortcuts/file associations; we handle shortcuts ourselves.
+    export WINEDLLOVERRIDES="winemenubuilder.exe=d"
+    # PROTON_LOG=1 routes wine subprocess stderr to a log file (not a pipe), which prevents
+    # installers that call GetFileType(GetStdHandle(STD_ERROR_HANDLE)) from detecting a pipe and aborting.
+    export PROTON_LOG=1
+    export PROTON_LOG_DIR="$WINE_DIR"
     local install_log="$WINE_DIR/${app_key}-install.log"
     mkdir -p "$WINE_DIR/steam-root"
     # Proton locks $STEAM_COMPAT_DATA_PATH/pfx.lock; the dir must exist first.
     mkdir -p "$WINEPREFIX"
+
+    # Create Windows special directories via Proton's bundled wine64 so Wine VFS junctions are
+    # respected. Shell mkdir creates directories outside the junction and Wine ignores them.
+    local _dosdevices="$WINEPREFIX/pfx/dosdevices"
+    if [ -d "$WINEPREFIX/pfx" ]; then
+        local _pfx_c="$WINEPREFIX/pfx/drive_c"
+        mkdir -p \
+            "$_pfx_c/ProgramData/Microsoft/Windows/Start Menu/Programs/EA" \
+            2>/dev/null || true
+        # Disable MSI rollback so a partially-successful MSI install leaves files on disk.
+        # EA App's MSI fails when registering its background service under Wine, triggering
+        # a full rollback that removes the already-installed EA Desktop.exe.
+        PROTON_LOG=0 "$PROTON_DIR/proton" run reg.exe add \
+            "HKLM\\Software\\Policies\\Microsoft\\Windows\\Installer" \
+            /v DisableRollback /t REG_DWORD /d 1 /f \
+            >/dev/null 2>&1 || true
+        PROTON_LOG=0 "$PROTON_DIR/proton" run cmd.exe /c \
+            "md \"%ProgramData%\\Microsoft\\Windows\\Start Menu\\Programs\\EA\" 2>nul" \
+            >/dev/null 2>&1 || true
+        rm -f "$_dosdevices/z:" "$_dosdevices/z::" 2>/dev/null || true
+    fi
 
     # First run builds the prefix (copies thousands of DLLs) before the installer
     # window appears, during which Proton is silent — warn so it isn't mistaken for a hang.
@@ -37,20 +62,24 @@ install_app() {
         print_warning "First run: building the Wine prefix — this takes a minute or two with no output."
     fi
     print_info "An installer window may open — complete it there; this step waits until it closes."
-    print_info "Install log: $install_log"
+    print_info "Install log: $install_log  |  Wine log: $WINE_DIR/steam-*.log"
 
     # MSI packages must be driven through msiexec; handing the .msi straight to
     # Proton only opens it and exits, so nothing installs (e.g. Epic, Ubisoft).
+    # MSIFASTINSTALL=3: disable rollback so files survive a failing custom action.
+    # EAX_LAUNCH_CLIENT=0: EA App MSI won't try to start the client post-install (would fail as 1627).
     local -a run_cmd
     case "${installer_path,,}" in
-        *.msi) run_cmd=(msiexec /i "$installer_path") ;;
+        *.msi) run_cmd=(msiexec /i "$installer_path" MSIFASTINSTALL=3 EAX_LAUNCH_CLIENT=0) ;;
         *)     run_cmd=("$installer_path") ;;
     esac
 
-    "$PROTON_DIR/proton" run "${run_cmd[@]}" 2>&1 \
-        | tee "$install_log" \
-        | grep -Ev '^info:|^warn:|^vkd3d:|GnuTLS error:|^\[[0-9a-f]+:\]|Mono\.Btls\.|MonoBtlsPkcs12|Missing private key|wine: Read access denied|^[0-9]+\.[0-9]+:[0-9a-f]+:[0-9a-f]+:' \
-        || true
+    # With PROTON_LOG=1, wine subprocess output goes to steam-*.log (not through this pipe).
+    # Tee captures only Proton's own wrapper output (Proton:/fsync: lines) to install_log.
+    "$PROTON_DIR/proton" run "${run_cmd[@]}" 2>&1 | tee "$install_log" || true
+
+    # Keep Z: drive removed so subsequent installs don't hit access-denied errors.
+    rm -f "$_dosdevices/z:" "$_dosdevices/z::" 2>/dev/null || true
 
     # Proton's exit status reflects the wrapper, not whether the app landed, so
     # verify the real executable exists before claiming success.
