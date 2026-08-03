@@ -114,6 +114,40 @@ install_app() {
     # verify the real executable exists before claiming success.
     if find_app_exe "$app_key" >/dev/null 2>&1; then
         print_success "$APP_NAME installed successfully"
+        # Use regedit /s (truly silent, no window) to disable background services that
+        # restart-loop under Wine when they can't initialize OpenVR or missing dependencies.
+        local _svc_reg="$WINEPREFIX/pfx/drive_c/windows/temp/disable-bg-svc.reg"
+        case "$app_key" in
+            epic-games)
+                # DEMAND_START (3): launcher can start the service; FailureActions=0 prevents restart loops.
+                printf 'Windows Registry Editor Version 5.00\n\n'\
+'[HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Services\\EpicGamesUpdater]\n'\
+'"Start"=dword:00000003\n'\
+'"FailureActions"=hex:00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00\n' \
+                    > "$_svc_reg"
+                "$PROTON_DIR/proton" run regedit /s \
+                    "C:\\windows\\temp\\disable-bg-svc.reg" >/dev/null 2>&1 || true
+                ;;
+            ea-desktop)
+                # DEMAND_START + no restart; also create install registry key that EADesktop.exe
+                # checks on startup — if absent it falls back to bootstrapper/repair mode.
+                local _ea_ver
+                _ea_ver=$(basename "${installer_path:-}" | grep -oP '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+                _ea_ver="${_ea_ver:-13.759.0.0}"
+                printf 'Windows Registry Editor Version 5.00\n\n'\
+'[HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Services\\EABackgroundService]\n'\
+'"Start"=dword:00000003\n'\
+'"FailureActions"=hex:00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00\n\n'\
+'[HKEY_LOCAL_MACHINE\\SOFTWARE\\Electronic Arts\\EA Desktop]\n'\
+'"InstallDir"="C:\\\\Program Files\\\\Electronic Arts\\\\EA Desktop\\\\EA Desktop\\\\"\n'\
+'"Version"="'"$_ea_ver"'"\n\n'\
+'[HKEY_LOCAL_MACHINE\\SOFTWARE\\Electronic Arts\\EA Desktop\\Install]\n'\
+'"InstallDir"="C:\\\\Program Files\\\\Electronic Arts\\\\EA Desktop\\\\EA Desktop\\\\"\n' \
+                    > "$_svc_reg"
+                "$PROTON_DIR/proton" run regedit /s \
+                    "C:\\windows\\temp\\disable-bg-svc.reg" >/dev/null 2>&1 || true
+                ;;
+        esac
         create_shortcut "$app_key" && print_success "Desktop shortcut created" || true
         return 0
     else
