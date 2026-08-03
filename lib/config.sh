@@ -12,6 +12,9 @@ BIN_DIR="${WINE_DIR}/bin"
 APPS_DIR="${WINE_GAMING_APPS_DIR:-${HOME}/.local/share/applications}"
 
 export WINEPREFIX WINEARCH=win64
+# DXVK reads this to disable OpenVR/OpenXR init on non-VR setups
+DXVK_CONFIG_FILE="$WINE_DIR/dxvk.conf"
+export DXVK_CONFIG_FILE
 
 # Ensure necessary directories exist
 mkdir -p "$WINE_DIR" "$BACKUP_DIR" "$CACHE_DIR" "$BIN_DIR" "$APPS_DIR" 2>/dev/null || true

@@ -190,6 +190,15 @@ init() {
 
     _install_winetricks_verbs
 
+    # Create DXVK config once; upstream DXVK has no OpenVR option — warnings are benign.
+    if [ ! -f "$WINE_DIR/dxvk.conf" ]; then
+        cat > "$WINE_DIR/dxvk.conf" << 'EOF'
+# wine-gaming DXVK configuration
+# See https://github.com/doitsujin/dxvk/blob/master/dxvk.conf for all options.
+# OpenVR/OpenXR warnings are informational only; DXVK has no config option to suppress them.
+EOF
+    fi
+
     print_success "Wine prefix initialised"
 
     # Auto-install the wig wrapper and aliases so wine-gaming commands work globally.
