@@ -164,7 +164,7 @@ init() {
         local _apt_args=( install -y )
         [ "$_reinstall" -eq 1 ] && { _apt_args=( install --reinstall -y ); print_info "Forcing package reinstall (--reinstall)..."; }
         sudo apt-get "${_apt_args[@]}" icoutils gamemode mangohud winetricks \
-            wine wine64 wine32:i386 2>&1 \
+            wine wine64 wine32:i386 msitools 2>&1 \
             | grep -v "^Reading\|^Building\|^(Reading\|^Selecting\|^Setting\|^Preparing" || true
     else
         print_warning "apt-get not available — skipping system package install"
