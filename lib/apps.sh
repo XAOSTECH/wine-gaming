@@ -131,18 +131,24 @@ install_app() {
             ea-desktop)
                 # DEMAND_START + no restart; also create install registry key that EADesktop.exe
                 # checks on startup — if absent it falls back to bootstrapper/repair mode.
+                # Register EABackgroundService so StartService() succeeds — msiextract skips this CA.
                 local _ea_ver
                 _ea_ver=$(basename "${installer_path:-}" | grep -oP '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | head -1)
                 _ea_ver="${_ea_ver:-13.759.0.0}"
                 printf 'Windows Registry Editor Version 5.00\n\n'\
-'[HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Services\\EABackgroundService]\n'\
-'"Start"=dword:00000003\n'\
-'"FailureActions"=hex:00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00\n\n'\
 '[HKEY_LOCAL_MACHINE\\SOFTWARE\\Electronic Arts\\EA Desktop]\n'\
 '"InstallDir"="C:\\\\Program Files\\\\Electronic Arts\\\\EA Desktop\\\\EA Desktop\\\\"\n'\
 '"Version"="'"$_ea_ver"'"\n\n'\
 '[HKEY_LOCAL_MACHINE\\SOFTWARE\\Electronic Arts\\EA Desktop\\Install]\n'\
-'"InstallDir"="C:\\\\Program Files\\\\Electronic Arts\\\\EA Desktop\\\\EA Desktop\\\\"\n' \
+'"InstallDir"="C:\\\\Program Files\\\\Electronic Arts\\\\EA Desktop\\\\EA Desktop\\\\"\n\n'\
+'[HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Services\\EABackgroundService]\n'\
+'"Type"=dword:00000010\n'\
+'"Start"=dword:00000003\n'\
+'"ErrorControl"=dword:00000001\n'\
+'"ImagePath"="\\"C:\\\\Program Files\\\\Electronic Arts\\\\EA Desktop\\\\EA Desktop\\\\EABackgroundService.exe\\" -start"\n'\
+'"DisplayName"="EABackgroundService"\n'\
+'"ObjectName"="LocalSystem"\n'\
+'"FailureActions"=hex:00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00\n' \
                     > "$_svc_reg"
                 "$PROTON_DIR/proton" run regedit /s \
                     "C:\\windows\\temp\\disable-bg-svc.reg" >/dev/null 2>&1 || true
