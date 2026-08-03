@@ -16,6 +16,11 @@ export WINEPREFIX WINEARCH=win64
 DXVK_CONFIG_FILE="$WINE_DIR/dxvk.conf"
 export DXVK_CONFIG_FILE
 
+# Per-app launch arguments appended after the exe (e.g. force UI open)
+declare -A APP_LAUNCH_ARGS=(
+    [epic-games]="-EpicPortal"
+)
+
 # Ensure necessary directories exist
 mkdir -p "$WINE_DIR" "$BACKUP_DIR" "$CACHE_DIR" "$BIN_DIR" "$APPS_DIR" 2>/dev/null || true
 

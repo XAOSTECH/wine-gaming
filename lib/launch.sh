@@ -66,7 +66,9 @@ launch_app() {
         mkdir -p "$WINEPREFIX"
 
         cd "$exe_dir"
-        eval "${WG_LAUNCH_PREFIX}\"\$PROTON_DIR/proton\" run \"\$exe_bin\"" >"$WINE_DIR/${app_key}.log" 2>&1 &
+        # APP_LAUNCH_ARGS provides per-app arguments (e.g. -EpicPortal forces EGL store window).
+        local _args="${APP_LAUNCH_ARGS[$app_key]:-}"
+        eval "${WG_LAUNCH_PREFIX}\"\$PROTON_DIR/proton\" run \"\$exe_bin\" ${_args}" >"$WINE_DIR/${app_key}.log" 2>&1 &
     else
         print_warning "Proton not available, using Wine fallback"
         export WINEDEBUG="${WINEDEBUG:--all}"
