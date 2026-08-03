@@ -24,11 +24,11 @@ mkdir -p "$WINE_DIR" "$BACKUP_DIR" "$CACHE_DIR" "$BIN_DIR" "$APPS_DIR" 2>/dev/nu
 # Add new launchers by appending entries here.
 #
 declare -A APP_REGISTRY=(
-    [ea-desktop]="EA Desktop|Program Files/Electronic Arts/EA Desktop/EA Desktop.exe|https://origin-a.akamaihd.net/EA-Desktop-Client-Download/installer-releases/EAapp-13.759.2.6273-14790298.msi|Program Files/Electronic Arts|AppData/Local/Electronic Arts|AppData/Roaming/Electronic Arts"
+    [ea-desktop]="EA Desktop|Program Files/Electronic Arts/EA Desktop/EA Desktop/EADesktop.exe|https://origin-a.akamaihd.net/EA-Desktop-Client-Download/installer-releases/EAapp-13.759.2.6273-14790298.msi|Program Files/Electronic Arts|AppData/Local/Electronic Arts|AppData/Roaming/Electronic Arts"
 
     [gog-galaxy]="GOG Galaxy|Program Files (x86)/GOG Galaxy/GalaxyClient.exe|https://webinstallers.gog-statics.com/download/GOG_Galaxy_2.0.exe|Program Files (x86)/GOG Galaxy|AppData/Local/GOG.com|AppData/Roaming/GOG.com"
 
-    [epic-games]="Epic Games Launcher|ProgramData/Epic/EpicGamesLauncher/Data/Update/Install/Portal/Binaries/Win64/EpicGamesLauncher.exe|https://launcher-public-service-prod.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi|Program Files/Epic Games|AppData/Local/EpicGamesLauncher|ProgramData/Epic"
+    [epic-games]="Epic Games Launcher|Program Files/Epic Games/Launcher/Portal/Binaries/Win64/EpicGamesLauncher.exe|https://launcher-public-service-prod.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi|Program Files/Epic Games|AppData/Local/EpicGamesLauncher|ProgramData/Epic"
 
     [ubisoft-connect]="Ubisoft Connect|Program Files/Ubisoft/Ubisoft Game Launcher/upc.exe|https://ubisoftconnect.com/en-US/downloads|Program Files/Ubisoft|AppData/Local/Ubisoft"
 

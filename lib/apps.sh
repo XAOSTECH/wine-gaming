@@ -40,19 +40,12 @@ install_app() {
     local _dosdevices="$WINEPREFIX/pfx/dosdevices"
     if [ -d "$WINEPREFIX/pfx" ]; then
         local _pfx_c="$WINEPREFIX/pfx/drive_c"
+        # Pre-create All-Users Start Menu dirs; some installers use DirectoryInfo.Create()
+        # which throws DirectoryNotFoundException if the parent doesn't exist.
         mkdir -p \
             "$_pfx_c/ProgramData/Microsoft/Windows/Start Menu/Programs/EA" \
+            "$_pfx_c/ProgramData/Microsoft/Windows/Start Menu/Programs/Epic Games" \
             2>/dev/null || true
-        # Disable MSI rollback so a partially-successful MSI install leaves files on disk.
-        # EA App's MSI fails when registering its background service under Wine, triggering
-        # a full rollback that removes the already-installed EA Desktop.exe.
-        PROTON_LOG=0 "$PROTON_DIR/proton" run reg.exe add \
-            "HKLM\\Software\\Policies\\Microsoft\\Windows\\Installer" \
-            /v DisableRollback /t REG_DWORD /d 1 /f \
-            >/dev/null 2>&1 || true
-        PROTON_LOG=0 "$PROTON_DIR/proton" run cmd.exe /c \
-            "md \"%ProgramData%\\Microsoft\\Windows\\Start Menu\\Programs\\EA\" 2>nul" \
-            >/dev/null 2>&1 || true
         rm -f "$_dosdevices/z:" "$_dosdevices/z::" 2>/dev/null || true
     fi
 
@@ -66,13 +59,43 @@ install_app() {
 
     # MSI packages must be driven through msiexec; handing the .msi straight to
     # Proton only opens it and exits, so nothing installs (e.g. Epic, Ubisoft).
-    # ea-desktop: /a (admin install) extracts files without running the service-registration
-    # custom action that causes ERROR_FUNCTION_FAILED (0x8007065b) under Wine.
+    # ea-desktop: EA App MSI has a WiX Burn LaunchCondition that exits immediately when
+    # called standalone — use msiextract to pull files out without running any conditions.
     local -a run_cmd
     case "${installer_path,,}" in
         *.msi)
+            if [ "$app_key" = "ea-desktop" ] && command -v msiextract &>/dev/null; then
+                print_info "Extracting EA App MSI via msiextract (bypasses WiX Burn LaunchCondition)..."
+                local _ea_tmp _pfx_c
+                _ea_tmp=$(mktemp -d /tmp/ea_msi.XXXXXX)
+                _pfx_c="$WINEPREFIX/pfx/drive_c"
+                if msiextract "$installer_path" -C "$_ea_tmp" 2>/dev/null; then
+                    # EA App installs to 64-bit Program Files; copy into Wine prefix.
+                    # msiextract may root at $tmp or at $tmp/Program Files depending on MSI Directory table.
+                    local _src
+                    for _src in "$_ea_tmp/Program Files" "$_ea_tmp/Program Files (x86)" "$_ea_tmp"; do
+                        if [ -d "$_src/Electronic Arts" ]; then
+                            cp -rn "$_src/Electronic Arts" "$_pfx_c/Program Files/" 2>/dev/null || true
+                            break
+                        fi
+                    done
+                fi
+                rm -rf "$_ea_tmp"
+                # Skip the Proton installer run entirely
+                if find_app_exe "$app_key" >/dev/null 2>&1; then
+                    print_success "$APP_NAME installed via MSI extraction"
+                    create_shortcut "$app_key" && print_success "Desktop shortcut created" || true
+                    return 0
+                fi
+                print_warning "msiextract didn't place exe at expected path — falling back to msiexec"
+            fi
+            local _msi_name _msi_wtemp
+            _msi_name=$(basename "$installer_path")
+            _msi_wtemp="$WINEPREFIX/pfx/drive_c/windows/temp"
+            mkdir -p "$_msi_wtemp" 2>/dev/null || true
+            cp -f "$installer_path" "$_msi_wtemp/$_msi_name" 2>/dev/null || true
             if [ "$app_key" = "ea-desktop" ]; then
-                run_cmd=(msiexec /a "$installer_path" TARGETDIR="C:\\Program Files")
+                run_cmd=(msiexec /i "C:\\windows\\temp\\$_msi_name" MSIFASTINSTALL=3 EAX_LAUNCH_CLIENT=0)
             else
                 run_cmd=(msiexec /i "$installer_path")
             fi
