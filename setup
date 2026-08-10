@@ -35,7 +35,9 @@ WINE PREFIX MANAGEMENT:
   init --reinstall             Force reinstall Wine apt packages (fixes broken wine)
   full [--reinstall]           Complete setup: purge + init + install all
   quick [--reinstall]          Reinit deps + install any missing launchers
-  install-proton               Download and install Proton-GE
+  install-proton [ver]         Download and install GE-Proton (default: latest)
+  install-proton GE-Proton10-1 Install a specific version (short form: 10-1)
+  list-proton                  List the 10 most recent GE-Proton releases
   fix-z-drive                  Permanently remove Z: drive mount
   unmount-z                    Temporarily hide Z: (stops /mnt disk warnings)
   mount-z                      Restore Z: drive
@@ -128,7 +130,8 @@ main() {
         init)                shift; init "$@" ;;
         full)                shift; full_setup "$@" ;;
         quick)               shift; quick_setup "$@" ;;
-        install-proton)      install_proton ;;
+        install-proton)      shift; install_proton "$@" ;;
+        list-proton)         list_proton ;;
         fix-z-drive)         fix_z_drive ;;
         unmount-z)           unmount_z ;;
         mount-z)             mount_z ;;
