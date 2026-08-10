@@ -65,6 +65,10 @@ alias wig-info='wig prefix-info'
 alias wig-shortcuts='wig install-shortcut'
 alias wig-profile='wig profile'
 alias wig-help='wig help'
+alias wig-kill='wig kill'
+alias wig-backup='wig backup-data'
+alias wig-restore='wig restore-data'
+alias wig-backups='wig list-backups'
 ALIAS_EOF
 
     print_success "Global wrapper created: $WIG_BIN"

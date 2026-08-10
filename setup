@@ -35,7 +35,10 @@ WINE PREFIX MANAGEMENT:
   init --reinstall             Force reinstall Wine apt packages (fixes broken wine)
   full [--reinstall]           Complete setup: purge + init + install all
   quick [--reinstall]          Reinit deps + install any missing launchers
-  install-proton [ver]         Download and install GE-Proton (default: latest)
+  kill                         Kill all Wine/Proton/wineserver processes for this prefix
+  backup-data                  Back up all launcher profile/login data (GOG, Epic, EA, Ubisoft…)
+  restore-data [name]          Restore launcher data from a backup (default: most recent)
+  list-backups                 List available launcher data backups
   install-proton GE-Proton10-1 Install a specific version (short form: 10-1)
   list-proton                  List the 10 most recent GE-Proton releases
   fix-z-drive                  Permanently remove Z: drive mount
@@ -132,6 +135,10 @@ main() {
         quick)               shift; quick_setup "$@" ;;
         install-proton)      shift; install_proton "$@" ;;
         list-proton)         list_proton ;;
+        kill)                kill_wine ;;
+        backup-data)         backup_launcher_data ;;
+        restore-data)        shift; restore_launcher_data "$@" ;;
+        list-backups)        list_launcher_backups ;;
         fix-z-drive)         fix_z_drive ;;
         unmount-z)           unmount_z ;;
         mount-z)             mount_z ;;
