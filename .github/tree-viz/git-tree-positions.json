@@ -3,20 +3,20 @@
     "repository": "wine-gaming",
     "current_branch": "main",
     "repo_url": "https://github.com/XAOSTECH/wine-gaming",
-    "generated": "2026-07-27T02:22:06Z",
+    "generated": "2026-08-17T00:53:04Z",
     "max_commits": 500
   },
   "commits": [
     {
-      "sha": "aa89b8cc47a8e8f457102201cdb936928ed9fb35",
-      "short": "aa89b8c",
-      "parents": "527f24424b638f691b15bd46932202e2f68b1016",
-      "author": "xaos-bot",
-      "email": "262248812+xaos-bot@users.noreply.github.com",
-      "date": "2026-07-20T02:25:23Z",
-      "timestamp": 1784514323,
-      "subject": "chore: update CHANGELOG for v0.1.1 (re-release)",
-      "refs": "tag: v0.1.1, tag: latest",
+      "sha": "b2318b3c702d9f0b8a20d75df256df0ed2387f04",
+      "short": "b2318b3",
+      "parents": "cd2a59b83e7aac098da8be5d71b13381d92f94a5",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-08-10T05:22:20Z",
+      "timestamp": 1786339340,
+      "subject": "feat(prefix,setup,aliases): wig kill, backup-data/restore-data, install-proton auto-kill",
+      "refs": "HEAD -> main, origin/main",
       "position": {
         "x": 600,
         "y": 60,
@@ -29,14 +29,14 @@
       }
     },
     {
-      "sha": "527f24424b638f691b15bd46932202e2f68b1016",
-      "short": "527f244",
-      "parents": "8dc2389f5d442b205498dac0a8ce5792f762ef6e",
-      "author": "xaos-bot",
-      "email": "262248812+xaos-bot@users.noreply.github.com",
-      "date": "2026-07-13T02:08:20Z",
-      "timestamp": 1783908500,
-      "subject": "chore: update git tree visualisation",
+      "sha": "cd2a59b83e7aac098da8be5d71b13381d92f94a5",
+      "short": "cd2a59b",
+      "parents": "058314edcc690ba42ef536cfe5bb303c67356ca3",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-08-10T04:55:07Z",
+      "timestamp": 1786337707,
+      "subject": "feat(prefix,setup): parameterise install-proton with version/latest + list-proton",
       "refs": "",
       "position": {
         "x": 600,
@@ -50,15 +50,15 @@
       }
     },
     {
-      "sha": "8dc2389f5d442b205498dac0a8ce5792f762ef6e",
-      "short": "8dc2389",
-      "parents": "43e72d3bc64f2bf9b1e09f24ee887da02f0e4784",
+      "sha": "058314edcc690ba42ef536cfe5bb303c67356ca3",
+      "short": "058314e",
+      "parents": "7db4ff3fc44f5e535d77a9ff9701ab6947652f5f",
       "author": "xaos-bot",
       "email": "262248812+xaos-bot@users.noreply.github.com",
-      "date": "2026-07-06T02:35:30Z",
-      "timestamp": 1783305330,
-      "subject": "chore: update git tree visualisation",
-      "refs": "",
+      "date": "2026-08-10T01:13:37Z",
+      "timestamp": 1786324417,
+      "subject": "chore: update CHANGELOG for v0.1.1 (re-release)",
+      "refs": "tag: v0.1.1, tag: latest",
       "position": {
         "x": 600,
         "y": 140,
@@ -71,14 +71,14 @@
       }
     },
     {
-      "sha": "43e72d3bc64f2bf9b1e09f24ee887da02f0e4784",
-      "short": "43e72d3",
-      "parents": "74f97a27d18d6cfe2d1f2db1b3c5e3ab7c44ede5",
-      "author": "xaos-bot",
-      "email": "262248812+xaos-bot@users.noreply.github.com",
-      "date": "2026-06-29T02:51:19Z",
-      "timestamp": 1782701479,
-      "subject": "chore: update git tree visualisation",
+      "sha": "7db4ff3fc44f5e535d77a9ff9701ab6947652f5f",
+      "short": "7db4ff3",
+      "parents": "c9b088afbf3345280069d85208c4e38bf890eee6",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-08-03T23:52:29Z",
+      "timestamp": 1785801149,
+      "subject": "fix(apps,config,launch): register EABackgroundService, -EpicPortal launch arg",
       "refs": "",
       "position": {
         "x": 600,
@@ -92,14 +92,14 @@
       }
     },
     {
-      "sha": "74f97a27d18d6cfe2d1f2db1b3c5e3ab7c44ede5",
-      "short": "74f97a2",
-      "parents": "30033b62e75873f562f18e711f8696ebebf6b93a",
-      "author": "xaos-bot",
-      "email": "262248812+xaos-bot@users.noreply.github.com",
-      "date": "2026-06-22T03:34:12Z",
-      "timestamp": 1782099252,
-      "subject": "chore: update git tree visualisation",
+      "sha": "c9b088afbf3345280069d85208c4e38bf890eee6",
+      "short": "c9b088a",
+      "parents": "7887101a18b9e0374732b9100deaf6f6f8ac6890",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-08-03T22:26:50Z",
+      "timestamp": 1785796010,
+      "subject": "fix(apps,config,prefix): configure EA and its bg services + create/export DXVK",
       "refs": "",
       "position": {
         "x": 600,
@@ -113,14 +113,14 @@
       }
     },
     {
-      "sha": "30033b62e75873f562f18e711f8696ebebf6b93a",
-      "short": "30033b6",
-      "parents": "8026d2ba437b777bdf6de558b50a07c907c8124d",
-      "author": "xaos-bot",
-      "email": "262248812+xaos-bot@users.noreply.github.com",
-      "date": "2026-06-15T03:33:01Z",
-      "timestamp": 1781494381,
-      "subject": "chore: update git tree visualisation",
+      "sha": "7887101a18b9e0374732b9100deaf6f6f8ac6890",
+      "short": "7887101",
+      "parents": "e60f1678eb696e19d6c175a03e5156e6648c4936",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-08-03T05:13:29Z",
+      "timestamp": 1785734009,
+      "subject": "fix(apps,config,prefix): msiextract for EA Desktop, fix copy root, clean up Wine windows",
       "refs": "",
       "position": {
         "x": 600,
@@ -134,14 +134,14 @@
       }
     },
     {
-      "sha": "8026d2ba437b777bdf6de558b50a07c907c8124d",
-      "short": "8026d2b",
-      "parents": "7684ec3faf45759485388ef64bdd9fd5ae787577",
-      "author": "xaos-bot",
-      "email": "262248812+xaos-bot@users.noreply.github.com",
-      "date": "2026-06-08T02:57:15Z",
-      "timestamp": 1780887435,
-      "subject": "chore: update CHANGELOG for v0.1.1 (re-release)",
+      "sha": "e60f1678eb696e19d6c175a03e5156e6648c4936",
+      "short": "e60f167",
+      "parents": "c9442d4dac2f61da62a7a76bd56623a77edc039b",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-08-03T04:30:51Z",
+      "timestamp": 1785731451,
+      "subject": "fix(apps,config,prefix): EA app direct MSI + admin install, Epic msiexec revert, winetricks pfx target, Proton wine64 for verbs, wineboot removal, noise filter, PROTON_LOG=1 pipe-detection fix, vcrun2022, pre-create Windows dirs, DisableRollback reg, WINEDLLOVERRIDES winemenubuilder=d, Z: drive removal, --reinstall flag propagation",
       "refs": "",
       "position": {
         "x": 600,
@@ -155,14 +155,14 @@
       }
     },
     {
-      "sha": "7684ec3faf45759485388ef64bdd9fd5ae787577",
-      "short": "7684ec3",
-      "parents": "0e66077578cc04991cfa3bd58b18f043eea93f72",
-      "author": "xaos-bot",
-      "email": "262248812+xaos-bot@users.noreply.github.com",
-      "date": "2026-06-01T02:59:23Z",
-      "timestamp": 1780282763,
-      "subject": "chore: update git tree visualisation",
+      "sha": "c9442d4dac2f61da62a7a76bd56623a77edc039b",
+      "short": "c9442d4",
+      "parents": "299f78c4bd0ed40b0925e05244adf7a0a76d5fa7",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-08-03T04:25:12Z",
+      "timestamp": 1785731112,
+      "subject": "fix(apps,config): bypass EA bootstrapper; run MSI directly with MSIFASTINSTALL=3 EAX_LAUNCH_CLIENT=0",
       "refs": "",
       "position": {
         "x": 600,
@@ -176,14 +176,14 @@
       }
     },
     {
-      "sha": "0e66077578cc04991cfa3bd58b18f043eea93f72",
-      "short": "0e66077",
-      "parents": "cbe3472ce0a36fb168eacc37b31b5b9ad905f27a",
-      "author": "xaos-bot",
-      "email": "262248812+xaos-bot@users.noreply.github.com",
-      "date": "2026-05-25T02:50:25Z",
-      "timestamp": 1779677425,
-      "subject": "chore: update git tree visualisation",
+      "sha": "299f78c4bd0ed40b0925e05244adf7a0a76d5fa7",
+      "short": "299f78c",
+      "parents": "30247e97278d612d6c5b8ea945ff85e0fcd6c074",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-08-03T04:25:05Z",
+      "timestamp": 1785731105,
+      "subject": "fix(ea+deps): pfx ProgramData folder creation + vcrun2022",
       "refs": "",
       "position": {
         "x": 600,
@@ -197,14 +197,14 @@
       }
     },
     {
-      "sha": "cbe3472ce0a36fb168eacc37b31b5b9ad905f27a",
-      "short": "cbe3472",
-      "parents": "683af7cfdad9fbbd27cc0cbd778bee77cfbb3828",
+      "sha": "30247e97278d612d6c5b8ea945ff85e0fcd6c074",
+      "short": "30247e9",
+      "parents": "92f8d1f4c44a7cb0fc78fa2d51f75505ddef478c",
       "author": "xaos-bot",
       "email": "262248812+xaos-bot@users.noreply.github.com",
-      "date": "2026-05-18T02:44:06Z",
-      "timestamp": 1779072246,
-      "subject": "chore: update git tree visualisation",
+      "date": "2026-08-03T02:09:38Z",
+      "timestamp": 1785722978,
+      "subject": "chore: update CHANGELOG for v0.1.1 (re-release)",
       "refs": "",
       "position": {
         "x": 600,
@@ -218,14 +218,14 @@
       }
     },
     {
-      "sha": "683af7cfdad9fbbd27cc0cbd778bee77cfbb3828",
-      "short": "683af7c",
-      "parents": "b685aa54aeabd220219356bdb33e7c75688e8c67",
-      "author": "xaos-bot",
-      "email": "262248812+xaos-bot@users.noreply.github.com",
-      "date": "2026-05-11T02:36:09Z",
-      "timestamp": 1778466969,
-      "subject": "chore: update git tree visualisation",
+      "sha": "92f8d1f4c44a7cb0fc78fa2d51f75505ddef478c",
+      "short": "92f8d1f",
+      "parents": "7ee82502ae7c6a931e90735c418eafe2bcc12103",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-08-02T00:28:16Z",
+      "timestamp": 1785630496,
+      "subject": "fix(prefix): remove wineboot, fix winetricks target/wine-binary, drop system-wine calls",
       "refs": "",
       "position": {
         "x": 600,
@@ -239,14 +239,14 @@
       }
     },
     {
-      "sha": "b685aa54aeabd220219356bdb33e7c75688e8c67",
-      "short": "b685aa5",
-      "parents": "b5b27a9ab20f2fe141c28c162063977b31c8639c",
-      "author": "xaos-bot",
-      "email": "262248812+xaos-bot@users.noreply.github.com",
-      "date": "2026-05-04T02:13:41Z",
-      "timestamp": 1777860821,
-      "subject": "chore: update git tree visualisation",
+      "sha": "7ee82502ae7c6a931e90735c418eafe2bcc12103",
+      "short": "7ee8250",
+      "parents": "ef92f84d4a4deb89775af8d83be6b2f2092e5186",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-08-01T23:29:31Z",
+      "timestamp": 1785626971,
+      "subject": "feat(prefix,setup): add --reinstall flag to init/full/quick",
       "refs": "",
       "position": {
         "x": 600,
@@ -260,14 +260,14 @@
       }
     },
     {
-      "sha": "b5b27a9ab20f2fe141c28c162063977b31c8639c",
-      "short": "b5b27a9",
-      "parents": "e7cff5f46f9426117a97d477ad4912add54e4026",
-      "author": "xaos-bot",
-      "email": "262248812+xaos-bot@users.noreply.github.com",
-      "date": "2026-04-27T02:10:01Z",
-      "timestamp": 1777255801,
-      "subject": "chore: update CHANGELOG for v0.1.1 (re-release)",
+      "sha": "ef92f84d4a4deb89775af8d83be6b2f2092e5186",
+      "short": "ef92f84",
+      "parents": "2742c9b7795d8027d0b6871c399d74ff8df4395c",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-08-01T22:36:16Z",
+      "timestamp": 1785623776,
+      "subject": "fix(prefix,apps,config): winetricks skip guard, WINETRICKS_LATEST_VERSION_CHECK=enabled, Proton install noise filter, EA Desktop exe path",
       "refs": "",
       "position": {
         "x": 600,
@@ -275,6 +275,216 @@
         "lane": 0,
         "radius": 6,
         "depth": 12,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "2742c9b7795d8027d0b6871c399d74ff8df4395c",
+      "short": "2742c9b",
+      "parents": "6595c20ae05047919617844de1bd0e46bd346b8a",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-08-01T21:31:10Z",
+      "timestamp": 1785619870,
+      "subject": "feat(prefix.sh): add i386 arch, wine, wine64, wine32:i386, winetricks",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 580,
+        "lane": 0,
+        "radius": 6,
+        "depth": 13,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "6595c20ae05047919617844de1bd0e46bd346b8a",
+      "short": "6595c20",
+      "parents": "228a3f40adf2e04f4adb7f5113684890ac3485d4",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-07-31T22:51:40Z",
+      "timestamp": 1785538300,
+      "subject": "fix(utils.sh): repair check_proton message and widen exclude to WINE_DIR",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 620,
+        "lane": 0,
+        "radius": 6,
+        "depth": 14,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "228a3f40adf2e04f4adb7f5113684890ac3485d4",
+      "short": "228a3f4",
+      "parents": "90eabb177d583c446fb72b95a50ee4e893111416",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-07-31T22:50:30Z",
+      "timestamp": 1785538230,
+      "subject": "fix(apps.sh): install MSIs via msiexec and verify the app actually landed",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 660,
+        "lane": 0,
+        "radius": 6,
+        "depth": 15,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "90eabb177d583c446fb72b95a50ee4e893111416",
+      "short": "90eabb1",
+      "parents": "2949b353d9cc80e07a1f750064a7ed50ba92b7a9",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-07-31T22:39:11Z",
+      "timestamp": 1785537551,
+      "subject": "fix(prefix.sh): pause clamav on-access during Proton-GE extraction",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 700,
+        "lane": 0,
+        "radius": 6,
+        "depth": 16,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "2949b353d9cc80e07a1f750064a7ed50ba92b7a9",
+      "short": "2949b35",
+      "parents": "d218bfe70f1018a8c89698ee75e5758c6d0d6c37",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-07-31T22:39:11Z",
+      "timestamp": 1785537551,
+      "subject": "feat(utils.sh): detect AV-quarantined Proton DLL and guide recovery",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 740,
+        "lane": 0,
+        "radius": 6,
+        "depth": 17,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "d218bfe70f1018a8c89698ee75e5758c6d0d6c37",
+      "short": "d218bfe",
+      "parents": "d87eda97a22cd3314e8054064f701dcfcd1ecad9",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-07-31T22:21:13Z",
+      "timestamp": 1785536473,
+      "subject": "fix(apps.sh): enable Proton log and warn on slow first-run prefix build",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 780,
+        "lane": 0,
+        "radius": 6,
+        "depth": 18,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "d87eda97a22cd3314e8054064f701dcfcd1ecad9",
+      "short": "d87eda9",
+      "parents": "1de93efa50908727b6ebddcb0ac8d65f5eabc918",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-07-31T22:19:20Z",
+      "timestamp": 1785536360,
+      "subject": "fix(apps.sh): create prefix dir before Proton acquires pfx.lock",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 820,
+        "lane": 0,
+        "radius": 6,
+        "depth": 19,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "1de93efa50908727b6ebddcb0ac8d65f5eabc918",
+      "short": "1de93ef",
+      "parents": "cc9a7103bc087b451664f051cc4c8a72ab6dbf75",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-07-31T22:19:20Z",
+      "timestamp": 1785536360,
+      "subject": "fix(registry.sh): guard empty app key to avoid bad array subscript",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 860,
+        "lane": 0,
+        "radius": 6,
+        "depth": 20,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "cc9a7103bc087b451664f051cc4c8a72ab6dbf75",
+      "short": "cc9a710",
+      "parents": "13d6506728cdb727b8aacc8ed5ee17e0a8e6e81a",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-07-31T20:04:38Z",
+      "timestamp": 1785528278,
+      "subject": "chore: update deps, workflow, URL",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 900,
+        "lane": 0,
+        "radius": 6,
+        "depth": 21,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "13d6506728cdb727b8aacc8ed5ee17e0a8e6e81a",
+      "short": "13d6506",
+      "parents": "534a2680655251506f47c89a71e3d06edcf85b4b",
+      "author": "xaos-bot",
+      "email": "262248812+xaos-bot@users.noreply.github.com",
+      "date": "2026-07-27T02:22:07Z",
+      "timestamp": 1785118927,
+      "subject": "chore: update git tree visualisation",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 940,
+        "lane": 0,
+        "radius": 6,
+        "depth": 22,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -289,14 +499,14 @@
       "date": "2026-04-22T03:53:17+02:00",
       "timestamp": 1776822797,
       "subject": "feat(profile): expand knob catalogue (DLSS-SR/RR, Reflex, FSR custom res, NV power, shader cache)",
-      "refs": "HEAD -> main, origin/main",
+      "refs": "",
       "position": {
-        "x": 720,
-        "y": 580,
-        "lane": 1,
+        "x": 600,
+        "y": 980,
+        "lane": 0,
         "radius": 6,
-        "depth": 13,
-        "is_trunk": false,
+        "depth": 23,
+        "is_trunk": true,
         "is_merge": false,
         "is_fork": false
       }
@@ -313,13 +523,13 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 660,
+        "y": 1020,
         "lane": 0,
-        "radius": 9,
-        "depth": 14,
+        "radius": 6,
+        "depth": 24,
         "is_trunk": true,
         "is_merge": false,
-        "is_fork": true
+        "is_fork": false
       }
     },
     {
@@ -334,10 +544,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 700,
+        "y": 1060,
         "lane": 0,
         "radius": 6,
-        "depth": 15,
+        "depth": 25,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -355,10 +565,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 740,
+        "y": 1100,
         "lane": 0,
         "radius": 6,
-        "depth": 16,
+        "depth": 26,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -376,10 +586,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 780,
+        "y": 1140,
         "lane": 0,
         "radius": 6,
-        "depth": 17,
+        "depth": 27,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -397,10 +607,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 820,
+        "y": 1180,
         "lane": 0,
         "radius": 6,
-        "depth": 18,
+        "depth": 28,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -418,10 +628,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 860,
+        "y": 1220,
         "lane": 0,
         "radius": 6,
-        "depth": 19,
+        "depth": 29,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -439,10 +649,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 900,
+        "y": 1260,
         "lane": 0,
         "radius": 6,
-        "depth": 20,
+        "depth": 30,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -460,10 +670,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 940,
+        "y": 1300,
         "lane": 0,
         "radius": 6,
-        "depth": 21,
+        "depth": 31,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -481,10 +691,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 980,
+        "y": 1340,
         "lane": 0,
         "radius": 6,
-        "depth": 22,
+        "depth": 32,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -501,11 +711,11 @@
       "subject": "experiment(xbox): iter 10 — add HTTPS/auth trace channels",
       "refs": "origin/experiment/xbox-gaming",
       "position": {
-        "x": 480,
-        "y": 1020,
-        "lane": -1,
+        "x": 720,
+        "y": 1380,
+        "lane": 1,
         "radius": 6,
-        "depth": 23,
+        "depth": 33,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -522,11 +732,11 @@
       "subject": "experiment(xbox): iter 9d — fix trap loop, add error-event reporting",
       "refs": "",
       "position": {
-        "x": 840,
-        "y": 1100,
-        "lane": 2,
+        "x": 480,
+        "y": 1460,
+        "lane": -1,
         "radius": 6,
-        "depth": 24,
+        "depth": 34,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -543,11 +753,11 @@
       "subject": "experiment(xbox): iter 9c — bypass wig in trace mode",
       "refs": "",
       "position": {
-        "x": 360,
-        "y": 1180,
-        "lane": -2,
+        "x": 840,
+        "y": 1540,
+        "lane": 2,
         "radius": 6,
-        "depth": 25,
+        "depth": 35,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -564,11 +774,11 @@
       "subject": "experiment(xbox): iter 9b — fix tracer to read Proton log",
       "refs": "",
       "position": {
-        "x": 960,
-        "y": 1260,
-        "lane": 3,
+        "x": 360,
+        "y": 1620,
+        "lane": -2,
         "radius": 6,
-        "depth": 26,
+        "depth": 36,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -585,11 +795,11 @@
       "subject": "experiment(xbox): iter 9 — opt-in service-query tracer",
       "refs": "",
       "position": {
-        "x": 240,
-        "y": 1340,
-        "lane": -3,
+        "x": 960,
+        "y": 1700,
+        "lane": 3,
         "radius": 6,
-        "depth": 27,
+        "depth": 37,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -606,11 +816,11 @@
       "subject": "experiment(xbox): iter 8 — PackageVolume stub",
       "refs": "",
       "position": {
-        "x": 1080,
-        "y": 1420,
-        "lane": 4,
+        "x": 240,
+        "y": 1780,
+        "lane": -3,
         "radius": 6,
-        "depth": 28,
+        "depth": 38,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -627,11 +837,11 @@
       "subject": "experiment(xbox): iter 7 — AnalyticsVersionInfo stub + download tracer",
       "refs": "",
       "position": {
-        "x": 120,
-        "y": 1500,
-        "lane": -4,
+        "x": 1080,
+        "y": 1860,
+        "lane": 4,
         "radius": 6,
-        "depth": 29,
+        "depth": 39,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -648,11 +858,11 @@
       "subject": "experiment(xbox): iter 6 — fix PackageManager signatures, return empty enumerables",
       "refs": "",
       "position": {
-        "x": 1200,
-        "y": 1580,
-        "lane": 5,
+        "x": 120,
+        "y": 1940,
+        "lane": -4,
         "radius": 6,
-        "depth": 30,
+        "depth": 40,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -669,11 +879,11 @@
       "subject": "experiment(xbox): iter 5 (final) — Package + AnalyticsInfo stubs + conclusion",
       "refs": "",
       "position": {
-        "x": 0,
-        "y": 1660,
-        "lane": -5,
+        "x": 1200,
+        "y": 2020,
+        "lane": 5,
         "radius": 6,
-        "depth": 31,
+        "depth": 41,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -690,11 +900,11 @@
       "subject": "experiment(xbox): iter 4 — TypedEventHandler + PackageManager (the MSIX wall)",
       "refs": "",
       "position": {
-        "x": 1320,
-        "y": 1740,
-        "lane": 6,
+        "x": 0,
+        "y": 2100,
+        "lane": -5,
         "radius": 6,
-        "depth": 32,
+        "depth": 42,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -711,11 +921,11 @@
       "subject": "fix(xbox-stub): make native GAC optional, add Wine-Mono GAC path",
       "refs": "",
       "position": {
-        "x": -120,
-        "y": 1820,
-        "lane": -6,
+        "x": 1320,
+        "y": 2180,
+        "lane": 6,
         "radius": 6,
-        "depth": 33,
+        "depth": 43,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -732,11 +942,11 @@
       "subject": "fix(xbox-stub): awk skipped real .assembly because '.assembly extern' matched first",
       "refs": "",
       "position": {
-        "x": 1440,
-        "y": 1900,
-        "lane": 7,
+        "x": -120,
+        "y": 2260,
+        "lane": -6,
         "radius": 6,
-        "depth": 34,
+        "depth": 44,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -753,11 +963,11 @@
       "subject": "experiment(xbox): iter 3 — multi-stub build, add FoundationContract",
       "refs": "",
       "position": {
-        "x": -240,
-        "y": 1980,
-        "lane": -7,
+        "x": 1440,
+        "y": 2340,
+        "lane": 7,
         "radius": 6,
-        "depth": 35,
+        "depth": 45,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -774,11 +984,11 @@
       "subject": "chore(xbox): gitignore built stub dll, untrack stale artifact",
       "refs": "",
       "position": {
-        "x": 1560,
-        "y": 2060,
-        "lane": 8,
+        "x": -240,
+        "y": 2420,
+        "lane": -7,
         "radius": 6,
-        "depth": 36,
+        "depth": 46,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -795,11 +1005,11 @@
       "subject": "experiment(xbox): iter 2 — define UISettings skeleton in WinRT stub",
       "refs": "",
       "position": {
-        "x": -360,
-        "y": 2140,
-        "lane": -8,
+        "x": 1560,
+        "y": 2500,
+        "lane": 8,
         "radius": 6,
-        "depth": 37,
+        "depth": 47,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -816,11 +1026,11 @@
       "subject": "experiment(xbox): document attempts + stub WinRT contract assembly",
       "refs": "",
       "position": {
-        "x": 1680,
-        "y": 2220,
-        "lane": 9,
+        "x": -360,
+        "y": 2580,
+        "lane": -8,
         "radius": 6,
-        "depth": 38,
+        "depth": 48,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -838,10 +1048,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2300,
+        "y": 2660,
         "lane": 0,
         "radius": 10,
-        "depth": 39,
+        "depth": 49,
         "is_trunk": true,
         "is_merge": true,
         "is_fork": true
@@ -858,11 +1068,11 @@
       "subject": "chore: convert American spellings to British English",
       "refs": "",
       "position": {
-        "x": -480,
-        "y": 2340,
-        "lane": -9,
+        "x": 1680,
+        "y": 2700,
+        "lane": 9,
         "radius": 6,
-        "depth": 40,
+        "depth": 50,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -880,10 +1090,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2420,
+        "y": 2780,
         "lane": 0,
         "radius": 9,
-        "depth": 41,
+        "depth": 51,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": true
@@ -901,10 +1111,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2460,
+        "y": 2820,
         "lane": 0,
         "radius": 6,
-        "depth": 42,
+        "depth": 52,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -922,10 +1132,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2500,
+        "y": 2860,
         "lane": 0,
         "radius": 6,
-        "depth": 43,
+        "depth": 53,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -943,10 +1153,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2540,
+        "y": 2900,
         "lane": 0,
         "radius": 6,
-        "depth": 44,
+        "depth": 54,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -964,10 +1174,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2580,
+        "y": 2940,
         "lane": 0,
         "radius": 6,
-        "depth": 45,
+        "depth": 55,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -985,10 +1195,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2620,
+        "y": 2980,
         "lane": 0,
         "radius": 6,
-        "depth": 46,
+        "depth": 56,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1006,10 +1216,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2660,
+        "y": 3020,
         "lane": 0,
         "radius": 6,
-        "depth": 47,
+        "depth": 57,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1027,10 +1237,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2700,
+        "y": 3060,
         "lane": 0,
         "radius": 6,
-        "depth": 48,
+        "depth": 58,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1048,10 +1258,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2740,
+        "y": 3100,
         "lane": 0,
         "radius": 10,
-        "depth": 49,
+        "depth": 59,
         "is_trunk": true,
         "is_merge": true,
         "is_fork": false
@@ -1068,11 +1278,11 @@
       "subject": "chore: convert American spellings to British English",
       "refs": "",
       "position": {
-        "x": 1800,
-        "y": 2780,
-        "lane": 10,
+        "x": -480,
+        "y": 3140,
+        "lane": -9,
         "radius": 6,
-        "depth": 50,
+        "depth": 60,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -1090,10 +1300,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2860,
+        "y": 3220,
         "lane": 0,
         "radius": 9,
-        "depth": 51,
+        "depth": 61,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": true
@@ -1111,10 +1321,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2900,
+        "y": 3260,
         "lane": 0,
         "radius": 6,
-        "depth": 52,
+        "depth": 62,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1132,10 +1342,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2940,
+        "y": 3300,
         "lane": 0,
         "radius": 6,
-        "depth": 53,
+        "depth": 63,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1153,10 +1363,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2980,
+        "y": 3340,
         "lane": 0,
         "radius": 6,
-        "depth": 54,
+        "depth": 64,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1174,10 +1384,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3020,
+        "y": 3380,
         "lane": 0,
         "radius": 6,
-        "depth": 55,
+        "depth": 65,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1195,10 +1405,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3060,
+        "y": 3420,
         "lane": 0,
         "radius": 6,
-        "depth": 56,
+        "depth": 66,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1216,10 +1426,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3100,
+        "y": 3460,
         "lane": 0,
         "radius": 6,
-        "depth": 57,
+        "depth": 67,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1237,10 +1447,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3140,
+        "y": 3500,
         "lane": 0,
         "radius": 6,
-        "depth": 58,
+        "depth": 68,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1258,10 +1468,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3180,
+        "y": 3540,
         "lane": 0,
         "radius": 6,
-        "depth": 59,
+        "depth": 69,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1279,10 +1489,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3220,
+        "y": 3580,
         "lane": 0,
         "radius": 6,
-        "depth": 60,
+        "depth": 70,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1300,10 +1510,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3260,
+        "y": 3620,
         "lane": 0,
         "radius": 6,
-        "depth": 61,
+        "depth": 71,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1321,10 +1531,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3300,
+        "y": 3660,
         "lane": 0,
         "radius": 6,
-        "depth": 62,
+        "depth": 72,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1342,10 +1552,10 @@
       "refs": "tag: Main",
       "position": {
         "x": 600,
-        "y": 3340,
+        "y": 3700,
         "lane": 0,
         "radius": 6,
-        "depth": 63,
+        "depth": 73,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1354,7 +1564,7 @@
   ],
   "branches": [
     {
-      "name": "534a2680655251506f47c89a71e3d06edcf85b4b feat(profile): expand knob catalogue (DLSS-SR/RR, Reflex, FSR custom res, NV power, shader cache)",
+      "name": "b2318b3c702d9f0b8a20d75df256df0ed2387f04 feat(prefix,setup,aliases): wig kill, backup-data/restore-data, install-proton auto-kill",
       "sha": "*",
       "current": false,
       "merged": false
@@ -1367,11 +1577,11 @@
     },
     {
       "name": "latest",
-      "sha": "a106f405493d8ab9cce7094bbbb0089d1f752d06"
+      "sha": "1e78c3922f0881ad3be4ed2e69da40f3b223639d"
     },
     {
       "name": "v0.1.1",
-      "sha": "f55651adfa4ee673bc8e366d03eec816187530cc"
+      "sha": "a243d2e80ac255852e52504aa037681302a8e6ac"
     }
   ]
 }
