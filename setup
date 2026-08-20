@@ -65,9 +65,10 @@ USER APP REGISTRY (games, standalone .exes):
   remove <key>                 Remove a user entry
 
 SHORTCUT MANAGEMENT:
-  install-shortcut <key|all>          Create .desktop launcher shortcut (or all installed)
-  install-shortcut --profile <p> <key> Create profile-specific shortcut (key-p.desktop)
-  remove-shortcut  <key|all>          Remove desktop shortcut (or all)
+  install-shortcut <key|all>              Create .desktop shortcut for a registered launcher
+  install-shortcut --profile <p> <key>   Create profile-specific shortcut (key-p.desktop)
+  install-shortcut /path/to/Game.exe     Create shortcut for any .exe or .lnk (auto-detects icon)
+  remove-shortcut  <key|all>             Remove desktop shortcut (or all)
 
 PROFILE MANAGEMENT (per-app Proton/DXVK tuning):
   profile menu  [app-key]      Interactive knob editor (FPS cap, HUD, FSR, …)
@@ -97,6 +98,7 @@ EXAMPLES:
   ./setup install gog-galaxy
   ./setup launch gog-galaxy
   ./setup launch-exe /path/to/Game.exe
+  ./setup install-shortcut '/home/user/Games/GOG Galaxy/Cyberpunk 2077/REDprelauncher.exe'
   ./setup install-aliases          # then: source ~/.bashrc
   wig-launch gog-galaxy            # after aliases are active
 
@@ -162,8 +164,13 @@ main() {
         # Shortcut management
         install-shortcut)
             shift
-            if [ "$1" = "all" ]; then create_all_shortcuts
-            else create_shortcut "$@"; fi ;;
+            if [ "$1" = "all" ]; then
+                create_all_shortcuts
+            elif [[ "$1" == /* || "$1" == ./* || "${1,,}" == *.exe || "${1,,}" == *.lnk ]]; then
+                create_external_shortcut "$@"
+            else
+                create_shortcut "$@"
+            fi ;;
         remove-shortcut)
             if [ "$2" = "all" ]; then remove_all_shortcuts
             else remove_shortcut "$2"; fi ;;
