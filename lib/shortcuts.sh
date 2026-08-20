@@ -252,3 +252,120 @@ remove_all_shortcuts() {
     done
     print_success "Shortcuts removed: $removed"
 }
+
+# Create a .desktop shortcut for any Windows .exe or .lnk outside the APP_REGISTRY.
+# Usage: create_external_shortcut "/path/to/Game.exe" [display_name]
+# Icon priority: goggame-*.ico in dir > largest *.ico in dir > extracted from exe PE.
+create_external_shortcut() {
+    local exe_input="$1"
+    local display_name="${2:-}"
+
+    local exe_path
+    exe_path=$(readlink -f "$exe_input" 2>/dev/null)
+    if [ -z "$exe_path" ] || [ ! -f "$exe_path" ]; then
+        print_error "File not found: $exe_input"
+        return 1
+    fi
+
+    local exe_dir exe_bin ext
+    exe_dir=$(dirname "$exe_path")
+    exe_bin=$(basename "$exe_path")
+    ext="${exe_bin##*.}"
+
+    # Derive a stable key from the parent directory; fall back to exe stem for generic dirs.
+    local raw_key
+    raw_key=$(basename "$exe_dir" | tr '[:upper:]' '[:lower:]' | tr -s ' ' '-' | tr -cd 'a-z0-9-')
+    case "${raw_key}" in
+        bin|x64|x86|win64|win32|game|games|"")
+            raw_key=$(basename "$exe_bin" ".$ext" | tr '[:upper:]' '[:lower:]' | tr -s ' ' '-' | tr -cd 'a-z0-9-') ;;
+    esac
+    local app_key="ext-${raw_key:-unknown}"
+
+    if [ -z "$display_name" ]; then
+        display_name=$(basename "$exe_dir")
+        case "${display_name,,}" in
+            bin|x64|x86|win64|win32|game|games) display_name=$(basename "$exe_bin" ".$ext") ;;
+        esac
+    fi
+
+    local icon_dir="${HOME}/.local/share/icons/wine-gaming"
+    mkdir -p "$icon_dir"
+    local app_icon="application-x-ms-dos-executable"
+    local src_ico="" _f _sz _best_sz=0
+
+    # 1. GOG per-game icon — every GOG install drops goggame-<id>.ico next to the exe.
+    src_ico=$(find "$exe_dir" -maxdepth 1 -name "goggame-*.ico" -print 2>/dev/null | head -1)
+
+    # 2. Largest *.ico in the same directory (other publishers, Steam, etc.)
+    if [ -z "$src_ico" ]; then
+        while IFS= read -r -d '' _f; do
+            _sz=$(stat -c%s "$_f" 2>/dev/null || echo 0)
+            (( _sz > _best_sz )) && { _best_sz=$_sz; src_ico="$_f"; }
+        done < <(find "$exe_dir" -maxdepth 1 -name "*.ico" -print0 2>/dev/null)
+    fi
+
+    if [ -n "$src_ico" ]; then
+        local work_dir; work_dir=$(mktemp -d)
+        if command -v icotool &>/dev/null && icotool -x -o "$work_dir" "$src_ico" 2>/dev/null; then
+            local best_png="" best_png_sz=0
+            while IFS= read -r -d '' _f; do
+                _sz=$(stat -c%s "$_f" 2>/dev/null || echo 0)
+                (( _sz > best_png_sz )) && { best_png_sz=$_sz; best_png="$_f"; }
+            done < <(find "$work_dir" -name "*.png" -print0 2>/dev/null)
+            if [ -n "$best_png" ]; then
+                cp "$best_png" "${icon_dir}/${app_key}.png"
+                app_icon="${icon_dir}/${app_key}.png"
+            fi
+        fi
+        rm -rf "$work_dir"
+        if [ "$app_icon" = "application-x-ms-dos-executable" ]; then
+            cp "$src_ico" "${icon_dir}/${app_key}.ico"
+            app_icon="${icon_dir}/${app_key}.ico"
+        fi
+    fi
+
+    # 3. Fall back to extracting the icon from the exe's PE resources.
+    if [ "$app_icon" = "application-x-ms-dos-executable" ] && [ "${ext,,}" = "exe" ]; then
+        local extracted
+        extracted=$(extract_exe_icon "$app_key" "$exe_path")
+        [ -n "$extracted" ] && app_icon="$extracted"
+    fi
+
+    local launcher="$BIN_DIR/${app_key}"
+    local desktop="$APPS_DIR/${app_key}.desktop"
+
+    # Self-contained wrapper — paths baked in at generation time; no parse_app_config needed.
+    cat > "$launcher" <<LAUNCHER_EOF
+#!/bin/bash
+_dd="${WINEPREFIX}/pfx/dosdevices"
+export STEAM_COMPAT_DATA_PATH="${WINEPREFIX}"
+export STEAM_COMPAT_CLIENT_INSTALL_PATH="${WINE_DIR}/steam-root"
+export PROTON_LOG=1 PROTON_LOG_DIR="${WINE_DIR}"
+export WINEDLLOVERRIDES="winemenubuilder.exe=d"
+export WINEESYNC="\${WINEESYNC:-1}" WINEFSYNC="\${WINEFSYNC:-1}"
+
+[ -d "\${_dd}" ] && rm -f "\${_dd}/z:" "\${_dd}/z::" 2>/dev/null || true
+cd "${exe_dir}" || exit 1
+"${PROTON_DIR}/proton" run "${exe_bin}" >"${WINE_DIR}/${app_key}.log" 2>&1 &
+( _i=0; while [ \${_i} -lt 20 ]; do rm -f "\${_dd}/z:" "\${_dd}/z::" 2>/dev/null; sleep 0.5; _i=\$((\${_i}+1)); done ) &
+LAUNCHER_EOF
+    chmod +x "$launcher"
+
+    cat > "$desktop" <<DESKTOP_EOF
+[Desktop Entry]
+Name=${display_name}
+Exec=${launcher}
+Type=Application
+Categories=Game;
+Terminal=false
+StartupNotify=true
+Icon=${app_icon}
+DESKTOP_EOF
+
+    chmod 644 "$desktop"
+    command -v update-desktop-database &>/dev/null \
+        && update-desktop-database "$APPS_DIR" >/dev/null 2>&1 || true
+
+    print_success "Shortcut created: ${display_name}"
+    print_info "Key: ${app_key}  |  Icon: $(basename "${app_icon}")"
+}
