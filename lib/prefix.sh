@@ -11,7 +11,7 @@ _install_winetricks_verbs() {
         vcrun2022 vcrun2019 vcrun2015 vcrun2012
         d3dcompiler_47 d3dcompiler_43 d3dx9 d3dx10_43 d3dx11_43
         dxvk vkd3d
-        corefonts gdiplus
+        corefonts gdiplus cacerts
         directmusic faudio xact directplay directshow
         msctf
         gamemode
@@ -196,6 +196,8 @@ init() {
 # wine-gaming DXVK configuration
 # See https://github.com/doitsujin/dxvk/blob/master/dxvk.conf for all options.
 # OpenVR/OpenXR warnings are informational only; DXVK has no config option to suppress them.
+# Suppress llvmpipe software renderer from being offered to D3D apps.
+dxvk.hideIntegratedGraphics = True
 EOF
     fi
 
@@ -613,10 +615,12 @@ list_proton() {
         return 1
     fi
     echo "│ Available GE-Proton releases (newest first):"
-    # current_marker is not local — while runs in a subshell (pipe), local would error
+    # Read version once; case glob avoids grep substring false-positives (all tags share "GE-Proton").
+    local _curr_ver=""
+    [ -f "$PROTON_DIR/version" ] && _curr_ver=$(tr -d '[:space:]' < "$PROTON_DIR/version")
     echo "$tags" | while IFS= read -r tag; do
         current_marker=""
-        [ -f "$PROTON_DIR/version" ] && grep -q "$tag" "$PROTON_DIR/version" 2>/dev/null && current_marker=" ← installed"
+        case "$_curr_ver" in *"$tag"*) current_marker=" ← installed" ;; esac
         echo "  $tag${current_marker}"
     done
     echo "│ Install: wig install-proton <version>  |  wig install-proton latest"
