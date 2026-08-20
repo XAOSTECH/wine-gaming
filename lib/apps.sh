@@ -154,6 +154,7 @@ install_app() {
                     "C:\\windows\\temp\\disable-bg-svc.reg" >/dev/null 2>&1 || true
                 ;;
         esac
+        _ensure_cacerts
         create_shortcut "$app_key" && print_success "Desktop shortcut created" || true
         return 0
     else

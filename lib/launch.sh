@@ -64,6 +64,11 @@ launch_app() {
         export PROTON_LOG_DIR="$WINE_DIR"
         # Proton locks $STEAM_COMPAT_DATA_PATH/pfx.lock; the dir must exist first.
         mkdir -p "$WINEPREFIX"
+        # Z: drive points to / — remove to prevent launchers from traversing the host FS.
+        local _dd="$WINEPREFIX/pfx/dosdevices"
+        [ -d "$_dd" ] && rm -f "$_dd/z:" "$_dd/z::" 2>/dev/null || true
+        export WINEESYNC="${WINEESYNC:-1}" WINEFSYNC="${WINEFSYNC:-1}"
+        _ensure_cacerts
 
         cd "$exe_dir"
         # APP_LAUNCH_ARGS provides per-app arguments (e.g. -EpicPortal forces EGL store window).
