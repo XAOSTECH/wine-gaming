@@ -10,7 +10,6 @@ _install_winetricks_verbs() {
     local fast_verbs=(
         vcrun2022 vcrun2019 vcrun2015 vcrun2012
         d3dcompiler_47 d3dcompiler_43 d3dx9 d3dx10_43 d3dx11_43
-        dxvk vkd3d
         corefonts gdiplus cacerts
         directmusic faudio xact directplay directshow
         msctf
@@ -39,6 +38,7 @@ _install_winetricks_verbs() {
     (
         export WINE="$_wine_bin"
         export WINESERVER="$(dirname "$_wine_bin")/wineserver"
+        export PATH="$(dirname "$_wine_bin"):$PATH"
         export WINEPREFIX="$_wt_prefix"
         if [ -d "$PROTON_DIR/files/lib64" ]; then
             export LD_LIBRARY_PATH="$PROTON_DIR/files/lib:$PROTON_DIR/files/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"

@@ -74,6 +74,8 @@ launch_app() {
         # APP_LAUNCH_ARGS provides per-app arguments (e.g. -EpicPortal forces EGL store window).
         local _args="${APP_LAUNCH_ARGS[$app_key]:-}"
         eval "${WG_LAUNCH_PREFIX}\"\$PROTON_DIR/proton\" run \"\$exe_bin\" ${_args}" >"$WINE_DIR/${app_key}.log" 2>&1 &
+        # Proton wineboot recreates Z: on prefix version upgrade; sweep it until the exe settles.
+        ( _i=0; while [ $_i -lt 20 ]; do rm -f "$_dd/z:" "$_dd/z::" 2>/dev/null; sleep 0.5; _i=$((_i+1)); done ) &
     else
         print_warning "Proton not available, using Wine fallback"
         export WINEDEBUG="${WINEDEBUG:--all}"
