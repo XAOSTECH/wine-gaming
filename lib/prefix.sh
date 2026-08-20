@@ -464,16 +464,40 @@ install_proton() {
 
     print_info "Installing Proton-GE $version..."
 
-    local archive="${version}.tar.gz"
-    local url="https://github.com/GloriousEggroll/proton-ge-custom/releases/download/${version}/${archive}"
+    # GE-Proton11+ uses arch-suffixed tarballs; older releases used the bare tag name.
+    local _arch; _arch=$(uname -m)
+    local _archives=("${version}-${_arch}.tar.gz" "${version}.tar.gz")
 
     mkdir -p "$PROTON_DIR"
 
-    print_info "Downloading Proton-GE ${version}..."
-    if ! wget -q --show-progress -O "/tmp/${archive}" "$url"; then
+    local archive=""
+    for _try in "${_archives[@]}"; do
+        local _url="https://github.com/GloriousEggroll/proton-ge-custom/releases/download/${version}/${_try}"
+        for _attempt in 1 2 3; do
+            print_info "Downloading ${_try} (attempt ${_attempt}/3)..."
+            if wget -q --show-progress -O "/tmp/${_try}" "$_url"; then
+                archive="$_try"
+                break 2
+            fi
+            rm -f "/tmp/${_try}"
+            [ "$_attempt" -lt 3 ] && sleep $((_attempt * 2))
+        done
+    done
+
+    # gh CLI fallback when direct download is blocked or rate-limited.
+    if [ -z "$archive" ] && command -v gh &>/dev/null; then
+        print_info "wget failed — trying gh CLI fallback..."
+        if gh release download "$version" \
+            --repo GloriousEggroll/proton-ge-custom \
+            --pattern "*${_arch}.tar.gz" \
+            --dir /tmp --clobber 2>/dev/null; then
+            archive="${version}-${_arch}.tar.gz"
+        fi
+    fi
+
+    if [ -z "$archive" ]; then
         print_error "Download failed for $version"
         print_info "Browse releases: https://github.com/GloriousEggroll/proton-ge-custom/releases"
-        rm -f "/tmp/${archive}"
         return 1
     fi
 
