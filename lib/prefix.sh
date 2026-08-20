@@ -599,6 +599,9 @@ restore_launcher_data() {
     }
     print_success "Launcher data restored from $(basename "$target")"
 }
+
+# Show the 10 most recent GE-Proton release tags from GitHub.
+list_proton() {
     print_info "Fetching GE-Proton release list..."
     local tags
     tags=$(curl -sf \
@@ -610,8 +613,9 @@ restore_launcher_data() {
         return 1
     fi
     echo "│ Available GE-Proton releases (newest first):"
+    # current_marker is not local — while runs in a subshell (pipe), local would error
     echo "$tags" | while IFS= read -r tag; do
-        local current_marker=""
+        current_marker=""
         [ -f "$PROTON_DIR/version" ] && grep -q "$tag" "$PROTON_DIR/version" 2>/dev/null && current_marker=" ← installed"
         echo "  $tag${current_marker}"
     done
