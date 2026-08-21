@@ -331,6 +331,34 @@ create_external_shortcut() {
         [ -n "$extracted" ] && app_icon="$extracted"
     fi
 
+    # GOG: goggame-*.info marks a GOG game; prefer GalaxyClient for auth/DRM/overlay.
+    local launch_exe="$exe_bin" launch_dir="$exe_dir" launch_args=""
+    local gog_info
+    gog_info=$(find "$exe_dir" -maxdepth 1 -name "goggame-*.info" 2>/dev/null | head -1)
+    if [ -n "$gog_info" ]; then
+        local gog_id; gog_id=$(basename "$gog_info" | sed 's/goggame-//;s/\.info//')
+        if command -v python3 &>/dev/null && [ -z "${2:-}" ]; then
+            local json_name
+            json_name=$(python3 -c "
+import json,sys
+try:
+    d=json.load(open(sys.argv[1]))
+    print(d.get('name',''))
+except: pass
+" "$gog_info" 2>/dev/null)
+            [ -n "$json_name" ] && display_name="$json_name"
+        fi
+        local galaxy_exe="$WINEPREFIX/pfx/drive_c/Program Files (x86)/GOG Galaxy/GalaxyClient.exe"
+        if [ -f "$galaxy_exe" ]; then
+            launch_exe="GalaxyClient.exe"
+            launch_dir="$WINEPREFIX/pfx/drive_c/Program Files (x86)/GOG Galaxy"
+            launch_args="/command=runGame /gameId=${gog_id}"
+            print_info "GOG game ID ${gog_id} — launching via GalaxyClient"
+        else
+            print_warning "GOG Galaxy not found in prefix; launching game exe directly"
+        fi
+    fi
+
     local launcher="$BIN_DIR/${app_key}"
     local desktop="$APPS_DIR/${app_key}.desktop"
 
@@ -345,8 +373,8 @@ export WINEDLLOVERRIDES="winemenubuilder.exe=d"
 export WINEESYNC="\${WINEESYNC:-1}" WINEFSYNC="\${WINEFSYNC:-1}"
 
 [ -d "\${_dd}" ] && rm -f "\${_dd}/z:" "\${_dd}/z::" 2>/dev/null || true
-cd "${exe_dir}" || exit 1
-"${PROTON_DIR}/proton" run "${exe_bin}" >"${WINE_DIR}/${app_key}.log" 2>&1 &
+cd "${launch_dir}" || exit 1
+"${PROTON_DIR}/proton" run "${launch_exe}" ${launch_args} >"${WINE_DIR}/${app_key}.log" 2>&1 &
 ( _i=0; while [ \${_i} -lt 20 ]; do rm -f "\${_dd}/z:" "\${_dd}/z::" 2>/dev/null; sleep 0.5; _i=\$((\${_i}+1)); done ) &
 LAUNCHER_EOF
     chmod +x "$launcher"
@@ -368,4 +396,90 @@ DESKTOP_EOF
 
     print_success "Shortcut created: ${display_name}"
     print_info "Key: ${app_key}  |  Icon: $(basename "${app_icon}")"
+}
+
+# Scan a path (or default prefix + common GOG locations) for GOG games and Windows .lnk
+# shortcuts, then create Proton-based .desktop entries for each discovered game.
+# Usage: scan_shortcuts [path]
+scan_shortcuts() {
+    local scan_arg="${1:-}"
+    local created=0 skipped=0
+
+    print_info "Scanning for GOG games and Windows shortcuts..."
+
+    # Build list of directories to search
+    local -a roots=()
+    if [ -n "$scan_arg" ]; then
+        roots=("$scan_arg")
+    else
+        for d in \
+            "$WINEPREFIX/pfx/drive_c/users/steamuser/Desktop" \
+            "$WINEPREFIX/pfx/drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs" \
+            "${HOME}/Games" "${HOME}/GOG Games" "${HOME}/Games/GOG Galaxy"; do
+            [ -d "$d" ] && roots+=("$d")
+        done
+    fi
+
+    if [ ${#roots[@]} -eq 0 ]; then
+        print_warning "No directories to scan. Try: wig scan-shortcuts /path/to/games/"
+        return 1
+    fi
+
+    # Track processed dirs to avoid duplicate shortcuts from .lnk + goggame-*.info in same dir
+    local -A _seen=()
+
+    # Pass 1: GOG game directories identified by goggame-*.info
+    while IFS= read -r -d '' info_file; do
+        local game_dir; game_dir=$(dirname "$info_file")
+        [[ -n "${_seen[$game_dir]:-}" ]] && continue
+        _seen[$game_dir]=1
+
+        # Parse primary play task exe from the info JSON
+        local primary_exe=""
+        if command -v python3 &>/dev/null; then
+            primary_exe=$(python3 -c "
+import json, sys
+try:
+    d = json.load(open(sys.argv[1]))
+    for t in d.get('playTasks', []):
+        if t.get('isPrimary') and t.get('type') == 'FileTask':
+            print(t.get('path', '').replace('\\\\\\\\', '/').strip('/'))
+            break
+except: pass
+" "$info_file" 2>/dev/null)
+        fi
+
+        # Fallback: largest .exe in the game dir
+        if [ -z "$primary_exe" ] || [ ! -f "$game_dir/$primary_exe" ]; then
+            local _bf="" _bsz=0 _f _sz
+            while IFS= read -r -d '' _f; do
+                _sz=$(stat -c%s "$_f" 2>/dev/null || echo 0)
+                (( _sz > _bsz )) && { _bsz=$_sz; _bf="$_f"; }
+            done < <(find "$game_dir" -maxdepth 1 -name "*.exe" -print0 2>/dev/null)
+            [ -n "$_bf" ] && primary_exe=$(basename "$_bf")
+        fi
+
+        if [ -n "$primary_exe" ] && [ -f "$game_dir/$primary_exe" ]; then
+            print_info "GOG game: $(basename "$game_dir") → $primary_exe"
+            create_external_shortcut "$game_dir/$primary_exe" && ((created++)) || ((skipped++))
+        fi
+    done < <(find "${roots[@]}" -name "goggame-*.info" -print0 2>/dev/null)
+
+    # Pass 2: Windows .lnk shortcuts not already covered by goggame detection
+    while IFS= read -r -d '' lnk; do
+        local lnk_dir; lnk_dir=$(dirname "$lnk")
+        [[ -n "${_seen[$lnk_dir]:-}" ]] && continue
+        local lnk_name; lnk_name=$(basename "$lnk" .lnk)
+        case "${lnk_name,,}" in
+            "gog galaxy"|"gog launcher"|"gog galaxy updater") continue ;;
+        esac
+        print_info "LNK: $lnk_name"
+        create_external_shortcut "$lnk" "$lnk_name" && ((created++)) || ((skipped++))
+    done < <(find "${roots[@]}" -name "*.lnk" -print0 2>/dev/null)
+
+    if (( created + skipped == 0 )); then
+        print_warning "No games found. Try specifying the games directory: wig scan-shortcuts /path/to/games/"
+    else
+        print_success "Scan complete — created: $created  skipped/failed: $skipped"
+    fi
 }

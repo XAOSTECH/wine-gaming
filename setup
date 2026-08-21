@@ -68,6 +68,8 @@ SHORTCUT MANAGEMENT:
   install-shortcut <key|all>              Create .desktop shortcut for a registered launcher
   install-shortcut --profile <p> <key>   Create profile-specific shortcut (key-p.desktop)
   install-shortcut /path/to/Game.exe     Create shortcut for any .exe or .lnk (auto-detects icon)
+  scan-shortcuts [path]                  Scan for GOG games + Windows .lnk files; create all shortcuts
+                                         (default: prefix desktop/start-menu + ~/Games)
   remove-shortcut  <key|all>             Remove desktop shortcut (or all)
 
 PROFILE MANAGEMENT (per-app Proton/DXVK tuning):
@@ -174,6 +176,7 @@ main() {
         remove-shortcut)
             if [ "$2" = "all" ]; then remove_all_shortcuts
             else remove_shortcut "$2"; fi ;;
+        scan-shortcuts)      shift; scan_shortcuts "${1:-}" ;;
 
         # Profiles
         profile)             shift; profile_dispatch "$@" ;;
