@@ -451,6 +451,8 @@ _sandbox_z_drive() {
     mkdir -p "$WINEPREFIX/pfx/drive_c/z-sandbox"
     rm -f "$_dd/z:" "$_dd/z::" 2>/dev/null
     ln -sfn "../drive_c/z-sandbox" "$_dd/z:" 2>/dev/null || true
+    # /dev/null device node: lets Wine query the volume without EACCES.
+    ln -sfn "/dev/null" "$_dd/z::" 2>/dev/null || true
 }
 
 # Auto-detect mounted external volumes and map each to the next free drive letter
@@ -494,10 +496,11 @@ _map_external_drives() {
         ln -sfn "$_real" "$_dd/${_letter}:" 2>/dev/null \
             && _mapped["$_real"]=1 \
             && print_info "Drive ${_letter^^}: → $_real  (update game library path in launcher settings to use ${_letter^^}:)"
-        # d:: is the raw block-device symlink; Wine needs it to read volume serial/label without EACCES.
-        local _dev; _dev=$(findmnt -n -o SOURCE "$_real" 2>/dev/null)
-        [ -b "${_dev:-}" ] && ln -sfn "$_dev" "$_dd/${_letter}::" 2>/dev/null || true
+        # /dev/null lets Wine open the device node without root (prevents EACCES for all mapped drives).
+        ln -sfn "/dev/null" "$_dd/${_letter}::" 2>/dev/null || true
     done
+    # Z: always exists; give it a :: node too so installs suppress the EACCES probe.
+    [ -L "$_dd/z:" ] && [ ! -L "$_dd/z::" ] && ln -sfn "/dev/null" "$_dd/z::" 2>/dev/null || true
 }
 
 # Configure Wine drive letter mappings.

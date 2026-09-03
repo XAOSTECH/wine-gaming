@@ -44,8 +44,8 @@ install_app() {
     local -a _extra; read -ra _extra <<< "${APP_INSTALL_ARGS[$app_key]:-}"
     case "${installer_path,,}" in
         *.msi)
-            # /qn = no UI; REBOOT=ReallySuppress prevents Wine from attempting a reboot.
-            run_cmd=(msiexec /i "$installer_path" /qn REBOOT=ReallySuppress "${_extra[@]}")
+            # /passive = unattended (progress bar, no clicks); /qn breaks some MSI custom actions.
+            run_cmd=(msiexec /i "$installer_path" /passive REBOOT=ReallySuppress "${_extra[@]}")
             ;;
         *)
             run_cmd=("$installer_path" "${_extra[@]}")
