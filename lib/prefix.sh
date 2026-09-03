@@ -308,8 +308,8 @@ full_setup() {
     # If a prefix already exists, back up launcher sessions before wiping.
     local _had_data=0
     if [ -d "$WINEPREFIX/pfx/drive_c" ]; then
-        print_info "Existing prefix detected — backing up launcher data before purge..."
-        backup_launcher_data && _had_data=1 || true
+        print_info "Preserving launcher data before purge (instant move — no compression)..."
+        _stash_launcher_data && _had_data=1 || true
     fi
 
     purge
@@ -337,8 +337,8 @@ full_setup() {
     [ "$failed" -gt 0 ] && echo -e "  Failed apps:$failed_apps"
 
     if [ "$_had_data" -eq 1 ]; then
-        print_info "Restoring launcher sessions from pre-reinstall backup..."
-        restore_launcher_data --auto || true
+        print_info "Restoring launcher sessions..."
+        _unstash_launcher_data || true
     fi
 
     print_success "Full setup complete"
@@ -397,6 +397,52 @@ quick_setup() {
     fi
 }
 
+# Move launcher AppData/ProgramData dirs outside the prefix so purge can wipe
+# freely. Lives at $WINE_DIR/.launcher-stash (same FS as prefix → mv is instant).
+_stash_launcher_data() {
+    local _pc="$WINEPREFIX/pfx/drive_c"
+    [ -d "$_pc" ] || return 1
+    local _stash="$WINE_DIR/.launcher-stash"
+    rm -rf "$_stash" && mkdir -p "$_stash"
+    local -a _dirs=(
+        "users/steamuser/AppData/Local/GOG.com"
+        "users/steamuser/AppData/Roaming/GOG.com"
+        "ProgramData/GOG.com"
+        "users/steamuser/AppData/Local/EpicGamesLauncher"
+        "ProgramData/Epic"
+        "users/steamuser/AppData/Local/Electronic Arts"
+        "users/steamuser/AppData/Roaming/Electronic Arts"
+        "users/steamuser/AppData/Local/Ubisoft"
+        "users/steamuser/AppData/Roaming/Ubisoft"
+        "users/steamuser/AppData/Local/Amazon Games"
+        "users/steamuser/AppData/Roaming/Amazon Games"
+        "users/steamuser/AppData/Local/Programs/legacy-games-launcher"
+        "users/steamuser/AppData/Roaming/Legacy Games Launcher"
+    )
+    local _count=0
+    for _d in "${_dirs[@]}"; do
+        [ -d "$_pc/$_d" ] || continue
+        mkdir -p "$_stash/$(dirname "$_d")"
+        mv "$_pc/$_d" "$_stash/$_d" && ((_count++))
+    done
+    if [ "$_count" -eq 0 ]; then rm -rf "$_stash"; return 1; fi
+    print_info "Stashed $_count launcher data directories"
+}
+
+# Merge the stash back into a freshly-built prefix. Uses cp -rT for directory merge.
+_unstash_launcher_data() {
+    local _stash="$WINE_DIR/.launcher-stash"
+    [ -d "$_stash" ] || return 0
+    local _pc="$WINEPREFIX/pfx/drive_c"
+    if [ ! -d "$_pc" ]; then
+        print_warning "Prefix not ready — stash kept at $_stash"
+        return 1
+    fi
+    cp -rT "$_stash" "$_pc" 2>/dev/null && rm -rf "$_stash" \
+        && print_success "Launcher data restored from stash" \
+        || print_warning "Stash restore had errors — data kept at $_stash"
+}
+
 # Remap Z: from / to an inert sandbox dir so launchers cannot see the host FS
 # for disk-space checks or path traversal, while keeping Z: visible to Wine.
 _sandbox_z_drive() {
@@ -448,6 +494,9 @@ _map_external_drives() {
         ln -sfn "$_real" "$_dd/${_letter}:" 2>/dev/null \
             && _mapped["$_real"]=1 \
             && print_info "Drive ${_letter^^}: → $_real  (update game library path in launcher settings to use ${_letter^^}:)"
+        # d:: is the raw block-device symlink; Wine needs it to read volume serial/label without EACCES.
+        local _dev; _dev=$(findmnt -n -o SOURCE "$_real" 2>/dev/null)
+        [ -b "${_dev:-}" ] && ln -sfn "$_dev" "$_dd/${_letter}::" 2>/dev/null || true
     done
 }
 
