@@ -29,7 +29,6 @@ install_app() {
     unset PROTON_LOG PROTON_LOG_DIR
     mkdir -p "$WINE_DIR/steam-root"
     mkdir -p "$WINEPREFIX"
-    _sandbox_z_drive
     _map_external_drives
 
     # First run builds the prefix (copies thousands of DLLs) before the installer

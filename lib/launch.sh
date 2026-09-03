@@ -116,7 +116,6 @@ launch_external_exe() {
         export PROTON_LOG_DIR="$WINE_DIR"
         mkdir -p "$WINE_DIR/steam-root"
         mkdir -p "$WINEPREFIX"
-        _sandbox_z_drive
         "$PROTON_DIR/proton" run "$exe_path" &
     else
         print_warning "Proton not available, using Wine fallback"
