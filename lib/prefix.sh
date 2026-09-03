@@ -108,6 +108,107 @@ restore() {
     return 0
 }
 
+# Back up all launcher profile/login data from the Proton prefix.
+# Stored as $BACKUP_DIR/launcher-data-YYYYMMDD-HHMMSS.tar.gz.
+backup_launcher_data() {
+    local prefix_c="$WINEPREFIX/pfx/drive_c"
+    if [ ! -d "$prefix_c" ]; then
+        print_error "Proton prefix not initialised (no drive_c)"
+        return 1
+    fi
+
+    local -a data_dirs=(
+        "users/steamuser/AppData/Local/GOG.com"
+        "users/steamuser/AppData/Roaming/GOG.com"
+        "ProgramData/GOG.com"
+        "users/steamuser/AppData/Local/EpicGamesLauncher"
+        "ProgramData/Epic"
+        "users/steamuser/AppData/Local/Electronic Arts"
+        "users/steamuser/AppData/Roaming/Electronic Arts"
+        "users/steamuser/AppData/Local/Ubisoft"
+        "users/steamuser/AppData/Roaming/Ubisoft"
+        "users/steamuser/AppData/Local/Amazon Games"
+        "users/steamuser/AppData/Roaming/Amazon Games"
+        "users/steamuser/AppData/Local/Programs/legacy-games-launcher"
+        "users/steamuser/AppData/Roaming/Legacy Games Launcher"
+    )
+
+    local -a present=()
+    for d in "${data_dirs[@]}"; do
+        [ -d "$prefix_c/$d" ] && present+=("$d")
+    done
+
+    if [ ${#present[@]} -eq 0 ]; then
+        print_warning "No launcher data directories found to back up"
+        return 0
+    fi
+
+    mkdir -p "$BACKUP_DIR"
+    local archive="$BACKUP_DIR/launcher-data-$(date +%Y%m%d-%H%M%S).tar.gz"
+    print_info "Backing up ${#present[@]} launcher data directories..."
+    (cd "$prefix_c" && tar -czf "$archive" "${present[@]}" 2>/dev/null)
+    local size; size=$(du -sh "$archive" 2>/dev/null | cut -f1)
+    print_success "Launcher data backed up: $archive ($size)"
+    printf '    %s\n' "${present[@]}"
+}
+
+# List available launcher data backups.
+list_launcher_backups() {
+    local -a backups
+    mapfile -t backups < <(ls -1t "$BACKUP_DIR"/launcher-data-*.tar.gz 2>/dev/null)
+    if [ ${#backups[@]} -eq 0 ]; then
+        print_info "No launcher data backups in $BACKUP_DIR"
+        return 0
+    fi
+    echo "│ Launcher data backups (newest first):"
+    for b in "${backups[@]}"; do
+        local sz; sz=$(du -sh "$b" 2>/dev/null | cut -f1)
+        printf '  %-55s %s\n' "$(basename "$b")" "($sz)"
+    done
+    echo "│ Restore: wig restore-data [backup-name-fragment]"
+}
+
+# Restore launcher data from a backup archive.
+# Usage: restore_launcher_data [--auto] [name-fragment]  (default: most recent)
+restore_launcher_data() {
+    local _auto=0
+    [ "${1:-}" = "--auto" ] && { _auto=1; shift; }
+    local target_arg="${1:-}"
+    local prefix_c="$WINEPREFIX/pfx/drive_c"
+    local -a backups
+    mapfile -t backups < <(ls -1t "$BACKUP_DIR"/launcher-data-*.tar.gz 2>/dev/null)
+
+    if [ ${#backups[@]} -eq 0 ]; then
+        print_error "No launcher data backups found in $BACKUP_DIR"
+        return 1
+    fi
+
+    local target
+    if [ -z "$target_arg" ]; then
+        target="${backups[0]}"
+        print_info "Using most recent backup: $(basename "$target")"
+    else
+        for b in "${backups[@]}"; do
+            [[ "$b" == *"$target_arg"* ]] && { target="$b"; break; }
+        done
+        if [ -z "${target:-}" ]; then
+            print_error "No backup matching '$target_arg'"
+            list_launcher_backups
+            return 1
+        fi
+    fi
+
+    if [ "$_auto" -eq 0 ]; then
+        print_warning "Restoring will overwrite current launcher data from: $(basename "$target")"
+        print_warning "Press Enter to continue (Ctrl-C to abort)..."
+        read -r _
+    fi
+
+    mkdir -p "$prefix_c"
+    tar -xzf "$target" -C "$prefix_c" || { print_error "Restore failed"; return 1; }
+    print_success "Launcher data restored from $(basename "$target")"
+}
+
 # Initialise a fresh Wine prefix with all required dependencies.
 init() {
     if [ -d "${WINEPREFIX:-}" ]; then
@@ -181,8 +282,16 @@ _install_with_fallback() {
 # Full setup: purge → init → install all launchers.
 full_setup() {
     print_info "Running full setup..."
+
+    # If a prefix already exists, back up launcher sessions before wiping.
+    local _had_data=0
+    if [ -d "$WINEPREFIX/pfx/drive_c" ]; then
+        print_info "Existing prefix detected — backing up launcher data before purge..."
+        backup_launcher_data && _had_data=1 || true
+    fi
+
     purge
-    init
+    init "$@"
     backup
 
     print_info "Installing all registered launchers..."
@@ -204,6 +313,12 @@ full_setup() {
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     print_info "Full Setup Summary: Successful=$succeeded  Failed=$failed"
     [ "$failed" -gt 0 ] && echo -e "  Failed apps:$failed_apps"
+
+    if [ "$_had_data" -eq 1 ]; then
+        print_info "Restoring launcher sessions from pre-reinstall backup..."
+        restore_launcher_data --auto || true
+    fi
+
     print_success "Full setup complete"
 }
 
