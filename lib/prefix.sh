@@ -8,39 +8,60 @@
 # sees winetricks progress instead of a silent hang during dotnet/physx.
 _install_winetricks_verbs() {
     local fast_verbs=(
-        vcrun2019 vcrun2015 vcrun2012
+        vcrun2022 vcrun2019 vcrun2015 vcrun2012
         d3dcompiler_47 d3dcompiler_43 d3dx9 d3dx10_43 d3dx11_43
-        dxvk vkd3d
-        corefonts gdiplus
+        corefonts gdiplus cacerts
         directmusic faudio xact directplay directshow
         msctf
         gamemode
     )
     local heavy_verbs=( dotnet48 dotnet472 physx )
 
-    print_info "Installing fast winetricks verbs (${#fast_verbs[@]} packages)..."
-    local v
-    for v in "${fast_verbs[@]}"; do
-        printf "  → %s ... " "$v"
-        if WINETRICKS_LATEST_VERSION_CHECK=disabled \
-                winetricks -q --force "$v" >/dev/null 2>&1; then
-            echo "ok"
-        else
-            echo "FAILED (continuing)"
-        fi
+    # Winetricks must target Proton's pfx/ prefix — not the bare STEAM_COMPAT_DATA_PATH.
+    local _wt_prefix="$WINEPREFIX/pfx"
+    if [ ! -d "$_wt_prefix/drive_c/windows/system32" ]; then
+        print_warning "Skipping winetricks: Proton prefix not yet initialised."
+        print_info "Run 'wig install <app>' first, then 'wig init' for verbs."
+        return 0
+    fi
+
+    local _wine_bin="wine"
+    for _c in "$PROTON_DIR/files/bin/wine64" "$PROTON_DIR/files/bin/wine"; do
+        [ -x "$_c" ] && { _wine_bin="$_c"; break; }
     done
 
-    print_warning "Installing heavy verbs (${heavy_verbs[*]}) — each may take several minutes"
-    print_info "Output is streamed below; press Ctrl-C to skip a verb."
-    for v in "${heavy_verbs[@]}"; do
-        echo ""
-        print_info "winetricks → $v"
-        WINETRICKS_LATEST_VERSION_CHECK=disabled \
-            winetricks -q --force "$v" 2>&1 \
-            | grep -v "warning: You are using a 64-bit WINEPREFIX" \
-            | grep -v "Note that many verbs only install 32-bit" \
-            || print_warning "$v failed or was skipped — continuing"
-    done
+    # Subshell isolates Proton wine env from the rest of the script.
+    (
+        export WINE="$_wine_bin"
+        export WINESERVER="$(dirname "$_wine_bin")/wineserver"
+        export PATH="$(dirname "$_wine_bin"):$PATH"
+        export WINEPREFIX="$_wt_prefix"
+        [ -d "$PROTON_DIR/files/lib64" ] && \
+            export LD_LIBRARY_PATH="$PROTON_DIR/files/lib:$PROTON_DIR/files/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
+        print_info "Installing fast winetricks verbs (${#fast_verbs[@]} packages)..."
+        local v
+        for v in "${fast_verbs[@]}"; do
+            printf "  → %s ... " "$v"
+            if WINETRICKS_LATEST_VERSION_CHECK=disabled \
+                    winetricks -q --force "$v" >/dev/null 2>&1; then
+                echo "ok"
+            else
+                echo "FAILED (continuing)"
+            fi
+        done
+
+        print_warning "Installing heavy verbs (${heavy_verbs[*]}) — each may take several minutes"
+        print_info "Output is streamed below; press Ctrl-C to skip a verb."
+        for v in "${heavy_verbs[@]}"; do
+            echo ""
+            print_info "winetricks → $v"
+            WINETRICKS_LATEST_VERSION_CHECK=disabled \
+                winetricks -q --force "$v" 2>&1 \
+                | grep -Ev "^warning:|winetricks latest version|^Executing cd|^-{10,}\$|^WINEPREFIX INFO:|Drive C:|^[dl-][-rwx]{9} |^Registry info:|/#arch=|^\$" \
+                || print_warning "$v failed or was skipped — continuing"
+        done
+    )
 }
 
 # Print the managed prefix paths and env-var exports for manual use.
@@ -145,7 +166,8 @@ backup_launcher_data() {
 
     mkdir -p "$BACKUP_DIR"
     local archive="$BACKUP_DIR/launcher-data-$(date +%Y%m%d-%H%M%S).tar.gz"
-    print_info "Backing up ${#present[@]} launcher data directories..."
+    local _est; _est=$(cd "$prefix_c" && du -sch "${present[@]}" 2>/dev/null | tail -1 | awk '{print $1}')
+    print_info "Backing up ${#present[@]} launcher data directories (~${_est:-?}) — this may take a while for large libraries..."
     (cd "$prefix_c" && tar -czf "$archive" "${present[@]}" 2>/dev/null)
     local size; size=$(du -sh "$archive" 2>/dev/null | cut -f1)
     print_success "Launcher data backed up: $archive ($size)"

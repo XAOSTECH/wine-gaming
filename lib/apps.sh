@@ -41,9 +41,15 @@ install_app() {
     # MSI packages must be driven through msiexec; handing the .msi straight to
     # Proton only opens it and exits, so nothing installs (e.g. Epic, Ubisoft).
     local -a run_cmd
+    local -a _extra; read -ra _extra <<< "${APP_INSTALL_ARGS[$app_key]:-}"
     case "${installer_path,,}" in
-        *.msi) run_cmd=(msiexec /i "$installer_path") ;;
-        *)     run_cmd=("$installer_path") ;;
+        *.msi)
+            # /qn = no UI; REBOOT=ReallySuppress prevents Wine from attempting a reboot.
+            run_cmd=(msiexec /i "$installer_path" /qn REBOOT=ReallySuppress "${_extra[@]}")
+            ;;
+        *)
+            run_cmd=("$installer_path" "${_extra[@]}")
+            ;;
     esac
 
     "$PROTON_DIR/proton" run "${run_cmd[@]}"

@@ -16,6 +16,15 @@ export WINEPREFIX WINEARCH=win64
 DXVK_CONFIG_FILE="$WINE_DIR/dxvk.conf"
 export DXVK_CONFIG_FILE
 
+# Per-app install arguments for silent/unattended installation.
+# NSIS EXEs: /VERYSILENT /SUPPRESSMSGBOXES /NORESTART; MSI properties appended to /qn.
+declare -A APP_INSTALL_ARGS=(
+    [gog-galaxy]="/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-"
+    [ubisoft-connect]="/VERYSILENT /SUPPRESSMSGBOXES /NORESTART"
+    [legacy-games]="/S"
+    [amazon-games]="/S"
+)
+
 # Per-app launch arguments appended after the exe (e.g. force UI open)
 declare -A APP_LAUNCH_ARGS=(
     [epic-games]="-EpicPortal"
