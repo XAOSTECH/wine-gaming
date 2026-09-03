@@ -74,20 +74,51 @@ ALIAS_EOF
     print_success "Global wrapper created: $WIG_BIN"
     print_success "Aliases written to $ALIAS_FILE"
 
-    # Wire into ~/.bashrc if not already present.
-    local bashrc="${HOME}/.bashrc"
-    local source_line="[ -f \"$ALIAS_FILE\" ] && source \"$ALIAS_FILE\"  # wine-gaming aliases"
+    local _current_shell; _current_shell=$(basename "${SHELL:-bash}")
+    local _source_line="[ -f \"$ALIAS_FILE\" ] && source \"$ALIAS_FILE\"  # wine-gaming aliases"
 
-    if grep -qF "wine-gaming aliases" "$bashrc" 2>/dev/null; then
-        print_info "~/.bashrc already sources wine-gaming aliases (no change needed)"
-    else
-        printf '\n%s\n' "$source_line" >> "$bashrc"
-        print_success "Added to ~/.bashrc: source $ALIAS_FILE"
+    # bash and zsh share identical alias syntax
+    for _rc in "${HOME}/.bashrc" "${HOME}/.zshrc"; do
+        [[ "$_rc" == *zshrc ]] && [ ! -f "$_rc" ] && [ "$_current_shell" != "zsh" ] && continue
+        if grep -qF "wine-gaming aliases" "$_rc" 2>/dev/null; then
+            print_info "$(basename "$_rc") already sources wine-gaming aliases"
+        else
+            printf '\n%s\n' "$_source_line" >> "$_rc"
+            print_success "Added wine-gaming aliases to $(basename "$_rc")"
+        fi
+    done
+
+    # Fish uses conf.d for auto-loading and requires its own alias syntax
+    if command -v fish &>/dev/null || [ "$_current_shell" = "fish" ]; then
+        local _fish_conf="${HOME}/.config/fish/conf.d/wine-gaming.fish"
+        mkdir -p "$(dirname "$_fish_conf")"
+        cat > "$_fish_conf" << 'FISH_EOF'
+# wine-gaming fish aliases — auto-generated
+if command -sq wig
+    alias wig-launch 'wig launch'
+    alias wig-launch-exe 'wig launch-exe'
+    alias wig-install 'wig install'
+    alias wig-install-all 'wig install-all'
+    alias wig-uninstall 'wig uninstall'
+    alias wig-list 'wig list'
+    alias wig-init 'wig init'
+    alias wig-purge 'wig purge'
+    alias wig-info 'wig prefix-info'
+    alias wig-shortcuts 'wig install-shortcut'
+    alias wig-profile 'wig profile'
+    alias wig-help 'wig help'
+    alias wig-kill 'wig kill'
+    alias wig-backup 'wig backup-data'
+    alias wig-restore 'wig restore-data'
+    alias wig-backups 'wig list-backups'
+    fish_add_path "$HOME/.local/bin"
+end
+FISH_EOF
+        print_success "Fish aliases written to $_fish_conf (auto-loaded by fish)"
     fi
 
-    # Warn if ~/.local/bin is not yet in PATH.
-    if [[ ":$PATH:" != *":${HOME}/.local/bin:"* ]]; then
-        print_warning "~/.local/bin is not in your PATH. Add to ~/.bashrc:"
+    if [ "$_current_shell" != "fish" ] && [[ ":$PATH:" != *":${HOME}/.local/bin:"* ]]; then
+        print_warning "~/.local/bin is not in your PATH. Add to ~/.$_current_shell""rc:"
         echo '    export PATH="$HOME/.local/bin:$PATH"'
     fi
 
@@ -95,8 +126,11 @@ ALIAS_EOF
     print_info "Available wig-* aliases (also: wig <command> directly):"
     grep "^alias" "$ALIAS_FILE" | sed 's/alias /  /'
     echo ""
-    print_warning "To activate in this terminal, run:"
-    echo "    source ~/.bashrc"
+    case "$_current_shell" in
+        zsh)  print_warning "To activate in this terminal, run:"; echo "    source ~/.zshrc" ;;
+        fish) print_info "Fish aliases load automatically in new terminals (conf.d)." ;;
+        *)    print_warning "To activate in this terminal, run:"; echo "    source ~/.bashrc" ;;
+    esac
     print_info "Or open a new terminal — aliases will be available automatically from then on."
     print_info "Folder moved later? Just re-run: ./setup install-aliases"
 }
@@ -117,12 +151,16 @@ remove_aliases() {
 
     [ -f "$WIG_LOCATION" ] && rm -f "$WIG_LOCATION"
 
-    local bashrc="${HOME}/.bashrc"
-    if grep -qF "wine-gaming aliases" "$bashrc" 2>/dev/null; then
-        # Remove the source line (and the blank line before it if any)
-        sed -i '/wine-gaming aliases/d' "$bashrc"
-        print_success "Removed wine-gaming aliases source line from ~/.bashrc"
-    fi
+    # Scrub the source line from every shell RC that might have it
+    for _rc in "${HOME}/.bashrc" "${HOME}/.zshrc"; do
+        grep -qF "wine-gaming aliases" "$_rc" 2>/dev/null || continue
+        sed -i '/wine-gaming aliases/d' "$_rc"
+        print_success "Removed wine-gaming aliases entry from $(basename "$_rc")"
+    done
+
+    local _fish_conf="${HOME}/.config/fish/conf.d/wine-gaming.fish"
+    [ -f "$_fish_conf" ] && rm -f "$_fish_conf" \
+        && print_success "Removed fish aliases: $_fish_conf"
 }
 
 # Print the currently installed wig-* aliases and wig wrapper status.

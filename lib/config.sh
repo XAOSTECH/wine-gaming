@@ -20,7 +20,9 @@ export DXVK_CONFIG_FILE
 # NSIS EXEs: /VERYSILENT /SUPPRESSMSGBOXES /NORESTART; MSI properties appended to /qn.
 declare -A APP_INSTALL_ARGS=(
     [gog-galaxy]="/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-"
+    [epic-games]="LAUNCH=0"                    # MSI property: suppress post-install auto-launch
     [ubisoft-connect]="/VERYSILENT /SUPPRESSMSGBOXES /NORESTART"
+    [ea-desktop]="/quiet /norestart"           # WiX Bundle flags for EAappInstaller.exe
     [legacy-games]="/S"
     [amazon-games]="/S"
 )
