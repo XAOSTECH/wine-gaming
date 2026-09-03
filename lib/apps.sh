@@ -28,8 +28,9 @@ install_app() {
     # not silently to a file — makes hangs and errors immediately visible.
     unset PROTON_LOG PROTON_LOG_DIR
     mkdir -p "$WINE_DIR/steam-root"
-    # Proton locks $STEAM_COMPAT_DATA_PATH/pfx.lock; the dir must exist first.
     mkdir -p "$WINEPREFIX"
+    _sandbox_z_drive
+    _map_external_drives
 
     # First run builds the prefix (copies thousands of DLLs) before the installer
     # window appears, during which Proton is silent — warn so it isn't mistaken for a hang.

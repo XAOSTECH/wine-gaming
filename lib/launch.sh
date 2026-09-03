@@ -62,11 +62,16 @@ launch_app() {
         export STEAM_COMPAT_CLIENT_INSTALL_PATH="$WINE_DIR/steam-root"
         export PROTON_LOG="${PROTON_LOG:-1}"
         export PROTON_LOG_DIR="$WINE_DIR"
-        # Proton locks $STEAM_COMPAT_DATA_PATH/pfx.lock; the dir must exist first.
+        export WINEESYNC="${WINEESYNC:-1}" WINEFSYNC="${WINEFSYNC:-1}"
         mkdir -p "$WINEPREFIX"
+        _sandbox_z_drive
+        _map_external_drives
 
         cd "$exe_dir"
-        eval "${WG_LAUNCH_PREFIX}\"\$PROTON_DIR/proton\" run \"\$exe_bin\"" >"$WINE_DIR/${app_key}.log" 2>&1 &
+        local _args="${APP_LAUNCH_ARGS[$app_key]:-}"
+        eval "${WG_LAUNCH_PREFIX}\"\$PROTON_DIR/proton\" run \"\$exe_bin\" ${_args}" >"$WINE_DIR/${app_key}.log" 2>&1 &
+        # Proton wineboot recreates Z:→/ on prefix version upgrades; re-sandbox after it completes.
+        ( sleep 2; _sandbox_z_drive ) &
     else
         print_warning "Proton not available, using Wine fallback"
         export WINEDEBUG="${WINEDEBUG:--all}"
@@ -110,8 +115,8 @@ launch_external_exe() {
         export PROTON_LOG=1
         export PROTON_LOG_DIR="$WINE_DIR"
         mkdir -p "$WINE_DIR/steam-root"
-        # Proton locks $STEAM_COMPAT_DATA_PATH/pfx.lock; the dir must exist first.
         mkdir -p "$WINEPREFIX"
+        _sandbox_z_drive
         "$PROTON_DIR/proton" run "$exe_path" &
     else
         print_warning "Proton not available, using Wine fallback"

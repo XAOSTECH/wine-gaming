@@ -260,6 +260,60 @@ quick_setup() {
     fi
 }
 
+# Remap Z: from / to an inert sandbox dir so launchers cannot see the host FS
+# for disk-space checks or path traversal, while keeping Z: visible to Wine.
+_sandbox_z_drive() {
+    local _dd="$WINEPREFIX/pfx/dosdevices"
+    [ -d "$_dd" ] || return 0
+    mkdir -p "$WINEPREFIX/pfx/drive_c/z-sandbox"
+    rm -f "$_dd/z:" "$_dd/z::" 2>/dev/null
+    ln -sfn "../drive_c/z-sandbox" "$_dd/z:" 2>/dev/null || true
+}
+
+# Auto-detect mounted external volumes and map each to the next free drive letter
+# (D: → Y:), preserving any already-assigned letters. Also reads WINE_EXTRA_DRIVES
+# (colon-separated host paths). Games on NTFS/external drives must be reconfigured
+# in their launcher settings to use the assigned letter instead of the Z: path.
+_map_external_drives() {
+    local _dd="$WINEPREFIX/pfx/dosdevices"
+    [ -d "$_dd" ] || return 0
+
+    local -A _mapped=()
+    for _lnk in "$_dd"/[a-y]:; do
+        [ -L "$_lnk" ] || continue
+        local _t; _t=$(readlink -f "$_lnk" 2>/dev/null) && _mapped["$_t"]=1
+    done
+
+    local -a _candidates=()
+    local _uid_media="/run/media/$(id -un)"
+    [ -d "$_uid_media" ] && while IFS= read -r -d '' _d; do
+        _candidates+=("$_d")
+    done < <(find "$_uid_media" -maxdepth 1 -mindepth 1 -type d -print0 2>/dev/null)
+    while IFS= read -r -d '' _d; do
+        local _fs; _fs=$(findmnt -n -o FSTYPE "$_d" 2>/dev/null)
+        case "${_fs:-}" in tmpfs|sysfs|proc|devtmpfs|"") continue ;; esac
+        _candidates+=("$_d")
+    done < <(find /mnt -maxdepth 1 -mindepth 1 -type d -print0 2>/dev/null)
+    if [ -n "${WINE_EXTRA_DRIVES:-}" ]; then
+        local -a _xd; IFS=':' read -ra _xd <<< "$WINE_EXTRA_DRIVES"
+        for _p in "${_xd[@]}"; do [ -d "$_p" ] && _candidates+=("$_p"); done
+    fi
+
+    for _mnt in "${_candidates[@]}"; do
+        [ -d "$_mnt" ] || continue
+        local _real; _real=$(readlink -f "$_mnt") || continue
+        [[ -n "${_mapped[$_real]:-}" ]] && continue
+        local _letter=""
+        for _l in d e f g h i j k l m n o p q r s t u v w x y; do
+            [ -L "$_dd/${_l}:" ] || { _letter="$_l"; break; }
+        done
+        [ -z "$_letter" ] && { print_warning "No free Wine drive letter for: $_real"; break; }
+        ln -sfn "$_real" "$_dd/${_letter}:" 2>/dev/null \
+            && _mapped["$_real"]=1 \
+            && print_info "Drive ${_letter^^}: → $_real  (update game library path in launcher settings to use ${_letter^^}:)"
+    done
+}
+
 # Configure Wine drive letter mappings.
 # Usage: configure_wine_drives [drive_letter] [mount_path]
 configure_wine_drives() {

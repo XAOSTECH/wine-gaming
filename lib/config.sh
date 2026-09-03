@@ -21,6 +21,11 @@ declare -A APP_LAUNCH_ARGS=(
     [epic-games]="-EpicPortal"
 )
 
+# Colon-separated host paths to expose as Windows drive letters (D:, E:, …) in Wine.
+# Useful for game libraries on external/NTFS drives accessed by Epic, GOG, etc.
+# Example: WINE_EXTRA_DRIVES="/run/media/user/DATA-NTFS:/mnt/games"
+WINE_EXTRA_DRIVES="${WINE_EXTRA_DRIVES:-}"
+
 # Ensure necessary directories exist
 mkdir -p "$WINE_DIR" "$BACKUP_DIR" "$CACHE_DIR" "$BIN_DIR" "$APPS_DIR" 2>/dev/null || true
 
