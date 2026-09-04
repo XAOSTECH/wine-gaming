@@ -74,6 +74,11 @@ ALIAS_EOF
     print_success "Global wrapper created: $WIG_BIN"
     print_success "Aliases written to $ALIAS_FILE"
 
+    # Skip verbose listing during bulk operations (wig full) — reduces noise.
+    if [ -n "${WIG_BULK:-}" ]; then
+        return 0
+    fi
+
     local _current_shell; _current_shell=$(basename "${SHELL:-bash}")
     local _source_line="[ -f \"$ALIAS_FILE\" ] && source \"$ALIAS_FILE\"  # wine-gaming aliases"
 

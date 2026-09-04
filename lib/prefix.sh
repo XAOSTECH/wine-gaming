@@ -108,6 +108,11 @@ purge() {
     else
         print_info "Wine prefix not found (already clean)"
     fi
+    if [ -d "$PROTON_DIR" ]; then
+        print_warning "Removing GE-Proton installation at $PROTON_DIR..."
+        rm -rf "$PROTON_DIR"
+        print_success "GE-Proton removed (wig full will download latest)"
+    fi
 }
 
 # Back up essential DLLs and winetricks packages.
@@ -336,7 +341,7 @@ full_setup() {
     fi
 
     purge
-    init "$@"
+    WIG_BULK=1 init "$@"
     backup
 
     print_info "Installing all registered launchers..."
