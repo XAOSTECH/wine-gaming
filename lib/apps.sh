@@ -91,7 +91,11 @@ install_app() {
             ;;
     esac
 
-    "$PROTON_DIR/proton" run "${run_cmd[@]}" 2>&1 | tee "$install_log" || true
+    "$PROTON_DIR/proton" run "${run_cmd[@]}" 2>&1 \
+        | awk '/MonoBtlsPkcs12\.Import|Missing private key/ { c++; next }
+               { print }
+               END { if (c+0>0) printf "[WARN] %d Mono TLS cert exceptions suppressed (run: wig init to install cacerts)\n", c }' \
+        | tee "$install_log" || true
 
     if find_app_exe "$app_key" >/dev/null 2>&1; then
         print_success "$APP_NAME installed successfully"

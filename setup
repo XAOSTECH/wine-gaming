@@ -152,7 +152,16 @@ main() {
         # App management
         list)                list_apps ;;
         list-installers)     list_installers ;;
-        install)             install_app "$2" "$3" ;;
+        install)
+            local _ikey="$2" _iflag="${3:-}"
+            [ "$_ikey" = "--reinstall" ] && { _ikey="$3"; _iflag=""; }
+            if [ "$_iflag" = "--reinstall" ]; then
+                print_info "Reinstalling $_ikey — removing existing files first..."
+                uninstall_app "$_ikey" >/dev/null 2>&1 || true
+                install_app "$_ikey"
+            else
+                install_app "$_ikey" "$_iflag"
+            fi ;;
         install-all)         install_all_launchers ;;
         uninstall)           uninstall_app "$2" ;;
         launch)              shift; launch_app "$@" ;;

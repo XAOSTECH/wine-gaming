@@ -172,7 +172,7 @@ cd "$EXE_DIR" || { echo "Error: Cannot cd to $EXE_DIR" >&2; exit 1; }
 
 LOG_FILE="$WINE_DIR/${APP_KEY}${WG_PROFILE_OVERRIDE:+-$WG_PROFILE_OVERRIDE}.log"
 if [ -x "$PROTON_DIR/proton" ]; then
-    eval "${WG_LAUNCH_PREFIX}\"\$PROTON_DIR/proton\" run \"\$EXE_BIN\"" >"$LOG_FILE" 2>&1 &
+    eval "${WG_LAUNCH_PREFIX}\"\$PROTON_DIR/proton\" run \"\$EXE_BIN\" ${APP_LAUNCH_ARGS[$APP_KEY]:-}" >"$LOG_FILE" 2>&1 &
 else
     eval "${WG_LAUNCH_PREFIX}wine \"\$EXE_BIN\"" >"$LOG_FILE" 2>&1 &
 fi
