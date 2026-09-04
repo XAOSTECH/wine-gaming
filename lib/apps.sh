@@ -99,7 +99,12 @@ install_app() {
 
     if find_app_exe "$app_key" >/dev/null 2>&1; then
         print_success "$APP_NAME installed successfully"
+        _post_install_registry "$app_key" "$installer_path"
+        _ensure_cacerts
         create_shortcut "$app_key" && print_success "Desktop shortcut created" || true
+        print_info "Install log: $install_log"
+        local _msi_log_ok="$WINEPREFIX/pfx/drive_c/windows/temp/${app_key}-msi.log"
+        [ -f "$_msi_log_ok" ] && print_info "MSI log    : $_msi_log_ok"
         return 0
     else
         print_error "$APP_NAME did not install ($APP_EXE not found)"

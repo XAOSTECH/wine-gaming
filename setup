@@ -157,7 +157,7 @@ main() {
             [ "$_ikey" = "--reinstall" ] && { _ikey="$3"; _iflag=""; }
             if [ "$_iflag" = "--reinstall" ]; then
                 print_info "Reinstalling $_ikey — removing existing files first..."
-                uninstall_app "$_ikey" >/dev/null 2>&1 || true
+                uninstall_app "$_ikey"
                 install_app "$_ikey"
             else
                 install_app "$_ikey" "$_iflag"
