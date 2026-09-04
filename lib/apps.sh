@@ -44,6 +44,7 @@ _post_install_registry() {
 # Install a registered launcher via Proton.
 # Usage: install_app "app-key" [custom_installer_path]
 install_app() {
+    local app_key="$1"
     local custom_installer="$2"
 
     parse_app_config "$app_key" || return 1
