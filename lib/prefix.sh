@@ -79,6 +79,8 @@ _install_winetricks_verbs() {
                     }' \
                 || print_warning "$v failed or was skipped — continuing"
         done
+        # dotnet verbs temporarily set winxp/win7 — restore win10 before exit.
+        WINETRICKS_LATEST_VERSION_CHECK=disabled winetricks -q win10 >/dev/null 2>&1 || true
     )
 }
 
@@ -296,10 +298,15 @@ init() {
 
     _install_winetricks_verbs
 
+    # Apply win10 + D3D settings to the Proton prefix (pfx); system wine targets the wrong path.
     print_info "Configuring Wine environment..."
-    wine winecfg /v win10 >/dev/null 2>&1 || true
-    wine reg add "HKEY_CURRENT_USER\Software\Wine\Direct3D" /v "VideoMemorySize" /t REG_SZ /d "8192" /f >/dev/null 2>&1 || true
-    wine reg add "HKEY_CURRENT_USER\Software\Wine\Direct3D" /v "CSMT"           /t REG_SZ /d "enabled" /f >/dev/null 2>&1 || true
+    local _wcfg_wine="wine"
+    [ -x "$PROTON_DIR/files/bin/wine64" ] && _wcfg_wine="$PROTON_DIR/files/bin/wine64"
+    local _wcfg_pfx="${WINEPREFIX}/pfx"
+    [ -d "$_wcfg_pfx" ] || _wcfg_pfx="$WINEPREFIX"
+    WINEPREFIX="$_wcfg_pfx" "$_wcfg_wine" winecfg -v win10 >/dev/null 2>&1 || true
+    WINEPREFIX="$_wcfg_pfx" "$_wcfg_wine" reg add "HKEY_CURRENT_USER\Software\Wine\Direct3D" /v "VideoMemorySize" /t REG_SZ /d "8192" /f >/dev/null 2>&1 || true
+    WINEPREFIX="$_wcfg_pfx" "$_wcfg_wine" reg add "HKEY_CURRENT_USER\Software\Wine\Direct3D" /v "CSMT"           /t REG_SZ /d "enabled" /f >/dev/null 2>&1 || true
 
     print_success "Wine prefix initialised"
 
