@@ -20,8 +20,13 @@ _install_winetricks_verbs() {
     # Winetricks must target Proton's pfx/ prefix — not the bare STEAM_COMPAT_DATA_PATH.
     local _wt_prefix="$WINEPREFIX/pfx"
     if [ ! -d "$_wt_prefix/drive_c/windows/system32" ]; then
-        print_warning "Skipping winetricks: Proton prefix not yet initialised."
-        print_info "Run 'wig install <app>' first, then 'wig init' for verbs."
+        if [ ! -x "$PROTON_DIR/proton" ]; then
+            print_warning "Skipping winetricks: GE-Proton not installed."
+            print_info "Install it first: wig install-proton latest"
+        else
+            print_warning "Skipping winetricks: Proton prefix not yet built."
+            print_info "Install a launcher to build it (wig install <app>), then re-run: wig init"
+        fi
         return 0
     fi
 
@@ -351,6 +356,12 @@ full_setup() {
     if [ "$_had_data" -eq 1 ]; then
         print_info "Restoring launcher sessions..."
         _unstash_launcher_data || true
+    fi
+
+    # Prefix was built by the first launcher install above — now verbs can run.
+    if [ -d "$WINEPREFIX/pfx/drive_c/windows/system32" ]; then
+        print_info "Installing winetricks verbs..."
+        _install_winetricks_verbs
     fi
 
     print_success "Full setup complete"
