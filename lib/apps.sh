@@ -3,10 +3,47 @@
 # Sourced by setup; do not execute directly.
 # Depends on: lib/config.sh, lib/utils.sh, lib/registry.sh, lib/installer.sh, lib/shortcuts.sh
 
+# Post-install Wine registry fixes for apps that need service or install-key setup.
+_post_install_registry() {
+    local app_key="$1" installer_path="${2:-}"
+    local _reg="$WINEPREFIX/pfx/drive_c/windows/temp/wg-post-install.reg"
+    mkdir -p "$(dirname "$_reg")"
+    case "$app_key" in
+        epic-games)
+            # DEMAND_START (3) stops EpicGamesUpdater auto-launching and stealing the session.
+            printf 'Windows Registry Editor Version 5.00\n\n'\
+'[HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Services\\EpicGamesUpdater]\n'\
+'"Start"=dword:00000003\n'\
+'"FailureActions"=hex:00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00\n' \
+                > "$_reg"
+            "$PROTON_DIR/proton" run regedit /s "C:\\windows\\temp\\wg-post-install.reg" >/dev/null 2>&1 || true
+            ;;
+        ea-desktop)
+            local _v; _v=$(basename "${installer_path}" | grep -oP '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+            _v="${_v:-13.759.0.0}"
+            printf 'Windows Registry Editor Version 5.00\n\n'\
+'[HKEY_LOCAL_MACHINE\\SOFTWARE\\Electronic Arts\\EA Desktop]\n'\
+'"InstallDir"="C:\\\\Program Files\\\\Electronic Arts\\\\EA Desktop\\\\EA Desktop\\\\"\n'\
+'"Version"="'"$_v"'"\n\n'\
+'[HKEY_LOCAL_MACHINE\\SOFTWARE\\Electronic Arts\\EA Desktop\\Install]\n'\
+'"InstallDir"="C:\\\\Program Files\\\\Electronic Arts\\\\EA Desktop\\\\EA Desktop\\\\"\n\n'\
+'[HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Services\\EABackgroundService]\n'\
+'"Type"=dword:00000010\n'\
+'"Start"=dword:00000003\n'\
+'"ErrorControl"=dword:00000001\n'\
+'"ImagePath"="\\"C:\\\\Program Files\\\\Electronic Arts\\\\EA Desktop\\\\EA Desktop\\\\EABackgroundService.exe\\" -start"\n'\
+'"DisplayName"="EABackgroundService"\n'\
+'"ObjectName"="LocalSystem"\n'\
+'"FailureActions"=hex:00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00\n' \
+                > "$_reg"
+            "$PROTON_DIR/proton" run regedit /s "C:\\windows\\temp\\wg-post-install.reg" >/dev/null 2>&1 || true
+            ;;
+    esac
+}
+
 # Install a registered launcher via Proton.
 # Usage: install_app "app-key" [custom_installer_path]
 install_app() {
-    local app_key="$1"
     local custom_installer="$2"
 
     parse_app_config "$app_key" || return 1
