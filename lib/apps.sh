@@ -22,46 +22,55 @@ install_app() {
 
     print_info "Installing $APP_NAME via Proton..."
 
+    local install_log="$WINE_DIR/${app_key}-install.log"
+
     export STEAM_COMPAT_DATA_PATH="$WINEPREFIX"
     export STEAM_COMPAT_CLIENT_INSTALL_PATH="$WINE_DIR/steam-root"
-    # Unset PROTON_LOG so Wine output goes to the terminal during install,
-    # not silently to a file — makes hangs and errors immediately visible.
-    unset PROTON_LOG PROTON_LOG_DIR
+    # PROTON_LOG=1 routes Wine subprocess stderr to a file (not a pipe), preventing
+    # installers that check GetFileType(STD_ERROR_HANDLE) from aborting on pipe detection.
+    export PROTON_LOG=1
+    export PROTON_LOG_DIR="$WINE_DIR"
     mkdir -p "$WINE_DIR/steam-root"
     mkdir -p "$WINEPREFIX"
     _map_external_drives
 
-    # First run builds the prefix (copies thousands of DLLs) before the installer
-    # window appears, during which Proton is silent — warn so it isn't mistaken for a hang.
     if [ ! -d "$WINEPREFIX/pfx" ]; then
         print_warning "First run: building the Wine prefix — this takes a minute or two with no output."
     fi
     print_info "An installer window may open — complete it there; this step waits until it closes."
 
-    # MSI packages must be driven through msiexec; handing the .msi straight to
-    # Proton only opens it and exits, so nothing installs (e.g. Epic, Ubisoft).
     local -a run_cmd
     local -a _extra; read -ra _extra <<< "${APP_INSTALL_ARGS[$app_key]:-}"
     case "${installer_path,,}" in
         *.msi)
             # /passive = unattended (progress bar, no clicks); /qn breaks some MSI custom actions.
-            run_cmd=(msiexec /i "$installer_path" /passive REBOOT=ReallySuppress "${_extra[@]}")
+            # /log writes a verbose MSI transcript to the Windows temp dir for failure analysis.
+            run_cmd=(msiexec /i "$installer_path" /passive REBOOT=ReallySuppress \
+                /log "C:\\windows\\temp\\${app_key}-msi.log" "${_extra[@]}")
             ;;
         *)
             run_cmd=("$installer_path" "${_extra[@]}")
             ;;
     esac
 
-    "$PROTON_DIR/proton" run "${run_cmd[@]}"
+    "$PROTON_DIR/proton" run "${run_cmd[@]}" 2>&1 | tee "$install_log" || true
 
-    # Proton's exit status reflects the wrapper, not whether the app landed, so
-    # verify the real executable exists before claiming success.
     if find_app_exe "$app_key" >/dev/null 2>&1; then
         print_success "$APP_NAME installed successfully"
         create_shortcut "$app_key" && print_success "Desktop shortcut created" || true
         return 0
     else
-        print_error "$APP_NAME did not install ($APP_EXE not found) — see $WINE_DIR/steam-*.log"
+        print_error "$APP_NAME did not install ($APP_EXE not found)"
+        # Show the most recent Wine log; then point at all log files for deeper investigation.
+        local _wlog; _wlog=$(ls -1t "$WINE_DIR"/steam-*.log 2>/dev/null | head -1)
+        if [ -n "$_wlog" ] && [ -f "$_wlog" ]; then
+            print_info "Last 25 lines from $(basename "$_wlog"):"
+            tail -25 "$_wlog"
+        fi
+        print_info "Proton wrapper log : $install_log"
+        [ -n "$_wlog" ] && print_info "Wine subprocess log: $_wlog"
+        local _msi_log="$WINEPREFIX/pfx/drive_c/windows/temp/${app_key}-msi.log"
+        [ -f "$_msi_log" ] && print_info "MSI install log    : $_msi_log"
         return 1
     fi
 }
