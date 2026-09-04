@@ -58,7 +58,17 @@ _install_winetricks_verbs() {
             print_info "winetricks → $v"
             WINETRICKS_LATEST_VERSION_CHECK=disabled \
                 winetricks -q --force "$v" 2>&1 \
-                | grep -Ev "^warning:|winetricks latest version|^Executing cd|^-{10,}\$|^WINEPREFIX INFO:|Drive C:|^[dl-][-rwx]{9} |^Registry info:|/#arch=|^\$" \
+                | awk '
+                    /^[0-9a-f]+:fixme:/ { fixme++; next }
+                    /^[0-9a-f]+:err:ole:Co|^[0-9a-f]+:err:kerberos:|^[0-9a-f]+:err:ntlm:/ { errc++; next }
+                    /^Preparing: / { prep++; next }
+                    /^warning:|winetricks latest|^Executing cd|^-{10,}$|^WINEPREFIX INFO:|Drive C:|^[dl-][-rwx]{9} |^Registry info:|^\/#arch=|^$/ { next }
+                    { print }
+                    END {
+                        if (fixme+0 > 0) printf "[note] %d Wine fixme stubs (harmless)\n", fixme
+                        if (errc+0  > 0) printf "[note] %d COM/auth errors (harmless)\n",  errc
+                        if (prep+0  > 0) printf "[note] %d files extracted\n",              prep
+                    }' \
                 || print_warning "$v failed or was skipped — continuing"
         done
     )
