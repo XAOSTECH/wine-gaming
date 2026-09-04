@@ -322,6 +322,12 @@ _install_with_fallback() {
 full_setup() {
     print_info "Running full setup..."
 
+    # One-click: install GE-Proton automatically if not present.
+    if [ ! -x "$PROTON_DIR/proton" ]; then
+        print_info "GE-Proton not found — installing latest automatically..."
+        install_proton latest || { print_error "GE-Proton install failed; cannot continue."; return 1; }
+    fi
+
     # If a prefix already exists, back up launcher sessions before wiping.
     local _had_data=0
     if [ -d "$WINEPREFIX/pfx/drive_c" ]; then
@@ -649,27 +655,108 @@ suppress_z_warnings() {
     return 0
 }
 
+# Kill all Wine/Proton processes for this prefix.
+kill_wine() {
+    print_info "Killing Wine/Proton processes..."
+    WINEPREFIX="$WINEPREFIX/pfx" wineserver -k 2>/dev/null || true
+    pkill -f "$WINE_DIR" 2>/dev/null || true
+    pkill -9 -f "wineserver" 2>/dev/null || true
+    pkill -9 -f "wine64" 2>/dev/null || true
+    sleep 1
+    print_success "Wine processes terminated"
+}
+
 # Download and install Proton-GE.
+# Usage: install_proton [version|latest]  (default: latest)
+# Accepts full tag (GE-Proton11-5) or short form (11-5) or latest/--latest.
 install_proton() {
-    print_info "Installing Proton-GE..."
+    local version="${1:-latest}"
+    [ "$version" = "--latest" ] && version="latest"
 
+    # Stale wineserver causes version mismatch on prefix upgrade — kill first.
+    if [ -d "$PROTON_DIR" ] || [ -d "$WINEPREFIX/pfx" ]; then
+        print_warning "Killing running Wine processes before Proton upgrade..."
+        kill_wine
+    fi
+
+    if [ "$version" = "latest" ]; then
+        print_info "Fetching latest GE-Proton release from GitHub..."
+        version=$(curl -sf \
+            "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest" \
+            | grep -oP '"tag_name":\s*"\K[^"]+' | head -1)
+        if [ -z "$version" ]; then
+            print_error "Failed to resolve latest version — specify one explicitly:"
+            print_info "  wig install-proton GE-Proton11-5"
+            print_info "  wig list-proton"
+            return 1
+        fi
+        print_info "Latest release: $version"
+    fi
+
+    [[ "$version" =~ ^[0-9] ]] && version="GE-Proton${version}"
+    print_info "Installing Proton-GE $version..."
+
+    # GE-Proton11+ uses arch-suffixed tarballs; older releases used the bare tag name.
+    local _arch; _arch=$(uname -m)
+    local _archives=("${version}-${_arch}.tar.gz" "${version}.tar.gz")
     mkdir -p "$PROTON_DIR"
-    cd /tmp
 
-    local PROTON_VERSION="GE-Proton9-18"
-    local archive="${PROTON_VERSION}.tar.gz"
+    local archive=""
+    for _try in "${_archives[@]}"; do
+        local _url="https://github.com/GloriousEggroll/proton-ge-custom/releases/download/${version}/${_try}"
+        for _attempt in 1 2 3; do
+            print_info "Downloading ${_try} (attempt ${_attempt}/3)..."
+            if wget -q --show-progress -O "/tmp/${_try}" "$_url"; then
+                archive="$_try"
+                break 2
+            fi
+            rm -f "/tmp/${_try}"
+            [ "$_attempt" -lt 3 ] && sleep $((_attempt * 2))
+        done
+    done
 
-    print_info "Downloading Proton-GE $PROTON_VERSION..."
+    # gh CLI fallback when direct download is blocked or rate-limited.
+    if [ -z "$archive" ] && command -v gh &>/dev/null; then
+        print_info "wget failed — trying gh CLI fallback..."
+        if gh release download "$version" \
+            --repo GloriousEggroll/proton-ge-custom \
+            --pattern "*${_arch}.tar.gz" \
+            --dir /tmp --clobber 2>/dev/null; then
+            archive="${version}-${_arch}.tar.gz"
+        fi
+    fi
 
-    if ! wget -q --show-progress \
-        "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/${PROTON_VERSION}/${archive}"; then
-        print_error "Failed to download Proton-GE"
+    if [ -z "$archive" ]; then
+        print_error "Download failed for $version"
+        print_info "Browse releases: https://github.com/GloriousEggroll/proton-ge-custom/releases"
         return 1
     fi
 
     print_info "Extracting Proton-GE..."
-    run_without_oas tar -xf "$archive" -C "$PROTON_DIR" --strip-components=1
-    rm -f "$archive"
+    run_without_oas tar -xf "/tmp/${archive}" -C "$PROTON_DIR" --strip-components=1
+    rm -f "/tmp/${archive}"
+    print_success "Proton-GE ${version} installed to $PROTON_DIR"
+}
 
-    print_success "Proton-GE installed to $PROTON_DIR"
+# Show the 10 most recent GE-Proton release tags from GitHub.
+list_proton() {
+    print_info "Fetching GE-Proton release list..."
+    local tags
+    tags=$(curl -sf \
+        "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases?per_page=10" \
+        | grep -oP '"tag_name":\s*"\K[^"]+' | head -10)
+    if [ -z "$tags" ]; then
+        print_error "Could not fetch release list (network or rate-limit issue)"
+        print_info "Browse manually: https://github.com/GloriousEggroll/proton-ge-custom/releases"
+        return 1
+    fi
+    local _curr_ver=""
+    [ -f "$PROTON_DIR/version" ] && _curr_ver=$(tr -d '[:space:]' < "$PROTON_DIR/version")
+    echo "│ Available GE-Proton releases (newest first):"
+    echo "$tags" | while IFS= read -r tag; do
+        current_marker=""
+        case "$_curr_ver" in *"$tag"*) current_marker=" ← installed" ;; esac
+        echo "  $tag${current_marker}"
+    done
+    echo "│ Install: wig install-proton <version>  |  wig install-proton latest"
 }
