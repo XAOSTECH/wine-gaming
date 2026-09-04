@@ -45,15 +45,16 @@ _install_winetricks_verbs() {
             export LD_LIBRARY_PATH="$PROTON_DIR/files/lib:$PROTON_DIR/files/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 
         print_info "Installing fast winetricks verbs (${#fast_verbs[@]} packages)..."
-        local v
+        local v _ok
         for v in "${fast_verbs[@]}"; do
             printf "  → %s ... " "$v"
-            if WINETRICKS_LATEST_VERSION_CHECK=disabled \
-                    winetricks -q --force "$v" >/dev/null 2>&1; then
-                echo "ok"
-            else
-                echo "FAILED (continuing)"
-            fi
+            _ok=0
+            for _try in 1 2; do
+                WINETRICKS_LATEST_VERSION_CHECK=disabled \
+                    winetricks -q --force "$v" >/dev/null 2>&1 && { _ok=1; break; }
+                [ $_try -eq 1 ] && sleep 4
+            done
+            [ $_ok -eq 1 ] && echo "ok" || echo "FAILED (continuing)"
         done
 
         print_warning "Installing heavy verbs (${heavy_verbs[*]}) — each may take several minutes"
