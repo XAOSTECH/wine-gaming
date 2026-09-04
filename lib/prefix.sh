@@ -323,25 +323,32 @@ _install_with_fallback() {
     fi
 }
 
-# Full setup: purge → init → install all launchers.
+# Full setup: purge → fresh Proton → pre-build prefix → init (verbs) → install all launchers.
 full_setup() {
     print_info "Running full setup..."
 
-    # One-click: install GE-Proton automatically if not present.
-    if [ ! -x "$PROTON_DIR/proton" ]; then
-        print_info "GE-Proton not found — installing latest automatically..."
-        install_proton latest || { print_error "GE-Proton install failed; cannot continue."; return 1; }
-    fi
-
-    # If a prefix already exists, back up launcher sessions before wiping.
+    # Stash launcher data before purge removes the prefix.
     local _had_data=0
     if [ -d "$WINEPREFIX/pfx/drive_c" ]; then
         print_info "Preserving launcher data before purge (instant move — no compression)..."
         _stash_launcher_data && _had_data=1 || true
     fi
 
-    purge
-    WIG_BULK=1 init "$@"
+    purge   # removes prefix AND existing GE-Proton installation
+
+    # Always install latest GE-Proton after a full purge.
+    install_proton latest || { print_error "GE-Proton install failed; cannot continue."; return 1; }
+
+    # Pre-build the Proton prefix ($WINEPREFIX/pfx) with a no-op so that
+    # winetricks can install verbs before any real launcher installer runs.
+    print_warning "Building Proton prefix (no op command)..."
+    mkdir -p "$WINE_DIR/steam-root" "$WINEPREFIX"
+    STEAM_COMPAT_DATA_PATH="$WINEPREFIX" \
+    STEAM_COMPAT_CLIENT_INSTALL_PATH="$WINE_DIR/steam-root" \
+    PROTON_LOG=0 \
+        "$PROTON_DIR/proton" run cmd.exe /c exit >/dev/null 2>&1 || true
+
+    WIG_BULK=1 init "$@"    # winetricks verbs run here — prefix now exists
     backup
 
     print_info "Installing all registered launchers..."
@@ -367,12 +374,6 @@ full_setup() {
     if [ "$_had_data" -eq 1 ]; then
         print_info "Restoring launcher sessions..."
         _unstash_launcher_data || true
-    fi
-
-    # Prefix was built by the first launcher install above — now verbs can run.
-    if [ -d "$WINEPREFIX/pfx/drive_c/windows/system32" ]; then
-        print_info "Installing winetricks verbs..."
-        _install_winetricks_verbs
     fi
 
     print_success "Full setup complete"
