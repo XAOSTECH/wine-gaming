@@ -45,9 +45,17 @@ _install_winetricks_verbs() {
             export LD_LIBRARY_PATH="$PROTON_DIR/files/lib:$PROTON_DIR/files/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 
         print_info "Installing fast winetricks verbs (${#fast_verbs[@]} packages)..."
+        # Pre-fetch installed verbs once; avoids reinstalling on quick/init runs.
+        local _installed_verbs
+        _installed_verbs=$(WINETRICKS_LATEST_VERSION_CHECK=disabled winetricks list-installed 2>/dev/null || true)
+
         local v _ok
         for v in "${fast_verbs[@]}"; do
             printf "  → %s ... " "$v"
+            if echo "$_installed_verbs" | grep -qx "$v" 2>/dev/null; then
+                echo "already installed"
+                continue
+            fi
             _ok=0
             for _try in 1 2; do
                 WINETRICKS_LATEST_VERSION_CHECK=disabled \
