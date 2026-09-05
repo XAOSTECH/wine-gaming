@@ -28,4 +28,4 @@ wget https://cdn.gog.com/Open/GOG%20Galaxy/GOG_Galaxy_2.0.exe
 
 ## Available Installers
 
-See `../INSTALLER_LINKS.md` for download URLs.
+See `../docs/INSTALLER_LINKS.md` for download URLs.

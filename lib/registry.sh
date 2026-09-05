@@ -125,6 +125,9 @@ find_local_installer() {
         legacy-games)
             result=$(find "$installers_dir" -maxdepth 1 -iname "*legacy*.exe" 2>/dev/null | head -1)
             ;;
+        ps-plus)
+            result=$(find "$installers_dir" -maxdepth 1 \( -iname "*playstation*.exe" -o -iname "*psplus*.exe" \) 2>/dev/null | head -1)
+            ;;
         *)
             return 1
             ;;

@@ -12,6 +12,7 @@ External resources for game launcher installers. These are never committed to th
 | **Ubisoft Connect** | https://ubisoftconnect.com/en-US/downloads | May require browser User-Agent header | ⚠️ Partial |
 | **Amazon Games** | https://amazon-games-launcher.s3.amazonaws.com/AmazonGamesSetup.exe | Direct download, wget/curl compatible | ✅ Yes |
 | **Legacy Games** | https://legacy.games/download | Requires browser interaction | ❌ Manual only |
+| **PlayStation Plus** | https://download-psplus.playstation.com/downloads/psplus/pc/latest | Requires a subscription | ✅ Yes |
 
 ## How to Use
 
