@@ -237,10 +237,15 @@ remove_shortcut() {
 # Recreate shortcuts for every installed launcher.
 # Skips apps not currently present in the prefix.
 create_all_shortcuts() {
-    print_info "Recreating shortcuts for all installed launchers..."
+    local _force="${1:-}"
+    if [ "$_force" = "--reinstall" ]; then
+        print_info "Recreating shortcuts for all registered launchers (--reinstall: ignoring install status)..."
+    else
+        print_info "Recreating shortcuts for all installed launchers..."
+    fi
     local created=0 skipped=0
     for app_key in "${!APP_REGISTRY[@]}"; do
-        if find_app_exe "$app_key" >/dev/null 2>&1; then
+        if [ "$_force" = "--reinstall" ] || find_app_exe "$app_key" >/dev/null 2>&1; then
             create_shortcut "$app_key" && ((created++)) || true
         else
             ((skipped++))
