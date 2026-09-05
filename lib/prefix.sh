@@ -744,8 +744,13 @@ install_proton() {
     for _try in "${_archives[@]}"; do
         local _cached="$_pcache/${_try}"
         if [ -f "$_cached" ]; then
-            print_info "Using cached Proton tarball: $_try"
-            archive="$_try"; archive_path="$_cached"; break
+            if gzip -t "$_cached" 2>/dev/null; then
+                print_info "Using cached Proton tarball: $_try"
+                archive="$_try"; archive_path="$_cached"; break
+            else
+                print_warning "Cached tarball corrupt (partial download?) — deleting and re-downloading..."
+                rm -f "$_cached"
+            fi
         fi
         local _url="https://github.com/GloriousEggroll/proton-ge-custom/releases/download/${version}/${_try}"
         for _attempt in 1 2 3; do
@@ -778,6 +783,11 @@ install_proton() {
 
     print_info "Extracting Proton-GE..."
     run_without_oas tar -xf "$archive_path" -C "$PROTON_DIR" --strip-components=1
+    if [ ! -x "$PROTON_DIR/proton" ]; then
+        print_error "Proton extraction failed — archive may be corrupt; removing from cache"
+        rm -f "$archive_path"
+        return 1
+    fi
     print_success "Proton-GE ${version} installed to $PROTON_DIR"
 }
 
