@@ -258,7 +258,7 @@ restore_launcher_data() {
 
 # Initialise a fresh Wine prefix with all required dependencies.
 init() {
-    if [ -d "${WINEPREFIX:-}" ]; then
+    if [ -d "${WINEPREFIX:-}/pfx/drive_c" ]; then
         print_info "Prefix already exists at $WINEPREFIX — re-running dependencies non-destructively"
         print_info "(Use './setup full' to start completely fresh)"
     else
@@ -715,16 +715,24 @@ install_proton() {
     local _archives=("${version}-${_arch}.tar.gz" "${version}.tar.gz")
     mkdir -p "$PROTON_DIR"
 
-    local archive=""
+    # Cache tarballs in $CACHE_DIR/proton so repeated wig full skips the download.
+    local _pcache="$CACHE_DIR/proton"
+    mkdir -p "$_pcache"
+
+    local archive="" archive_path=""
     for _try in "${_archives[@]}"; do
+        local _cached="$_pcache/${_try}"
+        if [ -f "$_cached" ]; then
+            print_info "Using cached Proton tarball: $_try"
+            archive="$_try"; archive_path="$_cached"; break
+        fi
         local _url="https://github.com/GloriousEggroll/proton-ge-custom/releases/download/${version}/${_try}"
         for _attempt in 1 2 3; do
             print_info "Downloading ${_try} (attempt ${_attempt}/3)..."
-            if wget -q --show-progress -O "/tmp/${_try}" "$_url"; then
-                archive="$_try"
-                break 2
+            if wget -q --show-progress -O "$_cached" "$_url"; then
+                archive="$_try"; archive_path="$_cached"; break 2
             fi
-            rm -f "/tmp/${_try}"
+            rm -f "$_cached"
             [ "$_attempt" -lt 3 ] && sleep $((_attempt * 2))
         done
     done
@@ -735,8 +743,9 @@ install_proton() {
         if gh release download "$version" \
             --repo GloriousEggroll/proton-ge-custom \
             --pattern "*${_arch}.tar.gz" \
-            --dir /tmp --clobber 2>/dev/null; then
+            --dir "$_pcache" --clobber 2>/dev/null; then
             archive="${version}-${_arch}.tar.gz"
+            archive_path="$_pcache/$archive"
         fi
     fi
 
@@ -747,8 +756,7 @@ install_proton() {
     fi
 
     print_info "Extracting Proton-GE..."
-    run_without_oas tar -xf "/tmp/${archive}" -C "$PROTON_DIR" --strip-components=1
-    rm -f "/tmp/${archive}"
+    run_without_oas tar -xf "$archive_path" -C "$PROTON_DIR" --strip-components=1
     print_success "Proton-GE ${version} installed to $PROTON_DIR"
 }
 
