@@ -84,6 +84,27 @@ _install_winetricks_verbs() {
     )
 }
 
+# Install CA root certs exactly once via winetricks; stamp prevents re-running.
+_ensure_cacerts() {
+    local _stamp="$WINEPREFIX/pfx/.wg-cacerts"
+    [ -f "$_stamp" ] && return 0
+    [ ! -d "$WINEPREFIX/pfx/drive_c/windows/system32" ] && return 0
+    command -v winetricks &>/dev/null || return 0
+    print_info "Installing CA certificates (first run — enables HTTPS in launchers)..."
+    local _wine_bin="wine" _wt_prefix="$WINEPREFIX/pfx" _c
+    for _c in "$PROTON_DIR/files/bin/wine64" "$PROTON_DIR/files/bin/wine"; do
+        [ -x "$_c" ] && { _wine_bin="$_c"; break; }
+    done
+    (
+        export WINE="$_wine_bin"
+        export WINESERVER="$(dirname "$_wine_bin")/wineserver"
+        export WINEPREFIX="$_wt_prefix"
+        [ -d "$PROTON_DIR/files/lib64" ] && \
+            export LD_LIBRARY_PATH="$PROTON_DIR/files/lib:$PROTON_DIR/files/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+        WINETRICKS_LATEST_VERSION_CHECK=disabled winetricks -q --force cacerts >/dev/null 2>&1
+    ) && touch "$_stamp" \
+      || print_warning "cacerts failed — HTTPS downloads may fail; run: wig init"
+}
 # Print the managed prefix paths and env-var exports for manual use.
 prefix_info() {
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

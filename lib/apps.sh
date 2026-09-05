@@ -91,10 +91,15 @@ install_app() {
             ;;
     esac
 
-    "$PROTON_DIR/proton" run "${run_cmd[@]}" 2>&1 \
+    # timeout prevents indefinite stall if a GUI installer fails to close.
+    timeout 600 "$PROTON_DIR/proton" run "${run_cmd[@]}" 2>&1 \
         | awk '/MonoBtlsPkcs12\.Import|Missing private key/ { c++; next }
+               /^info:  |^warn:  |^GnuTLS error:|^ProtonFixes\[/ { dxvk++; next }
                { print }
-               END { if (c+0>0) printf "[WARN] %d Mono TLS cert exceptions suppressed (run: wig init to install cacerts)\n", c }' \
+               END {
+                   if (c+0>0)    printf "[WARN] %d Mono TLS cert exceptions suppressed\n", c
+                   if (dxvk+0>0) printf "[note] %d DXVK/Proton diagnostic lines suppressed\n", dxvk
+               }' \
         | tee "$install_log" || true
 
     if find_app_exe "$app_key" >/dev/null 2>&1; then
