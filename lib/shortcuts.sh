@@ -193,8 +193,14 @@ Exec=$launcher
 Type=Application
 Categories=Game;
 Terminal=false
-StartupNotify=true
+StartupNotify=false
+StartupWMClass=$(basename "$APP_EXE" | sed 's/\.exe$//' | tr '[:upper:]' '[:lower:]')
 Icon=$app_icon
+Actions=Launch;
+
+[Desktop Action Launch]
+Name=Launch
+Exec=$launcher
 DESKTOP_EOF
 
     chmod 644 "$desktop"
@@ -386,8 +392,13 @@ Exec=${launcher}
 Type=Application
 Categories=Game;
 Terminal=false
-StartupNotify=true
+StartupNotify=false
 Icon=${app_icon}
+Actions=Launch;
+
+[Desktop Action Launch]
+Name=Launch
+Exec=${launcher}
 DESKTOP_EOF
 
     chmod 644 "$desktop"
