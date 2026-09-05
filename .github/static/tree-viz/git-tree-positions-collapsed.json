@@ -1,0 +1,306 @@
+{
+  "metadata": {
+    "repository": "wine-gaming",
+    "current_branch": "main",
+    "repo_url": "https://github.com/XAOSTECH/wine-gaming",
+    "generated": "2026-09-05T05:36:25Z",
+    "max_commits": 500
+  },
+  "commits": [
+    {
+      "sha": "1f4f3853d061b8da61ddc276f98c150b91ec44ec",
+      "short": "1f4f385",
+      "parents": "collapsed:60dd34df5953daa13be293733768cea911548c59:0355d350d9072d904447f7ad175149c8f685ae69",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-09-05T07:36:25+02:00",
+      "timestamp": 1788586585,
+      "subject": "chore(dc-init): update workflows + actions",
+      "refs": "HEAD -> main, origin/main",
+      "position": {
+        "x": 600,
+        "y": 60,
+        "lane": 0,
+        "radius": 6,
+        "depth": 0,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "collapsed:60dd34df5953daa13be293733768cea911548c59:0355d350d9072d904447f7ad175149c8f685ae69",
+      "short": "66",
+      "parents": "88b253c75ddfa60dc24b0ce2dcbe08bc35fe8394",
+      "author": "",
+      "email": "",
+      "date": "2026-09-05T04:36:43Z",
+      "timestamp": 1788583003,
+      "subject": "66 commits",
+      "refs": "",
+      "collapsed": true,
+      "count": 66,
+      "position": {
+        "x": 600,
+        "y": 100,
+        "lane": 0,
+        "radius": 6,
+        "depth": 1,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "2910c99bf1c63f9de4a1d059dc2f5a6c5850c4ca",
+      "short": "2910c99",
+      "parents": "collapsed:dfebc0028ecf5550d0e05a246e0be5e169299aba:6a7d91ca6c51dbd6c775ba087d7255c26e8ecb3b",
+      "author": "agent",
+      "email": "agent@local",
+      "date": "2026-04-18T04:01:29+02:00",
+      "timestamp": 1776477689,
+      "subject": "experiment(xbox): iter 10 — add HTTPS/auth trace channels",
+      "refs": "origin/experiment/xbox-gaming",
+      "position": {
+        "x": 720,
+        "y": 140,
+        "lane": 1,
+        "radius": 6,
+        "depth": 2,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "collapsed:dfebc0028ecf5550d0e05a246e0be5e169299aba:6a7d91ca6c51dbd6c775ba087d7255c26e8ecb3b",
+      "short": "15",
+      "parents": "88b253c75ddfa60dc24b0ce2dcbe08bc35fe8394",
+      "author": "",
+      "email": "",
+      "date": "2026-04-18T03:53:43+02:00",
+      "timestamp": 1776477223,
+      "subject": "15 commits",
+      "refs": "",
+      "collapsed": true,
+      "count": 15,
+      "position": {
+        "x": 480,
+        "y": 220,
+        "lane": -1,
+        "radius": 6,
+        "depth": 3,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "88b253c75ddfa60dc24b0ce2dcbe08bc35fe8394",
+      "short": "88b253c",
+      "parents": "bdba0f24f3331c70167530a04a96feaac5f4878a 7acf70f8c4820f5badf4cfbe729b69a9564e66d4",
+      "author": "github-actions[bot]",
+      "email": "41898282+github-actions[bot]@users.noreply.github.com",
+      "date": "2026-04-15T23:27:32Z",
+      "timestamp": 1776295652,
+      "subject": "Merge pull request #2 from XAOSTECH/anglicise/20260415-232714",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 300,
+        "lane": 0,
+        "radius": 10,
+        "depth": 4,
+        "is_trunk": true,
+        "is_merge": true,
+        "is_fork": true
+      }
+    },
+    {
+      "sha": "7acf70f8c4820f5badf4cfbe729b69a9564e66d4",
+      "short": "7acf70f",
+      "parents": "bdba0f24f3331c70167530a04a96feaac5f4878a",
+      "author": "xaos-bot",
+      "email": "262248812+xaos-bot@users.noreply.github.com",
+      "date": "2026-04-15T23:27:14Z",
+      "timestamp": 1776295634,
+      "subject": "chore: convert American spellings to British English",
+      "refs": "",
+      "position": {
+        "x": 840,
+        "y": 340,
+        "lane": 2,
+        "radius": 6,
+        "depth": 5,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "bdba0f24f3331c70167530a04a96feaac5f4878a",
+      "short": "bdba0f2",
+      "parents": "collapsed:1f8d8fb23ce5c61dd9c49c0bfc9b19774b8dc5f2:99c088437f52bafad58f15efc3d9289545586f3f",
+      "author": "xaos-bot",
+      "email": "262248812+xaos-bot@users.noreply.github.com",
+      "date": "2026-04-15T22:26:36Z",
+      "timestamp": 1776291996,
+      "subject": "chore: update CHANGELOG for v0.1.1 (re-release)",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 420,
+        "lane": 0,
+        "radius": 9,
+        "depth": 6,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": true
+      }
+    },
+    {
+      "sha": "collapsed:1f8d8fb23ce5c61dd9c49c0bfc9b19774b8dc5f2:99c088437f52bafad58f15efc3d9289545586f3f",
+      "short": "7",
+      "parents": "838b9c4ee0993e3c6dbe90666d75143317b5bc47",
+      "author": "",
+      "email": "",
+      "date": "2026-04-15T01:11:36+02:00",
+      "timestamp": 1776208296,
+      "subject": "7 commits",
+      "refs": "",
+      "collapsed": true,
+      "count": 7,
+      "position": {
+        "x": 600,
+        "y": 460,
+        "lane": 0,
+        "radius": 6,
+        "depth": 7,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "838b9c4ee0993e3c6dbe90666d75143317b5bc47",
+      "short": "838b9c4",
+      "parents": "56414f64ed440177abab36c656bca62299fcdabd 6b90c0ca9f2831e5d7bb29dc592b5aeec81fa2df",
+      "author": "github-actions[bot]",
+      "email": "41898282+github-actions[bot]@users.noreply.github.com",
+      "date": "2026-04-01T00:27:51Z",
+      "timestamp": 1775003271,
+      "subject": "Merge pull request #1 from XAOSTECH/anglicise/20260401-002733",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 500,
+        "lane": 0,
+        "radius": 10,
+        "depth": 8,
+        "is_trunk": true,
+        "is_merge": true,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "6b90c0ca9f2831e5d7bb29dc592b5aeec81fa2df",
+      "short": "6b90c0c",
+      "parents": "56414f64ed440177abab36c656bca62299fcdabd",
+      "author": "xaos-bot",
+      "email": "262248812+xaos-bot@users.noreply.github.com",
+      "date": "2026-04-01T00:27:33Z",
+      "timestamp": 1775003253,
+      "subject": "chore: convert American spellings to British English",
+      "refs": "",
+      "position": {
+        "x": 360,
+        "y": 540,
+        "lane": -2,
+        "radius": 6,
+        "depth": 9,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "56414f64ed440177abab36c656bca62299fcdabd",
+      "short": "56414f6",
+      "parents": "collapsed:7a60e2ae390c8a2aa5d4509ee91d724d18bebcc9:d3a63572170eb5d3acca5296af81d879eecb4e1b",
+      "author": "xaos-bot",
+      "email": "262248812+xaos-bot@users.noreply.github.com",
+      "date": "2026-03-30T01:56:42Z",
+      "timestamp": 1774835802,
+      "subject": "chore: update CHANGELOG for v0.1.1 (re-release)",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 620,
+        "lane": 0,
+        "radius": 9,
+        "depth": 10,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": true
+      }
+    },
+    {
+      "sha": "collapsed:7a60e2ae390c8a2aa5d4509ee91d724d18bebcc9:d3a63572170eb5d3acca5296af81d879eecb4e1b",
+      "short": "11",
+      "parents": "4854ca978c51879d8b16481359344c3754590c0b",
+      "author": "",
+      "email": "",
+      "date": "2026-03-26T20:17:25+01:00",
+      "timestamp": 1774552645,
+      "subject": "11 commits",
+      "refs": "",
+      "collapsed": true,
+      "count": 11,
+      "position": {
+        "x": 600,
+        "y": 660,
+        "lane": 0,
+        "radius": 6,
+        "depth": 11,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "4854ca978c51879d8b16481359344c3754590c0b",
+      "short": "4854ca9",
+      "parents": "",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2025-12-10T19:21:37+01:00",
+      "timestamp": 1765390897,
+      "subject": "Init",
+      "refs": "tag: Main",
+      "position": {
+        "x": 600,
+        "y": 700,
+        "lane": 0,
+        "radius": 6,
+        "depth": 12,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    }
+  ],
+  "branches": [
+    {
+      "name": "1f4f3853d061b8da61ddc276f98c150b91ec44ec chore(dc-init): update workflows + actions",
+      "sha": "*",
+      "current": false,
+      "merged": false
+    }
+  ],
+  "tags": [
+    {
+      "name": "Main",
+      "sha": "4854ca978c51879d8b16481359344c3754590c0b"
+    }
+  ]
+}
