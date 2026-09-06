@@ -10,8 +10,7 @@ _post_install_registry() {
     mkdir -p "$(dirname "$_reg")"
     case "$app_key" in
         epic-games)
-            # DEMAND_START (3) stops EpicGamesUpdater auto-launching and stealing the session.
-            # EOS (Epic Online Services) auto-update disabled — Wine can't run InstallChainer.exe.
+            # DEMAND_START (3) stops EpicGamesUpdater; Wine per-process env + DLL overrides prevent EOS host IPC crash.
             printf 'Windows Registry Editor Version 5.00\n\n'\
 '[HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Services\\EpicGamesUpdater]\n'\
 '"Start"=dword:00000003\n'\
@@ -19,7 +18,14 @@ _post_install_registry() {
 '[HKEY_CURRENT_USER\\Software\\Epic Games\\EOS]\n'\
 '"IsDisableAutoUpdate"=dword:00000001\n\n'\
 '[HKEY_CURRENT_USER\\Software\\Epic Games\\EGL]\n'\
-'"DisableEOSOverlay"=dword:00000001\n' \
+'"DisableEOSOverlay"=dword:00000001\n\n'\
+'[HKEY_CURRENT_USER\\Software\\Wine\\AppDefaults\\EpicGamesLauncher.exe\\Environment]\n'\
+'"EOS_ENABLED"="0"\n'\
+'"EOS_NO_AUTOUPDATE"="1"\n'\
+'"DISABLE_EOS_OVERLAY"="1"\n\n'\
+'[HKEY_CURRENT_USER\\Software\\Wine\\AppDefaults\\EpicGamesLauncher.exe\\DllOverrides]\n'\
+'"EOSOverlayRenderer-Win64-Shipping"="disabled"\n'\
+'"eosovh-win64-shipping"="disabled"\n' \
                 > "$_reg"
             "$PROTON_DIR/proton" run regedit /s "C:\\windows\\temp\\wg-post-install.reg" >/dev/null 2>&1 || true
             # Run EOS installer if the MSI placed it — prevents the 'Update Online Services' loop.
