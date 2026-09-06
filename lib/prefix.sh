@@ -65,9 +65,21 @@ _install_winetricks_verbs() {
             [ $_ok -eq 1 ] && echo "ok" || echo "FAILED (continuing)"
         done
 
-        print_warning "Installing heavy verbs (${heavy_verbs[*]}) — each may take several minutes"
-        print_info "Output is streamed below; press Ctrl-C to skip a verb."
+        local _need_heavy=()
         for v in "${heavy_verbs[@]}"; do
+            if echo "$_installed_verbs" | grep -qx "$v" 2>/dev/null; then
+                printf "  → %s ... already installed\n" "$v"
+            else
+                _need_heavy+=("$v")
+            fi
+        done
+
+        if [ ${#_need_heavy[@]} -eq 0 ]; then
+            print_info "Heavy verbs (${heavy_verbs[*]}) already installed."
+        else
+        print_warning "Installing heavy verbs (${_need_heavy[*]}) — each may take several minutes"
+        print_info "Output is streamed below; press Ctrl-C to skip a verb."
+        for v in "${_need_heavy[@]}"; do
             echo ""
             print_info "winetricks → $v"
             WINETRICKS_LATEST_VERSION_CHECK=disabled \
@@ -87,6 +99,7 @@ _install_winetricks_verbs() {
                     }' \
                 || print_warning "$v failed or was skipped — continuing"
         done
+        fi
         # dotnet verbs temporarily set winxp/win7 — restore win10 before exit.
         WINETRICKS_LATEST_VERSION_CHECK=disabled winetricks -q win10 >/dev/null 2>&1 || true
     )
