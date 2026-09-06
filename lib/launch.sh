@@ -69,7 +69,8 @@ launch_app() {
 
         cd "$exe_dir"
         local _args="${APP_LAUNCH_ARGS[$app_key]:-}"
-        eval "${WG_LAUNCH_PREFIX}\"\$PROTON_DIR/proton\" run \"\$exe_bin\" ${_args}" >"$WINE_DIR/${app_key}.log" 2>&1 &
+        local _env_str="${APP_LAUNCH_ENV[$app_key]:+${APP_LAUNCH_ENV[$app_key]} }"
+        eval "${WG_LAUNCH_PREFIX}${_env_str}\"\$PROTON_DIR/proton\" run \"\$exe_bin\" ${_args}" >"$WINE_DIR/${app_key}.log" 2>&1 &
         # Proton wineboot recreates Z:→/ on prefix version upgrades; re-sandbox after it completes.
         ( sleep 2; _sandbox_z_drive ) &
     else

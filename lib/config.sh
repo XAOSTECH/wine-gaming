@@ -33,6 +33,14 @@ declare -A APP_LAUNCH_ARGS=(
     [epic-games]="-EpicPortal"
 )
 
+# Per-app env vars prepended to the Proton run command (KEY=VALUE space-separated).
+# More reliable than Wine AppDefaults registry injection, which Proton may not honour.
+declare -A APP_LAUNCH_ENV=(
+    # EOS_ENABLED=0 suppresses the 'Update Epic Online Services' loop;
+    # vars are inherited Linux-side through Proton → Wine → EpicGamesLauncher.exe.
+    [epic-games]="EOS_ENABLED=0 EOS_NO_AUTOUPDATE=1 DISABLE_EOS_OVERLAY=1"
+)
+
 # Colon-separated host paths to expose as Windows drive letters (D:, E:, …) in Wine.
 # Useful for game libraries on external/NTFS drives accessed by Epic, GOG, etc.
 # Example: WINE_EXTRA_DRIVES="/run/media/user/DATA-NTFS:/mnt/games"
