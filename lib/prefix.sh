@@ -458,6 +458,9 @@ quick_setup() {
         parse_app_config "$app_key" || continue
         if find_app_exe "$app_key" >/dev/null 2>&1; then
             print_info "$APP_NAME already installed, skipping..."
+            # Re-apply registry fixes so recent patches (e.g. EOS suppression) take effect
+            # without needing a full reinstall. Runs silently — purely idempotent reg writes.
+            _post_install_registry "$app_key" "" "1" >/dev/null 2>&1 || true
             ((skipped++))
             continue
         fi
