@@ -437,8 +437,6 @@ quick_setup() {
         return 0
     fi
 
-    wineboot -u
-
     print_info "Reinstalling Wine dependencies via winetricks (non-destructive)..."
     _install_winetricks_verbs
 
