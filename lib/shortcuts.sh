@@ -4,8 +4,7 @@
 # Depends on: lib/config.sh, lib/utils.sh, lib/registry.sh
 
 # Extract the best available icon from a Windows .exe for use in a GNOME desktop shortcut.
-# Strategy: PNG via icotool (preferred — crisp, works for multi-frame .ico files that
-# confuse gdk-pixbuf), falling back to raw .ico (works for apps like EA Desktop whose
+# Strategy: PNG via icotool (preferred — crisp, works for multi-frame .ico files that confuse gdk-pixbuf), falling back to raw .ico (works for apps like EA Desktop whose
 # .ico icotool refuses to parse but gdk-pixbuf renders from the first valid frame).
 # Usage: extract_exe_icon "app-key" "exe_path"
 # Outputs: absolute path to the extracted icon (.png or .ico), or nothing on failure.
@@ -49,8 +48,7 @@ extract_exe_icon() {
         return 1
     fi
 
-    # Prefer PNG: icotool handles multi-frame .ico correctly and gdk-pixbuf renders
-    # complex files (17+ frames) as cosmic noise. Fall back to .ico for apps whose
+    # Prefer PNG: icotool handles multi-frame .ico correctly and gdk-pixbuf renders complex files (17+ frames) as cosmic noise. Fall back to .ico for apps whose
     # .ico is corrupt enough that icotool refuses it but gdk-pixbuf handles anyway.
     if command -v icotool &>/dev/null && icotool -x -o "$work_dir" "$best_ico" 2>/dev/null; then
         local best_png="" best_png_size=0
@@ -80,8 +78,7 @@ extract_exe_icon() {
 
 # Create a .desktop shortcut and a wrapper launcher script for an app.
 # Usage: create_shortcut [--profile NAME] <app-key> [display_name]
-# When --profile is given, the shortcut is suffixed (key-profile.desktop) so
-# multiple profile-specific shortcuts can coexist for one app.
+# When --profile is given, the shortcut is suffixed (key-profile.desktop) so multiple profile-specific shortcuts can coexist for one app.
 create_shortcut() {
     _parse_profile_flag "$@"
     local app_key="${WG_PARSED_ARGS[0]:-}"
@@ -414,8 +411,7 @@ DESKTOP_EOF
     print_info "Key: ${app_key}  |  Icon: $(basename "${app_icon}")"
 }
 
-# Scan a path (or default prefix + common GOG locations) for GOG games and Windows .lnk
-# shortcuts, then create Proton-based .desktop entries for each discovered game.
+# Scan a path (or default prefix + common GOG locations) for GOG games and Windows .lnk shortcuts, then create Proton-based .desktop entries for each discovered game.
 # Usage: scan_shortcuts [path]
 scan_shortcuts() {
     local scan_arg="${1:-}"
