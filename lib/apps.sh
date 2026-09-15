@@ -4,8 +4,7 @@
 # Depends on: lib/config.sh, lib/utils.sh, lib/registry.sh, lib/installer.sh, lib/shortcuts.sh
 
 # Post-install Wine registry fixes for apps that need service or install-key setup.
-# Pass _reg_only=1 (third arg) to apply only the registry import, skipping any
-# post-install installers (EOS installer, etc.) — used by quick_setup's re-apply path.
+# Pass _reg_only=1 (third arg) to apply only the registry import, skipping any post-install installers (EOS installer, etc.) — used by quick_setup's re-apply path.
 _post_install_registry() {
     local app_key="$1" installer_path="${2:-}" _reg_only="${3:-0}"
     local _reg="$WINEPREFIX/pfx/drive_c/windows/temp/wg-post-install.reg"
@@ -96,8 +95,7 @@ install_app() {
 
     export STEAM_COMPAT_DATA_PATH="$WINEPREFIX"
     export STEAM_COMPAT_CLIENT_INSTALL_PATH="$WINE_DIR/steam-root"
-    # PROTON_LOG=1 routes Wine subprocess stderr to a file (not a pipe), preventing
-    # installers that check GetFileType(STD_ERROR_HANDLE) from aborting on pipe detection.
+    # PROTON_LOG=1 routes Wine subprocess stderr to a file (not a pipe), preventing installers that check GetFileType(STD_ERROR_HANDLE) from aborting on pipe detection.
     export PROTON_LOG=1
     export PROTON_LOG_DIR="$WINE_DIR"
     mkdir -p "$WINE_DIR/steam-root"

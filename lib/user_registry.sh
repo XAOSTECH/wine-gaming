@@ -3,9 +3,7 @@
 # Sourced by setup; do not execute directly.
 # Depends on: lib/config.sh, lib/utils.sh, lib/profile.sh (for WG_CONFIG_DIR)
 #
-# Persistence: $XDG_CONFIG_HOME/wine-gaming/apps.conf  (auto-managed by add/remove,
-# but hand-editable). Format mirrors APP_REGISTRY but adds an optional launcher
-# field for UX grouping only — it has NO effect on profile inheritance or launch.
+# Persistence: $XDG_CONFIG_HOME/wine-gaming/apps.conf  (auto-managed by add/remove, but hand-editable). Format mirrors APP_REGISTRY but adds an optional launcher field for UX grouping only — it has NO effect on profile inheritance or launch.
 #
 # Format: USER_APP_REGISTRY[key]="Name|LauncherKey|ExePath"
 #   - LauncherKey may be empty (standalone)
