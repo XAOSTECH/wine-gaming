@@ -64,17 +64,21 @@ _install_winetricks_verbs() {
             [ $_ok -eq 1 ] && echo "ok" || echo "FAILED (continuing)"
         done
 
+        echo ""
         local _need_heavy=()
         for v in "${heavy_verbs[@]}"; do
             if echo "$_installed_verbs" | grep -qx "$v" 2>/dev/null; then
                 printf "  → %s ... already installed\n" "$v"
+            elif [ -f "$WINEPREFIX/.wg-heavy-$v" ]; then
+                # Stamp written after first attempt; prevents retry on verbs that Wine can't install.
+                printf "  → %s ... previously attempted, skipping\n" "$v"
             else
                 _need_heavy+=("$v")
             fi
         done
 
         if [ ${#_need_heavy[@]} -eq 0 ]; then
-            print_info "Heavy verbs (${heavy_verbs[*]}) already installed."
+            print_info "Heavy verbs (${heavy_verbs[*]}) already installed or attempted."
         else
         print_warning "Installing heavy verbs (${_need_heavy[*]}) — each may take several minutes"
         print_info "Output is streamed below; press Ctrl-C to skip a verb."
@@ -96,7 +100,10 @@ _install_winetricks_verbs() {
                         if (errc+0  > 0) printf "[note] %d Wine err stubs (harmless)\n",   errc
                         if (prep+0  > 0) printf "[note] %d files extracted\n",              prep
                     }' \
-                || print_warning "$v failed or was skipped — continuing"
+                || true
+            # Stamp after attempt (success or failure) to prevent re-running on the next wig quick.
+            # dotnet verbs fail with FDICopy/cabinet errors on Wine and will never succeed; retrying wastes minutes.
+            touch "$WINEPREFIX/.wg-heavy-$v" 2>/dev/null || true
         done
         fi
         # dotnet verbs temporarily set winxp/win7 — restore win10 before exit.
