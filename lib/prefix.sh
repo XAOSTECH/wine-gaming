@@ -747,12 +747,46 @@ suppress_z_warnings() {
 
 # Kill all Wine/Proton processes for this prefix.
 kill_wine() {
-    print_info "Killing Wine/Proton processes..."
-    WINEPREFIX="$WINEPREFIX/pfx" wineserver -k 2>/dev/null || true
-    pkill -f "$WINE_DIR" 2>/dev/null || true
-    pkill -9 -f "wineserver" 2>/dev/null || true
-    pkill -9 -f "wine64" 2>/dev/null || true
+    local _pfx="$WINEPREFIX/pfx"
+    print_info "Killing all Wine/Proton processes for this prefix..."
+
+    # Use Proton's own wineserver binary — it shares the socket convention with the running server.
+    local _wineserver="wineserver"
+    [ -x "$PROTON_DIR/files/bin/wineserver" ] && _wineserver="$PROTON_DIR/files/bin/wineserver"
+
+    # Graceful shutdown first
+    WINEPREFIX="$_pfx" "$_wineserver" -k 2>/dev/null || true
+
+    # Enumerate /proc to find every process with our WINEPREFIX in its environment.
+    # This catches CEF helpers, EOS host, and other orphaned children pkill -f misses.
+    local _pids=()
+    for _env_file in /proc/[0-9]*/environ; do
+        [ -r "$_env_file" ] || continue
+        if tr '\0' '\n' < "$_env_file" 2>/dev/null | grep -qxF "WINEPREFIX=$_pfx"; then
+            _pids+=("$(basename "$(dirname "$_env_file")")")
+        fi
+    done
+    [ "${#_pids[@]}" -gt 0 ] && kill -TERM "${_pids[@]}" 2>/dev/null || true
+
+    # Also terminate by path for Proton runner processes whose env may not propagate WINEPREFIX
+    pkill -TERM -f "$WINE_DIR"   2>/dev/null || true
+    pkill -TERM -f "$PROTON_DIR" 2>/dev/null || true
+
     sleep 1
+
+    # Force-kill anything that ignored SIGTERM
+    WINEPREFIX="$_pfx" "$_wineserver" -k 2>/dev/null || true
+    [ "${#_pids[@]}" -gt 0 ] && kill -9 "${_pids[@]}" 2>/dev/null || true
+    pkill -9 -f "wineserver"       2>/dev/null || true
+    pkill -9 -f "wine64-preloader" 2>/dev/null || true
+    pkill -9 -f "wine-preloader"   2>/dev/null || true
+    pkill -9 -f "$PROTON_DIR"      2>/dev/null || true
+
+    # Remove stale POSIX socket files; lingering sockets keep phantom GNOME taskbar entries alive.
+    local _uid; _uid=$(id -u)
+    rm -f "/tmp/.wine-$_uid/server-"* 2>/dev/null || true
+
+    sleep 0.5
     print_success "Wine processes terminated"
 }
 
