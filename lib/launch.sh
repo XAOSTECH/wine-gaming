@@ -78,10 +78,34 @@ launch_app() {
         local _args="${APP_LAUNCH_ARGS[$app_key]:-}"
         local _env_str="${APP_LAUNCH_ENV[$app_key]:+${APP_LAUNCH_ENV[$app_key]} }"
         if [ "$_verbose" -eq 1 ]; then
-            print_info "Verbose mode — Ctrl-C to stop"
+            print_info "Verbose mode — Ctrl-C to stop (DXVK capability blocks suppressed)"
             eval "${WG_LAUNCH_PREFIX}${_env_str}\"\$PROTON_DIR/proton\" run \"\$exe_bin\" ${_args}" 2>&1 \
+                | awk '
+                    /^info:  (Enabled (features|extensions)|Memory:|Descriptor sizes|Creating (sampler|resource descriptor))/{
+                        suppressed++; in_block=1; next }
+                    in_block && /^info:    /{ suppressed++; next }
+                    in_block && !/^info:    /{ in_block=0 }
+                    suppressed>0 && !in_block{
+                        printf "[note] %d DXVK capability lines suppressed\n", suppressed; suppressed=0 }
+                    { print }
+                    END{ if(suppressed>0) printf "[note] %d DXVK capability lines suppressed\n", suppressed }
+                ' \
                 | tee "$WINE_DIR/${app_key}.log"
             print_success "$APP_NAME exited"
+            # Auto-show application log on exit so crash reasons are immediately visible
+            local _app_log_dir
+            case "$app_key" in
+                epic-games) _app_log_dir="$WINEPREFIX/pfx/drive_c/users/steamuser/AppData/Local/EpicGamesLauncher/Saved/Logs" ;;
+                gog-galaxy) _app_log_dir="$WINEPREFIX/pfx/drive_c/ProgramData/GOG.com/Galaxy/logs" ;;
+                ea-desktop) _app_log_dir="$WINEPREFIX/pfx/drive_c/users/steamuser/AppData/Local/Electronic Arts/EA Desktop/Logs" ;;
+            esac
+            if [ -n "${_app_log_dir:-}" ]; then
+                local _latest; _latest=$(ls -t "$_app_log_dir/"*.log 2>/dev/null | head -1)
+                if [ -n "$_latest" ]; then
+                    print_info "--- $(basename "$_latest") (last 40 lines) ---"
+                    tail -40 "$_latest"
+                fi
+            fi
             return 0
         fi
         eval "${WG_LAUNCH_PREFIX}${_env_str}\"\$PROTON_DIR/proton\" run \"\$exe_bin\" ${_args}" >"$WINE_DIR/${app_key}.log" 2>&1 &
