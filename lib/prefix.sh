@@ -352,11 +352,15 @@ init() {
     # mangohud:    in-game perf overlay (FPS, frametime, GPU/CPU); also enforces fps_limit.
     print_info "Installing system dependencies (apt)..."
     if command -v apt-get &>/dev/null; then
-        sudo apt-get install -y icoutils gamemode mangohud winetricks gcc-mingw-w64 2>&1 \
+        sudo apt-get install -y icoutils gamemode mangohud winetricks gcc-mingw-w64 \
+            gnome-shell-extension-appindicator 2>&1 \
             | grep -v "^Reading\|^Building\|^(Reading\|^Selecting\|^Setting\|^Preparing" || true
     else
         print_warning "apt-get not available — skipping system package install"
     fi
+    # Enable the AppIndicator GNOME extension so Wine SNI tray ContextMenu calls route correctly.
+    command -v gnome-extensions &>/dev/null && \
+        gnome-extensions enable ubuntu-appindicators@ubuntu.com 2>/dev/null || true
 
     # Download winetricks directly if apt didn't install it (e.g. sudo auth failure).
     if ! command -v winetricks &>/dev/null; then

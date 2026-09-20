@@ -70,6 +70,8 @@ launch_app() {
         export PROTON_LOG="${PROTON_LOG:-1}"
         export PROTON_LOG_DIR="$WINE_DIR"
         export WINEESYNC="${WINEESYNC:-1}" WINEFSYNC="${WINEFSYNC:-1}"
+        # Force XWayland — native Wayland mode breaks Wine SNI tray ContextMenu dispatch.
+        export PROTON_ENABLE_WAYLAND=0
         mkdir -p "$WINEPREFIX"
         _sandbox_z_drive
         _map_external_drives
