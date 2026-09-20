@@ -3,6 +3,98 @@
 # Sourced by setup; do not execute directly.
 # Depends on: lib/config.sh, lib/utils.sh, lib/registry.sh, lib/installer.sh, lib/shortcuts.sh
 
+# Build a Wine compatibility layer for EOS: a stub EOSSDK-Win64-Shipping.dll that
+# returns EOS_Success for all lifecycle calls + a stub EOSBootstrapperApp.exe that
+# exits 0. Wine's DllOverrides then loads the stub instead of any bundled copy,
+# preventing Epic Games Launcher from showing the "Install Epic Online Services" dialog.
+_build_eos_compat_layer() {
+    local _eos_dir="$WINEPREFIX/pfx/drive_c/Program Files (x86)/Epic Games/Epic Online Services"
+    local _sys32="$WINEPREFIX/pfx/drive_c/windows/system32"
+    local _portal_eos="$WINEPREFIX/pfx/drive_c/Program Files/Epic Games/Launcher/Portal/Extras/EOS"
+    local _mgw="x86_64-w64-mingw32-gcc"
+
+    command -v "$_mgw" &>/dev/null || {
+        print_info "Installing MinGW cross-compiler for EOS stub..."
+        sudo apt-get install -y gcc-mingw-w64 >/dev/null 2>&1 || {
+            print_warning "gcc-mingw-w64 unavailable — EOS stub build skipped"
+            return 1
+        }
+    }
+
+    local _bld; _bld=$(mktemp -d)
+
+    # Stub DLL: EOS_Platform_Create returns a non-NULL handle; all lifecycle
+    # and logging functions return EOS_Success (0).
+    cat > "$_bld/eos_stub.c" << 'STUBEOF'
+#include <windows.h>
+#include <stdint.h>
+#define EOS_Success 0
+static int _h[4];
+#define FAKE ((void*)_h)
+BOOL WINAPI DllMain(HINSTANCE h,DWORD r,LPVOID p){(void)h;(void)r;(void)p;return TRUE;}
+__declspec(dllexport) int         EOS_Initialize(const void*o)                      {return EOS_Success;}
+__declspec(dllexport) int         EOS_Shutdown(void)                                {return EOS_Success;}
+__declspec(dllexport) void*       EOS_Platform_Create(const void*o)                 {return FAKE;}
+__declspec(dllexport) void        EOS_Platform_Release(void*h)                      {}
+__declspec(dllexport) void        EOS_Platform_Tick(void*h)                         {}
+__declspec(dllexport) const char* EOS_GetVersion(void)                              {return "1.19.1";}
+/* bootstrapper/crossplay checks — Success prevents the install dialog */
+__declspec(dllexport) int         EOS_Platform_CheckForLauncherAndRestart(void*h)   {return EOS_Success;}
+__declspec(dllexport) int         EOS_Platform_GetDesktopCrossplayStatus(void*h,void*o){return EOS_Success;}
+__declspec(dllexport) int         EOS_Logging_SetCallback(void*cb)                  {return EOS_Success;}
+__declspec(dllexport) int         EOS_Logging_SetLogLevel(int c,int l)              {return EOS_Success;}
+/* all interface getters return the same stable non-NULL handle */
+#define G(n) __declspec(dllexport) void* n(void*h){return FAKE;}
+G(EOS_Platform_GetConnectInterface)         G(EOS_Platform_GetAuthInterface)
+G(EOS_Platform_GetFriendsInterface)         G(EOS_Platform_GetPresenceInterface)
+G(EOS_Platform_GetUserInfoInterface)        G(EOS_Platform_GetEcomInterface)
+G(EOS_Platform_GetTitleStorageInterface)    G(EOS_Platform_GetPlayerDataStorageInterface)
+G(EOS_Platform_GetAchievementsInterface)    G(EOS_Platform_GetStatsInterface)
+G(EOS_Platform_GetLeaderboardsInterface)    G(EOS_Platform_GetAntiCheatServerInterface)
+G(EOS_Platform_GetAntiCheatClientInterface) G(EOS_Platform_GetLobbyInterface)
+G(EOS_Platform_GetSessionsInterface)        G(EOS_Platform_GetMetricsInterface)
+G(EOS_Platform_GetP2PInterface)             G(EOS_Platform_GetUIInterface)
+G(EOS_Platform_GetModsInterface)            G(EOS_Platform_GetReportsInterface)
+G(EOS_Platform_GetSanctionsInterface)       G(EOS_Platform_GetCustomInvitesInterface)
+G(EOS_Platform_GetProgressionSnapshotInterface) G(EOS_Platform_GetKWSInterface)
+G(EOS_Platform_GetRTCInterface)             G(EOS_Platform_GetRTCAdminInterface)
+G(EOS_Platform_GetVoiceInterface)
+STUBEOF
+
+    # Stub bootstrapper: exits 0 — Epic EGL interprets this as "EOS installed and current"
+    cat > "$_bld/eos_boot.c" << 'BSEOF'
+int main(void){return 0;}
+BSEOF
+
+    "$_mgw" -shared -Os -o "$_bld/EOSSDK-Win64-Shipping.dll" \
+        "$_bld/eos_stub.c" -Wl,--kill-at 2>/dev/null || {
+        rm -rf "$_bld"; print_warning "EOS stub DLL compilation failed"; return 1
+    }
+    "$_mgw" -Os -o "$_bld/EOSBootstrapperApp.exe" "$_bld/eos_boot.c" 2>/dev/null || {
+        rm -rf "$_bld"; print_warning "EOS stub bootstrapper compilation failed"; return 1
+    }
+
+    # Stub DLL in system32 so Wine's DllOverride "native" rule finds it system-wide
+    mkdir -p "$_sys32" "$_eos_dir" "$_portal_eos"
+    cp "$_bld/EOSSDK-Win64-Shipping.dll" "$_sys32/EOSSDK-Win64-Shipping.dll"
+    # Stub bootstrapper in both locations Epic EGL is known to check
+    cp "$_bld/EOSBootstrapperApp.exe" "$_eos_dir/EOSBootstrapperApp.exe"
+    cp "$_bld/EOSBootstrapperApp.exe" "$_portal_eos/EOSBootstrapperApp.exe"
+
+    rm -rf "$_bld"
+
+    # Set Wine DllOverride: "native" makes Wine use the stub in system32 over any bundled copy
+    local _or="$WINEPREFIX/pfx/drive_c/windows/temp/wg-eos-compat.reg"
+    printf 'Windows Registry Editor Version 5.00\n\n'\
+'[HKEY_CURRENT_USER\\Software\\Wine\\DllOverrides]\n'\
+'"EOSSDK-Win64-Shipping"="native"\n' > "$_or"
+    STEAM_COMPAT_DATA_PATH="$WINEPREFIX" \
+    STEAM_COMPAT_CLIENT_INSTALL_PATH="$WINE_DIR/steam-root" \
+        "$PROTON_DIR/proton" run regedit /s "C:\\windows\\temp\\wg-eos-compat.reg" >/dev/null 2>&1 || true
+
+    print_success "EOS compat layer installed (stub DLL + stub EOSBootstrapperApp.exe)"
+}
+
 # Reusable helper: write EOS version registry keys so Epic's 32-bit and 64-bit checks both pass.
 _set_eos_registry() {
     local _ver="1.19.1.2"
@@ -32,6 +124,8 @@ install_eos_runtime() {
 
     if [ "$_force" != "--force" ] && [ -f "$_stamp" ]; then
         print_info "EOS runtime already installed (use --force to reinstall)."
+        # Still rebuild the compat layer in case it was deleted or prefix was recreated
+        _build_eos_compat_layer || true
         return 0
     fi
 
@@ -48,6 +142,7 @@ install_eos_runtime() {
             "C:\\Program Files (x86)\\Epic Games\\Epic Online Services\\EpicOnlineServicesInstaller.exe" \
             /install /silent >/dev/null 2>&1 || true
         _set_eos_registry
+        _build_eos_compat_layer || true
         touch "$_stamp"
         print_success "EOS runtime installed"
         return 0
@@ -57,6 +152,7 @@ install_eos_runtime() {
     if [ "$_force" != "--force" ] && [ -f "$_eos_dll" ]; then
         print_info "EOS DLL present; updating registry version keys."
         _set_eos_registry
+        _build_eos_compat_layer || true
         touch "$_stamp"
         return 0
     fi
@@ -102,6 +198,7 @@ install_eos_runtime() {
     fi
 
     _set_eos_registry
+    _build_eos_compat_layer || true
     touch "$_stamp"
     print_success "EOS runtime installed (SDK v1.19.1.2)"
 }
