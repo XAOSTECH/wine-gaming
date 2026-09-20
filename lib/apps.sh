@@ -74,12 +74,17 @@ BSEOF
         rm -rf "$_bld"; print_warning "EOS stub bootstrapper compilation failed"; return 1
     }
 
-    # Stub DLL in system32 so Wine's DllOverride "native" rule finds it system-wide
-    mkdir -p "$_sys32" "$_eos_dir" "$_portal_eos"
+    # Stub DLL in system32 AND in Epic's Binaries/Win64/ — app-dir load beats system32 even with
+    # DllOverrides=native, so we replace it at both locations to guarantee our stub is used.
+    local _launcher_bin="$WINEPREFIX/pfx/drive_c/Program Files/Epic Games/Launcher/Portal/Binaries/Win64"
+    mkdir -p "$_sys32" "$_eos_dir" "$_portal_eos" "$_launcher_bin"
     cp "$_bld/EOSSDK-Win64-Shipping.dll" "$_sys32/EOSSDK-Win64-Shipping.dll"
-    # Stub bootstrapper in both locations Epic EGL is known to check
+    cp "$_bld/EOSSDK-Win64-Shipping.dll" "$_launcher_bin/EOSSDK-Win64-Shipping.dll"
+    # Both bootstrapper names — SDK gives EOSBootstrapper.exe but EGL may call EOSBootstrapperApp.exe
     cp "$_bld/EOSBootstrapperApp.exe" "$_eos_dir/EOSBootstrapperApp.exe"
+    cp "$_bld/EOSBootstrapperApp.exe" "$_eos_dir/EOSBootstrapper.exe"
     cp "$_bld/EOSBootstrapperApp.exe" "$_portal_eos/EOSBootstrapperApp.exe"
+    cp "$_bld/EOSBootstrapperApp.exe" "$_portal_eos/EOSBootstrapper.exe"
 
     rm -rf "$_bld"
 
@@ -106,7 +111,13 @@ _set_eos_registry() {
 '"Version"="'"$_ver"'"\n\n'\
 '[HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Epic Games\\EpicOnlineServices]\n'\
 '"ModSdkMetadataDir"="C:\\\\Program Files (x86)\\\\Epic Games\\\\Epic Online Services"\n'\
-'"Version"="'"$_ver"'"\n' > "$_eos_reg"
+'"Version"="'"$_ver"'"\n\n'\
+'[HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Services\\EpicOnlineServices]\n'\
+'"Type"=dword:00000010\n'\
+'"Start"=dword:00000003\n'\
+'"ErrorControl"=dword:00000001\n'\
+'"DisplayName"="Epic Online Services"\n'\
+'"ImagePath"="C:\\\\Program Files (x86)\\\\Epic Games\\\\Epic Online Services\\\\EOSBootstrapperApp.exe"\n' > "$_eos_reg"
     STEAM_COMPAT_DATA_PATH="$WINEPREFIX" \
     STEAM_COMPAT_CLIENT_INSTALL_PATH="$WINE_DIR/steam-root" \
         "$PROTON_DIR/proton" run regedit /s "C:\\windows\\temp\\wg-eos-install.reg" >/dev/null 2>&1 || true

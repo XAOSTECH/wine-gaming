@@ -762,7 +762,8 @@ kill_wine() {
     local _pids=()
     for _env_file in /proc/[0-9]*/environ; do
         [ -r "$_env_file" ] || continue
-        if tr '\0' '\n' < "$_env_file" 2>/dev/null | grep -qxF "WINEPREFIX=$_pfx"; then
+        # grep opens the file itself so EACCES goes to grep's stderr (suppressed), not bash's.
+        if grep -qaF "WINEPREFIX=$_pfx" "$_env_file" 2>/dev/null; then
             _pids+=("$(basename "$(dirname "$_env_file")")")
         fi
     done

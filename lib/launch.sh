@@ -82,6 +82,12 @@ launch_app() {
     fi
 
     print_success "$APP_NAME launched (PID: $!) — log: $WINE_DIR/${app_key}.log"
+    # Emit diagnostic log paths for apps that have known per-app log directories.
+    if [ "$app_key" = "epic-games" ]; then
+        local _egl_logs="$WINEPREFIX/pfx/drive_c/users/steamuser/AppData/Local/EpicGamesLauncher/Saved/Logs"
+        print_info "Live output : tail -f $WINE_DIR/${app_key}.log"
+        print_info "Epic logs   : $_egl_logs"
+    fi
 }
 
 # Launch any external .exe or .msi in the managed wine-gaming prefix.
