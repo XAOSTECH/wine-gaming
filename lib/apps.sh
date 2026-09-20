@@ -70,12 +70,34 @@ BSEOF
         "$_bld/eos_stub.c" -Wl,--kill-at 2>/dev/null || {
         rm -rf "$_bld"; print_warning "EOS stub DLL compilation failed"; return 1
     }
+
+    # Extend stub with auto-generated no-ops for every other export from the real DLL.
+    # This prevents crashes from missing entry points that Epic calls after init.
+    local _real_dll="$_eos_dir/EOSSDK-Win64-Shipping.dll"
+    if [ -f "$_real_dll" ] && command -v objdump &>/dev/null; then
+        local _skip="EOS_Initialize EOS_Shutdown EOS_Platform_Create EOS_Platform_Release EOS_Platform_Tick EOS_GetVersion EOS_Platform_CheckForLauncherAndRestart EOS_Platform_GetDesktopCrossplayStatus EOS_Logging_SetCallback EOS_Logging_SetLogLevel EOS_Platform_GetConnectInterface EOS_Platform_GetAuthInterface EOS_Platform_GetFriendsInterface EOS_Platform_GetPresenceInterface EOS_Platform_GetUserInfoInterface EOS_Platform_GetEcomInterface EOS_Platform_GetTitleStorageInterface EOS_Platform_GetPlayerDataStorageInterface EOS_Platform_GetAchievementsInterface EOS_Platform_GetStatsInterface EOS_Platform_GetLeaderboardsInterface EOS_Platform_GetAntiCheatServerInterface EOS_Platform_GetAntiCheatClientInterface EOS_Platform_GetLobbyInterface EOS_Platform_GetSessionsInterface EOS_Platform_GetMetricsInterface EOS_Platform_GetP2PInterface EOS_Platform_GetUIInterface EOS_Platform_GetModsInterface EOS_Platform_GetReportsInterface EOS_Platform_GetSanctionsInterface EOS_Platform_GetCustomInvitesInterface EOS_Platform_GetProgressionSnapshotInterface EOS_Platform_GetKWSInterface EOS_Platform_GetRTCInterface EOS_Platform_GetRTCAdminInterface EOS_Platform_GetVoiceInterface"
+        while IFS= read -r _fn; do
+            [[ "$_fn" == EOS_* ]] || continue
+            [[ " $_skip " == *" $_fn "* ]] && continue
+            # Interface getters return the fake handle; all other unexported functions return 0
+            if [[ "$_fn" == *Interface ]]; then
+                printf '__declspec(dllexport) void* __cdecl %s(void* h){return FAKE;}\n' "$_fn"
+            else
+                printf '__declspec(dllexport) int __cdecl %s(void* h,...){return 0;}\n' "$_fn"
+            fi
+        done < <(objdump -p "$_real_dll" 2>/dev/null | grep -oP '\] \K\S+' | sort -u) \
+            >> "$_bld/eos_stub.c"
+        # Recompile with the extended stub
+        "$_mgw" -shared -Os -o "$_bld/EOSSDK-Win64-Shipping.dll" \
+            "$_bld/eos_stub.c" -Wl,--kill-at 2>/dev/null \
+            || print_warning "EOS extended stub compilation failed — using limited stub"
+    fi
+
     "$_mgw" -Os -o "$_bld/EOSBootstrapperApp.exe" "$_bld/eos_boot.c" 2>/dev/null || {
         rm -rf "$_bld"; print_warning "EOS stub bootstrapper compilation failed"; return 1
     }
 
-    # Stub DLL in system32 AND in Epic's Binaries/Win64/ — app-dir load beats system32 even with
-    # DllOverrides=native, so we replace it at both locations to guarantee our stub is used.
+    # Stub DLL in system32 AND in Epic's Binaries/Win64/
     local _launcher_bin="$WINEPREFIX/pfx/drive_c/Program Files/Epic Games/Launcher/Portal/Binaries/Win64"
     mkdir -p "$_sys32" "$_eos_dir" "$_portal_eos" "$_launcher_bin"
     cp "$_bld/EOSSDK-Win64-Shipping.dll" "$_sys32/EOSSDK-Win64-Shipping.dll"
