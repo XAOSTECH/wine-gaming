@@ -3,10 +3,362 @@
     "repository": "wine-gaming",
     "current_branch": "main",
     "repo_url": "https://github.com/XAOSTECH/wine-gaming",
-    "generated": "2026-09-05T05:36:25Z",
+    "generated": "2026-09-20T15:29:23Z",
     "max_commits": 500
   },
   "commits": [
+  {
+    "sha": "c34395f3ab35c03d65609368e7463764312886c4",
+    "short": "c34395f",
+    "parents": "73cd3dfae2c66dea0df59e4e3e080ecd94f31003",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-20T15:29:23Z",
+    "timestamp": 1789918163,
+    "subject": "fix(prefix): remove extension dependency from tray fix",
+    "refs": "HEAD -> main, origin/main"
+  },
+  {
+    "sha": "73cd3dfae2c66dea0df59e4e3e080ecd94f31003",
+    "short": "73cd3df",
+    "parents": "d8e052336a65becb4d3363cb533043bc7e3cfaec",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-20T14:25:51Z",
+    "timestamp": 1789914351,
+    "subject": "fix(launch,prefix): restore Wine SNI tray context menu on GNOME Wayland",
+    "refs": ""
+  },
+  {
+    "sha": "d8e052336a65becb4d3363cb533043bc7e3cfaec",
+    "short": "d8e0523",
+    "parents": "abe5f1264ed29a630714fdaeca148f3e34cca088",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-20T12:22:08Z",
+    "timestamp": 1789906928,
+    "subject": "fix(apps): use launcher-bundled EOS DLL as proxy backend; guard Binaries/Win64",
+    "refs": ""
+  },
+  {
+    "sha": "abe5f1264ed29a630714fdaeca148f3e34cca088",
+    "short": "abe5f12",
+    "parents": "e0efbcd4bea2df9ea30e8185b86e531d489e6bde",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-20T11:55:31Z",
+    "timestamp": 1789905331,
+    "subject": "fix(apps): replace EOS stub with proxy DLL — real SDK forwarding + dialog intercept",
+    "refs": ""
+  },
+  {
+    "sha": "e0efbcd4bea2df9ea30e8185b86e531d489e6bde",
+    "short": "e0efbcd",
+    "parents": "f8066ea3c17229fa51d2431d909103166e0d4951",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-20T11:43:15Z",
+    "timestamp": 1789904595,
+    "subject": "fix(launch): filter DXVK capability blocks in verbose; auto-show app log on exit",
+    "refs": ""
+  },
+  {
+    "sha": "f8066ea3c17229fa51d2431d909103166e0d4951",
+    "short": "f8066ea",
+    "parents": "462143954fe4d678603118bd2529877d65451552",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-20T11:18:48Z",
+    "timestamp": 1789903128,
+    "subject": "feat(launch): --verbose flag for live output; fix(apps): comprehensive EOS stubs from DLL export table",
+    "refs": ""
+  },
+  {
+    "sha": "462143954fe4d678603118bd2529877d65451552",
+    "short": "4621439",
+    "parents": "c0cca9d36aa70780f952cfeaead2f221843e2e9a",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-20T11:08:58Z",
+    "timestamp": 1789902538,
+    "subject": "fix(apps,launch,prefix): EOS stub coverage + kill_wine permission error + launch log hints",
+    "refs": ""
+  },
+  {
+    "sha": "c0cca9d36aa70780f952cfeaead2f221843e2e9a",
+    "short": "c0cca9d",
+    "parents": "4d57c258b3d77b6c608509c969f5be91b7791d27",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-20T10:20:50Z",
+    "timestamp": 1789899650,
+    "subject": "feat(apps): EOS Wine compat layer — stub EOSSDK DLL + stub EOSBootstrapperApp.exe",
+    "refs": ""
+  },
+  {
+    "sha": "4d57c258b3d77b6c608509c969f5be91b7791d27",
+    "short": "4d57c25",
+    "parents": "ab7248e14de282b85a30d50722858c0585f48e50",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-20T10:08:28Z",
+    "timestamp": 1789898908,
+    "subject": "fix(prefix): overhaul kill_wine — env scan, Proton wineserver, socket cleanup",
+    "refs": ""
+  },
+  {
+    "sha": "ab7248e14de282b85a30d50722858c0585f48e50",
+    "short": "ab7248e",
+    "parents": "9c1170f81855623e4fe9f158579b0361cfc10dd9",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-20T09:36:33Z",
+    "timestamp": 1789896993,
+    "subject": "fix(apps): run EpicOnlineServicesInstaller.exe; stamp EOS; thread --force through reinstall",
+    "refs": ""
+  },
+  {
+    "sha": "9c1170f81855623e4fe9f158579b0361cfc10dd9",
+    "short": "9c1170f",
+    "parents": "93b1fc2aae9c67435904fe73ec3190aa82f63c74",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-20T09:19:04Z",
+    "timestamp": 1789895944,
+    "subject": "feat(apps): install EOS runtime from Epic SDK; add install-eos command",
+    "refs": ""
+  },
+  {
+    "sha": "93b1fc2aae9c67435904fe73ec3190aa82f63c74",
+    "short": "93b1fc2",
+    "parents": "0f52632a02c5f2a4f5f3f5be608aab474b186589",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-20T09:18:51Z",
+    "timestamp": 1789895931,
+    "subject": "fix(config): correct PlayStation Plus exe to pspluslauncher.exe",
+    "refs": ""
+  },
+  {
+    "sha": "0f52632a02c5f2a4f5f3f5be608aab474b186589",
+    "short": "0f52632",
+    "parents": "b143d0b5d51a8910d279e08e0e87e6fbd0ddfb63",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-18T15:49:20Z",
+    "timestamp": 1789746560,
+    "subject": "fix(prefix): timeout fast winetricks verbs; remove enable-latest-version-check",
+    "refs": ""
+  },
+  {
+    "sha": "b143d0b5d51a8910d279e08e0e87e6fbd0ddfb63",
+    "short": "b143d0b",
+    "parents": "5231b00b439971f90e8d609972e998cacec9a22c",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-18T15:35:35Z",
+    "timestamp": 1789745735,
+    "subject": "fix(apps,config): remove EOS_ENABLED and BootstrapperVersion — both caused regressions",
+    "refs": ""
+  },
+  {
+    "sha": "5231b00b439971f90e8d609972e998cacec9a22c",
+    "short": "5231b00",
+    "parents": "88c0cc7f056771c583745cde26a96d61ff860128",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-18T15:06:53Z",
+    "timestamp": 1789744013,
+    "subject": "fix(prefix): stamp heavy verbs after first attempt to prevent endless retry",
+    "refs": ""
+  },
+  {
+    "sha": "88c0cc7f056771c583745cde26a96d61ff860128",
+    "short": "88c0cc7",
+    "parents": "93091d35eb1151742a766cb09e80939421c2cd5b",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-18T14:53:03Z",
+    "timestamp": 1789743183,
+    "subject": "fix(apps): spoof EOS bootstrapper version to suppress update dialog",
+    "refs": ""
+  },
+  {
+    "sha": "93091d35eb1151742a766cb09e80939421c2cd5b",
+    "short": "93091d3",
+    "parents": "5bb987fbbcd78235f9ec4efd49ef210a2e4814be",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-18T14:52:54Z",
+    "timestamp": 1789743174,
+    "subject": "fix(prefix): replace winetricks cacerts with host CA bundle via Proton certutil",
+    "refs": ""
+  },
+  {
+    "sha": "5bb987fbbcd78235f9ec4efd49ef210a2e4814be",
+    "short": "5bb987f",
+    "parents": "ca79f535925e4f0d68925454c7e42963a29ccd9e",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-06T16:50:36Z",
+    "timestamp": 1788713436,
+    "subject": "fix(launch,config): inject EOS env vars directly at launch for epic-games",
+    "refs": ""
+  },
+  {
+    "sha": "ca79f535925e4f0d68925454c7e42963a29ccd9e",
+    "short": "ca79f53",
+    "parents": "b2583301e080633a4de3703ff90922ee807327d6",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-06T16:50:26Z",
+    "timestamp": 1788713426,
+    "subject": "fix(prefix): remove wineboot -u from quick_setup",
+    "refs": ""
+  },
+  {
+    "sha": "b2583301e080633a4de3703ff90922ee807327d6",
+    "short": "b258330",
+    "parents": "b79cb6a670c52093b2cc2bdfecdaf356e485c3ee 3aa54130d64658c82517cae691b8e784d43d1439",
+    "author": "github-actions[bot]",
+    "email": "41898282+github-actions[bot]@users.noreply.github.com",
+    "date": "2026-09-15T08:08:01Z",
+    "timestamp": 1789459681,
+    "subject": "Merge pull request #3 from XAOSTECH/humanise/20260915-080739",
+    "refs": ""
+  },
+  {
+    "sha": "3aa54130d64658c82517cae691b8e784d43d1439",
+    "short": "3aa5413",
+    "parents": "b79cb6a670c52093b2cc2bdfecdaf356e485c3ee",
+    "author": "xaos-bot",
+    "email": "262248812+xaos-bot@users.noreply.github.com",
+    "date": "2026-09-15T08:07:39Z",
+    "timestamp": 1789459659,
+    "subject": "chore: humanise hard-wrapped comments and prose",
+    "refs": ""
+  },
+  {
+    "sha": "b79cb6a670c52093b2cc2bdfecdaf356e485c3ee",
+    "short": "b79cb6a",
+    "parents": "75dc42b651100509c6809a9744d98133aa502960",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-06T15:50:04Z",
+    "timestamp": 1788709804,
+    "subject": "fix(apps,prefix): suppress EOS update loop; re-apply registry on quick",
+    "refs": ""
+  },
+  {
+    "sha": "75dc42b651100509c6809a9744d98133aa502960",
+    "short": "75dc42b",
+    "parents": "f64ada8550f78eb87c400fb7106b61117d87f021",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-06T15:49:56Z",
+    "timestamp": 1788709796,
+    "subject": "fix(prefix): skip heavy winetricks verbs when already installed",
+    "refs": ""
+  },
+  {
+    "sha": "f64ada8550f78eb87c400fb7106b61117d87f021",
+    "short": "f64ada8",
+    "parents": "ea16ea36f9b8e2e38bbdc647ec1ae30367ef8eef",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-06T14:29:35+02:00",
+    "timestamp": 1788697775,
+    "subject": "fix(apps): stash Epic user data before MSI; use /fa repair mode on reinstall",
+    "refs": ""
+  },
+  {
+    "sha": "ea16ea36f9b8e2e38bbdc647ec1ae30367ef8eef",
+    "short": "ea16ea3",
+    "parents": "56b5785ee0606034257bdc12c2e4850d98892b07",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-06T14:24:46+02:00",
+    "timestamp": 1788697486,
+    "subject": "fix(apps): suppress EOS host crash via Wine per-process env + DLL overrides",
+    "refs": ""
+  },
+  {
+    "sha": "56b5785ee0606034257bdc12c2e4850d98892b07",
+    "short": "56b5785",
+    "parents": "b459de2abe5edc58a7e4e4735d6e69efb83fa6b2",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-06T13:27:40+02:00",
+    "timestamp": 1788694060,
+    "subject": "fix(apps): pre-create EOS dir; disable EOS auto-update; run EOS installer post-install",
+    "refs": ""
+  },
+  {
+    "sha": "c7019cda9cec07c854eead6c58eb5f27fc6605f8",
+    "short": "c7019cd",
+    "parents": "adcdd6caba384d31b72ddcdfb0e76f75f799263d",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-05T09:33:19+02:00",
+    "timestamp": 1788593599,
+    "subject": "chore(dc-init): load workflows,actions",
+    "refs": "tag: v0.1.1, tag: latest"
+  },
+  {
+    "sha": "b459de2abe5edc58a7e4e4735d6e69efb83fa6b2",
+    "short": "b459de2",
+    "parents": "a14063e6d29e34bae575a42abf936e45c019d0cf",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-05T09:33:19+02:00",
+    "timestamp": 1788593599,
+    "subject": "chore(dc-init): load workflows,actions",
+    "refs": ""
+  },
+  {
+    "sha": "adcdd6caba384d31b72ddcdfb0e76f75f799263d",
+    "short": "adcdd6c",
+    "parents": "ba42e27276fbeb85f5eefa68c79ca7332eb4bc2e",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-05T07:31:14Z",
+    "timestamp": 1788593474,
+    "subject": "fix(prefix,shortcuts,setup): skip installed winetricks verbs; install-shortcut all --reinstall",
+    "refs": ""
+  },
+  {
+    "sha": "a14063e6d29e34bae575a42abf936e45c019d0cf",
+    "short": "a14063e",
+    "parents": "496a28f8d025d668960551ab900ca70d405e3155",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-05T07:31:14Z",
+    "timestamp": 1788593474,
+    "subject": "fix(prefix,shortcuts,setup): skip installed winetricks verbs; install-shortcut all --reinstall",
+    "refs": ""
+  },
+  {
+    "sha": "ba42e27276fbeb85f5eefa68c79ca7332eb4bc2e",
+    "short": "ba42e27",
+    "parents": "1f4f3853d061b8da61ddc276f98c150b91ec44ec",
+    "author": "xaos-bot",
+    "email": "262248812+xaos-bot@users.noreply.github.com",
+    "date": "2026-09-05T05:56:01Z",
+    "timestamp": 1788587761,
+    "subject": "chore: update git tree visualisation",
+    "refs": ""
+  },
+  {
+    "sha": "496a28f8d025d668960551ab900ca70d405e3155",
+    "short": "496a28f",
+    "parents": "fb8b943acd50ac44030dca6527828545623d9ecc",
+    "author": "xaos-bot",
+    "email": "262248812+xaos-bot@users.noreply.github.com",
+    "date": "2026-09-05T05:56:01Z",
+    "timestamp": 1788587761,
+    "subject": "chore: update git tree visualisation",
+    "refs": ""
+  },
   {
     "sha": "1f4f3853d061b8da61ddc276f98c150b91ec44ec",
     "short": "1f4f385",
@@ -16,7 +368,18 @@
     "date": "2026-09-05T07:36:25+02:00",
     "timestamp": 1788586585,
     "subject": "chore(dc-init): update workflows + actions",
-    "refs": "HEAD -> main, origin/main"
+    "refs": ""
+  },
+  {
+    "sha": "fb8b943acd50ac44030dca6527828545623d9ecc",
+    "short": "fb8b943",
+    "parents": "60dd34df5953daa13be293733768cea911548c59",
+    "author": "xaoscience",
+    "email": "69734795+xaoscience@users.noreply.github.com",
+    "date": "2026-09-05T07:36:25+02:00",
+    "timestamp": 1788586585,
+    "subject": "chore(dc-init): update workflows + actions",
+    "refs": ""
   },
   {
     "sha": "60dd34df5953daa13be293733768cea911548c59",
@@ -1197,9 +1560,11 @@
   }
 ],
   "branches": [
-  {"name":"1f4f3853d061b8da61ddc276f98c150b91ec44ec chore(dc-init): update workflows + actions","sha":"*","current":false,"merged":false}
+  {"name":"c34395f3ab35c03d65609368e7463764312886c4 fix(prefix): remove extension dependency from tray fix","sha":"*","current":false,"merged":false}
 ],
   "tags": [
-  {"name":"Main","sha":"4854ca978c51879d8b16481359344c3754590c0b"}
+  {"name":"Main","sha":"4854ca978c51879d8b16481359344c3754590c0b"},
+  {"name":"latest","sha":"ab8cea46dfcfa41e39ff74169b5d5c4c0adac952"},
+  {"name":"v0.1.1","sha":"147556aee0b4cfb37d80e1c6a70b7ef04fcce867"}
 ]
 }
