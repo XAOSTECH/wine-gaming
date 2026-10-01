@@ -15,7 +15,7 @@
 #     through the real SDK; only the local-service bootstrapper check is bypassed.
 #
 # Stub approach (fallback when real DLL is absent):
-#   - Returns success/fake-handles for every call; prevents the dialog but also
+#   - Returns success/fake-handles for every call; prevents the dialogue but also
 #     prevents EOS auth and online features from working.
 _build_eos_compat_layer() {
     local _eos_dir="$WINEPREFIX/pfx/drive_c/Program Files (x86)/Epic Games/Epic Online Services"
@@ -57,7 +57,7 @@ _build_eos_compat_layer() {
         cp -f "$_real_dll" "$_real_renamed" 2>/dev/null && _backend_dll="$_real_renamed"
     fi
 
-    # ── Proxy DLL (preferred: real SDK + dialog intercept) ──────────────────
+    # ── Proxy DLL (preferred: real SDK + dialogue intercept) ──────────────────
     if [ -n "$_backend_dll" ] && command -v objdump &>/dev/null; then
         # DEF file: two intercepted C functions + every other export PE-forwarded.
         {
@@ -85,7 +85,7 @@ PROXYEOF
         if "$_mgw" -shared -Os -o "$_bld/EOSSDK-Win64-Shipping.dll" \
                "$_bld/eos_proxy.c" "$_bld/proxy.def" 2>/dev/null; then
             _use_proxy=1
-            print_info "EOS proxy DLL built (real SDK forwarding + dialog intercept)"
+            print_info "EOS proxy DLL built (real SDK forwarding + dialogue intercept)"
         else
             print_warning "Proxy DLL compilation failed — falling back to stub"
         fi
@@ -181,9 +181,9 @@ BSEOF
         "$PROTON_DIR/proton" run regedit /s "C:\\windows\\temp\\wg-eos-compat.reg" >/dev/null 2>&1 || true
 
     if [ "$_use_proxy" -eq 1 ]; then
-        print_success "EOS proxy DLL installed (real SDK + dialog suppression)"
+        print_success "EOS proxy DLL installed (real SDK + dialogue suppression)"
     else
-        print_success "EOS stub DLL installed (dialog suppressed; real SDK unavailable)"
+        print_success "EOS stub DLL installed (dialogue suppressed; real SDK unavailable)"
     fi
 }
 
