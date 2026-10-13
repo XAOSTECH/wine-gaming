@@ -68,5 +68,5 @@ declare -A APP_REGISTRY=(
 
     [legacy-games]="Legacy Games|users/steamuser/AppData/Local/Programs/legacy-games-launcher/Legacy Games Launcher.exe|https://cdn.legacygames.com/LegacyGamesLauncher/legacy-games-launcher-setup-1.16.7-x64-full.exe|users/steamuser/AppData/Local/Programs/legacy-games-launcher|users/steamuser/AppData/Local/legacy-games-launcher-updater|users/steamuser/AppData/Roaming/Legacy Games Launcher"
 
-    [ps-plus]="PlayStation Plus|Program Files (x86)/PlayStationPlus/PlayStationPlus.exe|https://download-psplus.playstation.com/downloads/psplus/pc/latest|Program Files (x86)/PlayStationPlus|users/steamuser/AppData/Roaming/playstation-plus|users/steamuser/AppData/Roaming/playstation-now"
+    [ps-plus]="PlayStation Plus|Program Files (x86)/PlayStationPlus/pspluslauncher.exe|https://download-psplus.playstation.com/downloads/psplus/pc/latest|Program Files (x86)/PlayStationPlus|users/steamuser/AppData/Roaming/playstation-plus|users/steamuser/AppData/Roaming/playstation-now"
 )
