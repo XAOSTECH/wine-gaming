@@ -4,13 +4,16 @@
 # Depends on: lib/config.sh, lib/utils.sh, lib/registry.sh, lib/installer.sh, lib/shortcuts.sh
 
 # Post-install Wine registry fixes for apps that need service or install-key setup.
+# Pass _reg_only=1 (third arg) to apply only the registry import, skipping any
+# post-install installers (EOS installer, etc.) — used by quick_setup's re-apply path.
 _post_install_registry() {
-    local app_key="$1" installer_path="${2:-}"
+    local app_key="$1" installer_path="${2:-}" _reg_only="${3:-0}"
     local _reg="$WINEPREFIX/pfx/drive_c/windows/temp/wg-post-install.reg"
     mkdir -p "$(dirname "$_reg")"
     case "$app_key" in
         epic-games)
-            # DEMAND_START (3) stops EpicGamesUpdater; Wine per-process env + DLL overrides prevent EOS host IPC crash.
+            # DEMAND_START stops EpicGamesUpdater; per-process env+DLL overrides prevent EOS host IPC crash on Wine.
+            # EpicOnlineServicesHost.exe also needs EOS_ENABLED=0 — it spawns separately and checks independently.
             printf 'Windows Registry Editor Version 5.00\n\n'\
 '[HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Services\\EpicGamesUpdater]\n'\
 '"Start"=dword:00000003\n'\
@@ -25,12 +28,19 @@ _post_install_registry() {
 '"DISABLE_EOS_OVERLAY"="1"\n\n'\
 '[HKEY_CURRENT_USER\\Software\\Wine\\AppDefaults\\EpicGamesLauncher.exe\\DllOverrides]\n'\
 '"EOSOverlayRenderer-Win64-Shipping"="disabled"\n'\
+'"eosovh-win64-shipping"="disabled"\n\n'\
+'[HKEY_CURRENT_USER\\Software\\Wine\\AppDefaults\\EpicOnlineServicesHost.exe\\Environment]\n'\
+'"EOS_ENABLED"="0"\n'\
+'"EOS_NO_AUTOUPDATE"="1"\n\n'\
+'[HKEY_CURRENT_USER\\Software\\Wine\\AppDefaults\\EpicOnlineServicesHost.exe\\DllOverrides]\n'\
 '"eosovh-win64-shipping"="disabled"\n' \
                 > "$_reg"
-            "$PROTON_DIR/proton" run regedit /s "C:\\windows\\temp\\wg-post-install.reg" >/dev/null 2>&1 || true
-            # Run EOS installer if the MSI placed it — prevents the 'Update Online Services' loop.
+            STEAM_COMPAT_DATA_PATH="$WINEPREFIX" \
+            STEAM_COMPAT_CLIENT_INSTALL_PATH="$WINE_DIR/steam-root" \
+                "$PROTON_DIR/proton" run regedit /s "C:\\windows\\temp\\wg-post-install.reg" >/dev/null 2>&1 || true
+            # Run EOS installer if the MSI placed it — properly installs EOS and permanently prevents the loop.
             local _eos_inst="$WINEPREFIX/pfx/drive_c/Program Files/Epic Games/Launcher/Portal/Extras/EpicOnlineServicesInstaller.exe"
-            if [ -f "$_eos_inst" ]; then
+            if [ "$_reg_only" != "1" ] && [ -f "$_eos_inst" ]; then
                 print_info "Installing Epic Online Services..."
                 STEAM_COMPAT_DATA_PATH="$WINEPREFIX" \
                 STEAM_COMPAT_CLIENT_INSTALL_PATH="$WINE_DIR/steam-root" \
