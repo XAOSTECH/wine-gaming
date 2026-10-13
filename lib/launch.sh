@@ -19,8 +19,15 @@ _parse_profile_flag() {
 }
 
 # Launch a registered launcher via Proton (Wine fallback if Proton absent).
-# Usage: launch_app [--profile NAME] <app-key>   (flag accepted in any position)
+# Usage: launch_app [--verbose|-v] [--profile NAME] <app-key>
 launch_app() {
+    # Strip --verbose/-v before the profile parser sees it
+    local _verbose=0 _pre=()
+    for _a in "$@"; do
+        case "$_a" in --verbose|-v) _verbose=1 ;; *) _pre+=("$_a") ;; esac
+    done
+    set -- "${_pre[@]}"
+
     _parse_profile_flag "$@"
     local app_key="${WG_PARSED_ARGS[0]:-}"
     local profile_override="${WG_PARSED_PROFILE}"
@@ -70,6 +77,13 @@ launch_app() {
         cd "$exe_dir"
         local _args="${APP_LAUNCH_ARGS[$app_key]:-}"
         local _env_str="${APP_LAUNCH_ENV[$app_key]:+${APP_LAUNCH_ENV[$app_key]} }"
+        if [ "$_verbose" -eq 1 ]; then
+            print_info "Verbose mode — Ctrl-C to stop"
+            eval "${WG_LAUNCH_PREFIX}${_env_str}\"\$PROTON_DIR/proton\" run \"\$exe_bin\" ${_args}" 2>&1 \
+                | tee "$WINE_DIR/${app_key}.log"
+            print_success "$APP_NAME exited"
+            return 0
+        fi
         eval "${WG_LAUNCH_PREFIX}${_env_str}\"\$PROTON_DIR/proton\" run \"\$exe_bin\" ${_args}" >"$WINE_DIR/${app_key}.log" 2>&1 &
         # Proton wineboot recreates Z:→/ on prefix version upgrades; re-sandbox after it completes.
         ( sleep 2; _sandbox_z_drive ) &
@@ -78,6 +92,12 @@ launch_app() {
         export WINEDEBUG="${WINEDEBUG:--all}"
         export WINEPREFIX="$WINEPREFIX/pfx"
         cd "$exe_dir"
+        if [ "$_verbose" -eq 1 ]; then
+            print_info "Verbose mode — Ctrl-C to stop"
+            eval "${WG_LAUNCH_PREFIX}wine \"\$exe_bin\"" 2>&1 | tee "$WINE_DIR/${app_key}.log"
+            print_success "$APP_NAME exited"
+            return 0
+        fi
         eval "${WG_LAUNCH_PREFIX}wine \"\$exe_bin\"" >"$WINE_DIR/${app_key}.log" 2>&1 &
     fi
 
