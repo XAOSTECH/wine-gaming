@@ -113,9 +113,19 @@ install_app() {
     local -a _extra; read -ra _extra <<< "${APP_INSTALL_ARGS[$app_key]:-}"
     case "${installer_path,,}" in
         *.msi)
-            # /passive = unattended (progress bar, no clicks); /qn breaks some MSI custom actions.
-            # /log writes a verbose MSI transcript to the Windows temp dir for failure analysis.
-            run_cmd=(msiexec /i "$installer_path" /passive REBOOT=ReallySuppress \
+            # Stash Epic user data before MSI to preserve login tokens and LauncherInstalled.dat.
+            local _msi_mode="/i"
+            if [ "$app_key" = "epic-games" ] && [ -d "$WINEPREFIX/pfx/drive_c" ]; then
+                local _epic_stash="$WINE_DIR/.epic-stash-$$"
+                mkdir -p "$_epic_stash"
+                local _pc="$WINEPREFIX/pfx/drive_c"
+                for _d in                     "users/steamuser/AppData/Local/EpicGamesLauncher"                     "users/steamuser/AppData/Local/EpicGamesPlatform"                     "ProgramData/Epic/EpicGamesLauncher"                     "ProgramData/Epic/UnrealEngineLauncher"                     "ProgramData/Epic/EpicOnlineServices"; do
+                    [ -d "$_pc/$_d" ] && { mkdir -p "$_epic_stash/$(dirname "$_d")"; mv "$_pc/$_d" "$_epic_stash/$_d"; }
+                done
+                # /fa (repair) reinstalls all files but preserves registry and user data in place.
+                find_app_exe "$app_key" >/dev/null 2>&1 && _msi_mode="/fa"
+            fi
+            run_cmd=(msiexec "$_msi_mode" "$installer_path" /passive REBOOT=ReallySuppress \
                 /log "C:\\windows\\temp\\${app_key}-msi.log" "${_extra[@]}")
             ;;
         *)
@@ -138,6 +148,10 @@ install_app() {
         print_success "$APP_NAME installed successfully"
         _post_install_registry "$app_key" "$installer_path"
         _ensure_cacerts
+        # Restore stashed user data (Epic login tokens, game library manifest).
+        if [ -n "${_epic_stash:-}" ] && [ -d "${_epic_stash:-}" ]; then
+            cp -rT "$_epic_stash" "$WINEPREFIX/pfx/drive_c" 2>/dev/null && rm -rf "$_epic_stash" || true
+        fi
         create_shortcut "$app_key" && print_success "Desktop shortcut created" || true
         print_info "Install log: $install_log"
         local _msi_log_ok="$WINEPREFIX/pfx/drive_c/windows/temp/${app_key}-msi.log"
