@@ -58,10 +58,13 @@ _install_winetricks_verbs() {
             _ok=0
             for _try in 1 2; do
                 WINETRICKS_LATEST_VERSION_CHECK=disabled \
-                    winetricks -q --force "$v" >/dev/null 2>&1 && { _ok=1; break; }
-                [ $_try -eq 1 ] && sleep 4
+                    timeout 90 winetricks -q --force "$v" >/dev/null 2>&1
+                _vrc=$?
+                [ "$_vrc" -eq 0 ] && { _ok=1; break; }
+                [ "$_vrc" -eq 124 ] && break  # timed out — skip retry
+                [ "$_try" -eq 1 ] && sleep 4
             done
-            [ $_ok -eq 1 ] && echo "ok" || echo "FAILED (continuing)"
+            [ "$_ok" -eq 1 ] && echo "ok" || echo "FAILED (continuing)"
         done
 
         echo ""
@@ -370,7 +373,6 @@ init() {
     fi
 
     mkdir -p "${HOME}/.config/winetricks"
-    touch "${HOME}/.config/winetricks/enable-latest-version-check"
 
     wineboot -u 2>/dev/null
 
