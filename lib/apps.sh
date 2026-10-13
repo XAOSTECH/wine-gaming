@@ -11,12 +11,28 @@ _post_install_registry() {
     case "$app_key" in
         epic-games)
             # DEMAND_START (3) stops EpicGamesUpdater auto-launching and stealing the session.
+            # EOS (Epic Online Services) auto-update disabled — Wine can't run InstallChainer.exe.
             printf 'Windows Registry Editor Version 5.00\n\n'\
 '[HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Services\\EpicGamesUpdater]\n'\
 '"Start"=dword:00000003\n'\
-'"FailureActions"=hex:00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00\n' \
+'"FailureActions"=hex:00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00\n\n'\
+'[HKEY_CURRENT_USER\\Software\\Epic Games\\EOS]\n'\
+'"IsDisableAutoUpdate"=dword:00000001\n\n'\
+'[HKEY_CURRENT_USER\\Software\\Epic Games\\EGL]\n'\
+'"DisableEOSOverlay"=dword:00000001\n' \
                 > "$_reg"
             "$PROTON_DIR/proton" run regedit /s "C:\\windows\\temp\\wg-post-install.reg" >/dev/null 2>&1 || true
+            # Run EOS installer if the MSI placed it — prevents the 'Update Online Services' loop.
+            local _eos_inst="$WINEPREFIX/pfx/drive_c/Program Files/Epic Games/Launcher/Portal/Extras/EpicOnlineServicesInstaller.exe"
+            if [ -f "$_eos_inst" ]; then
+                print_info "Installing Epic Online Services..."
+                STEAM_COMPAT_DATA_PATH="$WINEPREFIX" \
+                STEAM_COMPAT_CLIENT_INSTALL_PATH="$WINE_DIR/steam-root" \
+                PROTON_LOG=0 \
+                    "$PROTON_DIR/proton" run \
+                    "C:\\Program Files\\Epic Games\\Launcher\\Portal\\Extras\\EpicOnlineServicesInstaller.exe" \
+                    /install /quiet >/dev/null 2>&1 || true
+            fi
             ;;
         ea-desktop)
             local _v; _v=$(basename "${installer_path}" | grep -oP '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | head -1)
@@ -71,6 +87,16 @@ install_app() {
     mkdir -p "$WINE_DIR/steam-root"
     mkdir -p "$WINEPREFIX"
     _map_external_drives
+
+    # Pre-create dirs that installers expect to already exist (prevents DirectoryNotFoundException).
+    if [ -d "$WINEPREFIX/pfx/drive_c" ]; then
+        mkdir -p \
+            "$WINEPREFIX/pfx/drive_c/ProgramData/EA Desktop" \
+            "$WINEPREFIX/pfx/drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs/EA" \
+            "$WINEPREFIX/pfx/drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs/Epic Games" \
+            "$WINEPREFIX/pfx/drive_c/Program Files/Epic Games/Launcher/Portal/Extras/EOS" \
+            2>/dev/null || true
+    fi
 
     if [ ! -d "$WINEPREFIX/pfx" ]; then
         print_warning "First run: building the Wine prefix — this takes a minute or two with no output."
