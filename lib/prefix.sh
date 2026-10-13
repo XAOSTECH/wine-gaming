@@ -9,7 +9,7 @@ _install_winetricks_verbs() {
     local fast_verbs=(
         vcrun2022 vcrun2019 vcrun2015 vcrun2012
         d3dcompiler_47 d3dcompiler_43 d3dx9 d3dx10_43 d3dx11_43
-        corefonts gdiplus cacerts
+        corefonts gdiplus
         directmusic faudio xact directplay directshow
         msctf
         gamemode
@@ -102,15 +102,45 @@ _install_winetricks_verbs() {
         # dotnet verbs temporarily set winxp/win7 — restore win10 before exit.
         WINETRICKS_LATEST_VERSION_CHECK=disabled winetricks -q win10 >/dev/null 2>&1 || true
     )
+    # CA certs handled outside the winetricks subshell so Proton certutil is available.
+    _ensure_cacerts
 }
 
-# Install CA root certs exactly once via winetricks; stamp prevents re-running.
+# Import host CA bundle into Wine certificate store. Uses Proton certutil (no download);
+# falls back to winetricks cacerts (requires internet) if certutil is unavailable.
 _ensure_cacerts() {
     local _stamp="$WINEPREFIX/pfx/.wg-cacerts"
     [ -f "$_stamp" ] && return 0
     [ ! -d "$WINEPREFIX/pfx/drive_c/windows/system32" ] && return 0
-    command -v winetricks &>/dev/null || return 0
-    print_info "Installing CA certificates (first run — enables HTTPS in launchers)..."
+    print_info "Installing CA certificates (enables HTTPS in launchers)..."
+
+    local _bundle="" _b
+    for _b in /etc/ssl/certs/ca-certificates.crt \
+               /etc/pki/tls/certs/ca-bundle.crt \
+               /etc/ssl/ca-bundle.pem; do
+        [ -f "$_b" ] && { _bundle="$_b"; break; }
+    done
+
+    if [ -n "$_bundle" ] && [ -x "$PROTON_DIR/proton" ]; then
+        local _tmp="$WINEPREFIX/pfx/drive_c/windows/temp/wg-ca-bundle.crt"
+        mkdir -p "$(dirname "$_tmp")"
+        if cp -f "$_bundle" "$_tmp" 2>/dev/null; then
+            STEAM_COMPAT_DATA_PATH="$WINEPREFIX" \
+            STEAM_COMPAT_CLIENT_INSTALL_PATH="$WINE_DIR/steam-root" \
+            PROTON_LOG=0 \
+                "$PROTON_DIR/proton" run certutil \
+                -addstore Root 'C:\windows\temp\wg-ca-bundle.crt' >/dev/null 2>&1
+            local _rc=$?
+            rm -f "$_tmp" 2>/dev/null
+            [ "$_rc" -eq 0 ] && { touch "$_stamp"; return 0; }
+        fi
+    fi
+
+    # Fallback: winetricks downloads Mozilla bundle (requires internet)
+    command -v winetricks &>/dev/null || {
+        print_warning "cacerts skipped — no certutil path and no winetricks; HTTPS may fail"
+        return 0
+    }
     local _wine_bin="wine" _wt_prefix="$WINEPREFIX/pfx" _c
     for _c in "$PROTON_DIR/files/bin/wine64" "$PROTON_DIR/files/bin/wine"; do
         [ -x "$_c" ] && { _wine_bin="$_c"; break; }
