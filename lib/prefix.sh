@@ -4,8 +4,7 @@
 # Depends on: lib/config.sh, lib/utils.sh, lib/registry.sh, lib/installer.sh, lib/apps.sh
 
 # Curated winetricks verb list, split into "fast" (seconds each) and "heavy"
-# (minutes each, downloads MS installers). Streams output verbatim so the user
-# sees winetricks progress instead of a silent hang during dotnet/physx.
+# (minutes each, downloads MS installers). Streams output verbatim so the user sees winetricks progress instead of a silent hang during dotnet/physx.
 _install_winetricks_verbs() {
     local fast_verbs=(
         vcrun2022 vcrun2019 vcrun2015 vcrun2012
@@ -389,8 +388,7 @@ full_setup() {
     # Always install latest GE-Proton after a full purge.
     install_proton latest || { print_error "GE-Proton install failed; cannot continue."; return 1; }
 
-    # Pre-build the Proton prefix ($WINEPREFIX/pfx) with a no-op so that
-    # winetricks can install verbs before any real launcher installer runs.
+    # Pre-build the Proton prefix ($WINEPREFIX/pfx) with a no-op so that winetricks can install verbs before any real launcher installer runs.
     print_warning "Building Proton prefix (no op command)..."
     mkdir -p "$WINE_DIR/steam-root" "$WINEPREFIX"
     STEAM_COMPAT_DATA_PATH="$WINEPREFIX" \
@@ -458,8 +456,7 @@ quick_setup() {
         parse_app_config "$app_key" || continue
         if find_app_exe "$app_key" >/dev/null 2>&1; then
             print_info "$APP_NAME already installed, skipping..."
-            # Re-apply registry fixes so recent patches (e.g. EOS suppression) take effect
-            # without needing a full reinstall. Runs silently — purely idempotent reg writes.
+            # Re-apply registry fixes so recent patches (e.g. EOS suppression) take effect without needing a full reinstall. Runs silently — purely idempotent reg writes.
             _post_install_registry "$app_key" "" "1" >/dev/null 2>&1 || true
             ((skipped++))
             continue
@@ -485,8 +482,7 @@ quick_setup() {
     fi
 }
 
-# Move launcher AppData/ProgramData dirs outside the prefix so purge can wipe
-# freely. Lives at $WINE_DIR/.launcher-stash (same FS as prefix → mv is instant).
+# Move launcher AppData/ProgramData dirs outside the prefix so purge can wipe freely. Lives at $WINE_DIR/.launcher-stash (same FS as prefix → mv is instant).
 _stash_launcher_data() {
     local _pc="$WINEPREFIX/pfx/drive_c"
     [ -d "$_pc" ] || return 1
@@ -531,8 +527,7 @@ _unstash_launcher_data() {
         || print_warning "Stash restore had errors — data kept at $_stash"
 }
 
-# Remap Z: from / to an inert sandbox dir so launchers cannot see the host FS
-# for disk-space checks or path traversal, while keeping Z: visible to Wine.
+# Remap Z: from / to an inert sandbox dir so launchers cannot see the host FS for disk-space checks or path traversal, while keeping Z: visible to Wine.
 _sandbox_z_drive() {
     local _dd="$WINEPREFIX/pfx/dosdevices"
     [ -d "$_dd" ] || return 0
@@ -545,8 +540,7 @@ _sandbox_z_drive() {
 
 # Auto-detect mounted external volumes and map each to the next free drive letter
 # (D: → Y:), preserving any already-assigned letters. Also reads WINE_EXTRA_DRIVES
-# (colon-separated host paths). Games on NTFS/external drives must be reconfigured
-# in their launcher settings to use the assigned letter instead of the Z: path.
+# (colon-separated host paths). Games on NTFS/external drives must be reconfigured in their launcher settings to use the assigned letter instead of the Z: path.
 _map_external_drives() {
     local _dd="$WINEPREFIX/pfx/dosdevices"
     [ -d "$_dd" ] || return 0
