@@ -3,114 +3,151 @@
 # Sourced by setup; do not execute directly.
 # Depends on: lib/config.sh, lib/utils.sh, lib/registry.sh, lib/installer.sh, lib/shortcuts.sh
 
-# Build a Wine compatibility layer for EOS: a stub EOSSDK-Win64-Shipping.dll that
-# returns EOS_Success for all lifecycle calls + a stub EOSBootstrapperApp.exe that
-# exits 0. Wine's DllOverrides then loads the stub instead of any bundled copy,
-# preventing Epic Games Launcher from showing the "Install Epic Online Services" dialog.
+# Build a Wine EOS compatibility layer.
+# Strategy: PE-forwarding proxy DLL (preferred) or full stub (fallback).
+#
+# Proxy approach (when real EOSSDK-Win64-Shipping.dll is present):
+#   - PE-forwards every export to EOSSDK-Win64-Shipping-real.dll (zero-overhead,
+#     all calling conventions and arguments preserved by the OS loader).
+#   - Only EOS_Platform_CheckForLauncherAndRestart and GetDesktopCrossplayStatus
+#     are intercepted in C to return EOS_Success, suppressing the dialog.
+#   - All EOS functionality (auth, connect, friends, store, anti-cheat SDK) runs
+#     through the real SDK; only the local-service bootstrapper check is bypassed.
+#
+# Stub approach (fallback when real DLL is absent):
+#   - Returns success/fake-handles for every call; prevents the dialog but also
+#     prevents EOS auth and online features from working.
 _build_eos_compat_layer() {
     local _eos_dir="$WINEPREFIX/pfx/drive_c/Program Files (x86)/Epic Games/Epic Online Services"
     local _sys32="$WINEPREFIX/pfx/drive_c/windows/system32"
     local _portal_eos="$WINEPREFIX/pfx/drive_c/Program Files/Epic Games/Launcher/Portal/Extras/EOS"
+    local _launcher_bin="$WINEPREFIX/pfx/drive_c/Program Files/Epic Games/Launcher/Portal/Binaries/Win64"
     local _mgw="x86_64-w64-mingw32-gcc"
+    local _real_dll="$_eos_dir/EOSSDK-Win64-Shipping.dll"
+    local _real_renamed="$_eos_dir/EOSSDK-Win64-Shipping-real.dll"
 
     command -v "$_mgw" &>/dev/null || {
-        print_info "Installing MinGW cross-compiler for EOS stub..."
+        print_info "Installing MinGW cross-compiler for EOS compat layer..."
         sudo apt-get install -y gcc-mingw-w64 >/dev/null 2>&1 || {
-            print_warning "gcc-mingw-w64 unavailable — EOS stub build skipped"
+            print_warning "gcc-mingw-w64 unavailable — EOS compat layer skipped"
             return 1
         }
     }
 
     local _bld; _bld=$(mktemp -d)
+    local _use_proxy=0
 
-    # Stub DLL: EOS_Platform_Create returns a non-NULL handle; all lifecycle
-    # and logging functions return EOS_Success (0).
-    cat > "$_bld/eos_stub.c" << 'STUBEOF'
+    # ── Proxy DLL (preferred: real SDK + dialog intercept) ──────────────────
+    if [ -f "$_real_dll" ] && command -v objdump &>/dev/null; then
+        # Preserve the real DLL under a different name so the proxy can forward to it.
+        cp -f "$_real_dll" "$_real_renamed" 2>/dev/null || true
+
+        # DEF file: two intercepted C functions + every other export PE-forwarded.
+        {
+            printf 'LIBRARY "EOSSDK-Win64-Shipping.dll"\nEXPORTS\n'
+            printf '    EOS_Platform_CheckForLauncherAndRestart\n'
+            printf '    EOS_Platform_GetDesktopCrossplayStatus\n'
+            objdump -p "$_real_renamed" 2>/dev/null \
+                | grep -oP '\] \K\S+' \
+                | grep '^EOS_' \
+                | grep -vxF 'EOS_Platform_CheckForLauncherAndRestart' \
+                | grep -vxF 'EOS_Platform_GetDesktopCrossplayStatus' \
+                | while IFS= read -r _fn; do
+                    printf '    %s = EOSSDK-Win64-Shipping-real.%s\n' "$_fn" "$_fn"
+                done
+        } > "$_bld/proxy.def"
+
+        # C: only the two intercepted functions; everything else is a PE forward.
+        cat > "$_bld/eos_proxy.c" << 'PROXYEOF'
 #include <windows.h>
-#include <stdint.h>
+BOOL WINAPI DllMain(HINSTANCE h,DWORD r,LPVOID p){return TRUE;}
+/* Return EOS_Success so Epic Launcher skips the 'Install Epic Online Services' dialog. */
+__declspec(dllexport) int __cdecl EOS_Platform_CheckForLauncherAndRestart(void* h){return 0;}
+__declspec(dllexport) int __cdecl EOS_Platform_GetDesktopCrossplayStatus(void* h,void* o){return 0;}
+PROXYEOF
+
+        if "$_mgw" -shared -Os -o "$_bld/EOSSDK-Win64-Shipping.dll" \
+               "$_bld/eos_proxy.c" "$_bld/proxy.def" 2>/dev/null; then
+            _use_proxy=1
+            print_info "EOS proxy DLL built (real SDK forwarding + dialog intercept)"
+        else
+            print_warning "Proxy DLL compilation failed — falling back to stub"
+        fi
+    fi
+
+    # ── Stub DLL (fallback: fake handles, no real EOS) ──────────────────────
+    if [ "$_use_proxy" -eq 0 ]; then
+        cat > "$_bld/eos_stub.c" << 'STUBEOF'
+#include <windows.h>
 #define EOS_Success 0
 static int _h[4];
 #define FAKE ((void*)_h)
-BOOL WINAPI DllMain(HINSTANCE h,DWORD r,LPVOID p){(void)h;(void)r;(void)p;return TRUE;}
-__declspec(dllexport) int         EOS_Initialize(const void*o)                      {return EOS_Success;}
-__declspec(dllexport) int         EOS_Shutdown(void)                                {return EOS_Success;}
-__declspec(dllexport) void*       EOS_Platform_Create(const void*o)                 {return FAKE;}
-__declspec(dllexport) void        EOS_Platform_Release(void*h)                      {}
-__declspec(dllexport) void        EOS_Platform_Tick(void*h)                         {}
-__declspec(dllexport) const char* EOS_GetVersion(void)                              {return "1.19.1";}
-/* bootstrapper/crossplay checks — Success prevents the install dialog */
-__declspec(dllexport) int         EOS_Platform_CheckForLauncherAndRestart(void*h)   {return EOS_Success;}
+BOOL WINAPI DllMain(HINSTANCE h,DWORD r,LPVOID p){return TRUE;}
+__declspec(dllexport) int         EOS_Initialize(const void*o){return EOS_Success;}
+__declspec(dllexport) int         EOS_Shutdown(void){return EOS_Success;}
+__declspec(dllexport) void*       EOS_Platform_Create(const void*o){return FAKE;}
+__declspec(dllexport) void        EOS_Platform_Release(void*h){}
+__declspec(dllexport) void        EOS_Platform_Tick(void*h){}
+__declspec(dllexport) const char* EOS_GetVersion(void){return "1.19.1";}
+__declspec(dllexport) int         EOS_Platform_CheckForLauncherAndRestart(void*h){return EOS_Success;}
 __declspec(dllexport) int         EOS_Platform_GetDesktopCrossplayStatus(void*h,void*o){return EOS_Success;}
-__declspec(dllexport) int         EOS_Logging_SetCallback(void*cb)                  {return EOS_Success;}
-__declspec(dllexport) int         EOS_Logging_SetLogLevel(int c,int l)              {return EOS_Success;}
-/* all interface getters return the same stable non-NULL handle */
+__declspec(dllexport) int         EOS_Logging_SetCallback(void*cb){return EOS_Success;}
+__declspec(dllexport) int         EOS_Logging_SetLogLevel(int c,int l){return EOS_Success;}
 #define G(n) __declspec(dllexport) void* n(void*h){return FAKE;}
-G(EOS_Platform_GetConnectInterface)         G(EOS_Platform_GetAuthInterface)
-G(EOS_Platform_GetFriendsInterface)         G(EOS_Platform_GetPresenceInterface)
-G(EOS_Platform_GetUserInfoInterface)        G(EOS_Platform_GetEcomInterface)
-G(EOS_Platform_GetTitleStorageInterface)    G(EOS_Platform_GetPlayerDataStorageInterface)
-G(EOS_Platform_GetAchievementsInterface)    G(EOS_Platform_GetStatsInterface)
-G(EOS_Platform_GetLeaderboardsInterface)    G(EOS_Platform_GetAntiCheatServerInterface)
+G(EOS_Platform_GetConnectInterface) G(EOS_Platform_GetAuthInterface)
+G(EOS_Platform_GetFriendsInterface) G(EOS_Platform_GetPresenceInterface)
+G(EOS_Platform_GetUserInfoInterface) G(EOS_Platform_GetEcomInterface)
+G(EOS_Platform_GetTitleStorageInterface) G(EOS_Platform_GetPlayerDataStorageInterface)
+G(EOS_Platform_GetAchievementsInterface) G(EOS_Platform_GetStatsInterface)
+G(EOS_Platform_GetLeaderboardsInterface) G(EOS_Platform_GetAntiCheatServerInterface)
 G(EOS_Platform_GetAntiCheatClientInterface) G(EOS_Platform_GetLobbyInterface)
-G(EOS_Platform_GetSessionsInterface)        G(EOS_Platform_GetMetricsInterface)
-G(EOS_Platform_GetP2PInterface)             G(EOS_Platform_GetUIInterface)
-G(EOS_Platform_GetModsInterface)            G(EOS_Platform_GetReportsInterface)
-G(EOS_Platform_GetSanctionsInterface)       G(EOS_Platform_GetCustomInvitesInterface)
+G(EOS_Platform_GetSessionsInterface) G(EOS_Platform_GetMetricsInterface)
+G(EOS_Platform_GetP2PInterface) G(EOS_Platform_GetUIInterface)
+G(EOS_Platform_GetModsInterface) G(EOS_Platform_GetReportsInterface)
+G(EOS_Platform_GetSanctionsInterface) G(EOS_Platform_GetCustomInvitesInterface)
 G(EOS_Platform_GetProgressionSnapshotInterface) G(EOS_Platform_GetKWSInterface)
-G(EOS_Platform_GetRTCInterface)             G(EOS_Platform_GetRTCAdminInterface)
+G(EOS_Platform_GetRTCInterface) G(EOS_Platform_GetRTCAdminInterface)
 G(EOS_Platform_GetVoiceInterface)
 STUBEOF
+        # Extend stub with auto-generated no-ops for remaining exports
+        if [ -f "$_real_dll" ] && command -v objdump &>/dev/null; then
+            objdump -p "$_real_dll" 2>/dev/null | grep -oP '\] \K\S+' | grep '^EOS_' | sort -u \
+                | while IFS= read -r _fn; do
+                    grep -qF "$_fn" "$_bld/eos_stub.c" && continue
+                    [[ "$_fn" == *Interface ]] \
+                        && printf '__declspec(dllexport) void* __cdecl %s(void* h){return FAKE;}\n' "$_fn" \
+                        || printf '__declspec(dllexport) int __cdecl %s(void* h,...){return 0;}\n' "$_fn"
+                done >> "$_bld/eos_stub.c"
+        fi
+        "$_mgw" -shared -Os -o "$_bld/EOSSDK-Win64-Shipping.dll" \
+            "$_bld/eos_stub.c" -Wl,--kill-at 2>/dev/null || {
+            rm -rf "$_bld"; print_warning "EOS stub DLL compilation failed"; return 1
+        }
+    fi
 
-    # Stub bootstrapper: exits 0 — Epic EGL interprets this as "EOS installed and current"
+    # ── Stub bootstrapper (shared by both paths) ─────────────────────────────
     cat > "$_bld/eos_boot.c" << 'BSEOF'
 int main(void){return 0;}
 BSEOF
-
-    "$_mgw" -shared -Os -o "$_bld/EOSSDK-Win64-Shipping.dll" \
-        "$_bld/eos_stub.c" -Wl,--kill-at 2>/dev/null || {
-        rm -rf "$_bld"; print_warning "EOS stub DLL compilation failed"; return 1
-    }
-
-    # Extend stub with auto-generated no-ops for every other export from the real DLL.
-    # This prevents crashes from missing entry points that Epic calls after init.
-    local _real_dll="$_eos_dir/EOSSDK-Win64-Shipping.dll"
-    if [ -f "$_real_dll" ] && command -v objdump &>/dev/null; then
-        local _skip="EOS_Initialize EOS_Shutdown EOS_Platform_Create EOS_Platform_Release EOS_Platform_Tick EOS_GetVersion EOS_Platform_CheckForLauncherAndRestart EOS_Platform_GetDesktopCrossplayStatus EOS_Logging_SetCallback EOS_Logging_SetLogLevel EOS_Platform_GetConnectInterface EOS_Platform_GetAuthInterface EOS_Platform_GetFriendsInterface EOS_Platform_GetPresenceInterface EOS_Platform_GetUserInfoInterface EOS_Platform_GetEcomInterface EOS_Platform_GetTitleStorageInterface EOS_Platform_GetPlayerDataStorageInterface EOS_Platform_GetAchievementsInterface EOS_Platform_GetStatsInterface EOS_Platform_GetLeaderboardsInterface EOS_Platform_GetAntiCheatServerInterface EOS_Platform_GetAntiCheatClientInterface EOS_Platform_GetLobbyInterface EOS_Platform_GetSessionsInterface EOS_Platform_GetMetricsInterface EOS_Platform_GetP2PInterface EOS_Platform_GetUIInterface EOS_Platform_GetModsInterface EOS_Platform_GetReportsInterface EOS_Platform_GetSanctionsInterface EOS_Platform_GetCustomInvitesInterface EOS_Platform_GetProgressionSnapshotInterface EOS_Platform_GetKWSInterface EOS_Platform_GetRTCInterface EOS_Platform_GetRTCAdminInterface EOS_Platform_GetVoiceInterface"
-        while IFS= read -r _fn; do
-            [[ "$_fn" == EOS_* ]] || continue
-            [[ " $_skip " == *" $_fn "* ]] && continue
-            # Interface getters return the fake handle; all other unexported functions return 0
-            if [[ "$_fn" == *Interface ]]; then
-                printf '__declspec(dllexport) void* __cdecl %s(void* h){return FAKE;}\n' "$_fn"
-            else
-                printf '__declspec(dllexport) int __cdecl %s(void* h,...){return 0;}\n' "$_fn"
-            fi
-        done < <(objdump -p "$_real_dll" 2>/dev/null | grep -oP '\] \K\S+' | sort -u) \
-            >> "$_bld/eos_stub.c"
-        # Recompile with the extended stub
-        "$_mgw" -shared -Os -o "$_bld/EOSSDK-Win64-Shipping.dll" \
-            "$_bld/eos_stub.c" -Wl,--kill-at 2>/dev/null \
-            || print_warning "EOS extended stub compilation failed — using limited stub"
-    fi
-
     "$_mgw" -Os -o "$_bld/EOSBootstrapperApp.exe" "$_bld/eos_boot.c" 2>/dev/null || {
         rm -rf "$_bld"; print_warning "EOS stub bootstrapper compilation failed"; return 1
     }
 
-    # Stub DLL in system32 AND in Epic's Binaries/Win64/
-    local _launcher_bin="$WINEPREFIX/pfx/drive_c/Program Files/Epic Games/Launcher/Portal/Binaries/Win64"
+    # ── Deploy ───────────────────────────────────────────────────────────────
     mkdir -p "$_sys32" "$_eos_dir" "$_portal_eos" "$_launcher_bin"
-    cp "$_bld/EOSSDK-Win64-Shipping.dll" "$_sys32/EOSSDK-Win64-Shipping.dll"
-    cp "$_bld/EOSSDK-Win64-Shipping.dll" "$_launcher_bin/EOSSDK-Win64-Shipping.dll"
-    # Both bootstrapper names — SDK gives EOSBootstrapper.exe but EGL may call EOSBootstrapperApp.exe
+    cp "$_bld/EOSSDK-Win64-Shipping.dll" "$_sys32/"
+    cp "$_bld/EOSSDK-Win64-Shipping.dll" "$_launcher_bin/"
+    if [ "$_use_proxy" -eq 1 ]; then
+        # Place the real DLL (renamed) in both locations so the PE forwarder finds it
+        cp "$_real_renamed" "$_sys32/EOSSDK-Win64-Shipping-real.dll"
+        cp "$_real_renamed" "$_launcher_bin/EOSSDK-Win64-Shipping-real.dll"
+    fi
     cp "$_bld/EOSBootstrapperApp.exe" "$_eos_dir/EOSBootstrapperApp.exe"
     cp "$_bld/EOSBootstrapperApp.exe" "$_eos_dir/EOSBootstrapper.exe"
     cp "$_bld/EOSBootstrapperApp.exe" "$_portal_eos/EOSBootstrapperApp.exe"
     cp "$_bld/EOSBootstrapperApp.exe" "$_portal_eos/EOSBootstrapper.exe"
-
     rm -rf "$_bld"
 
-    # Set Wine DllOverride: "native" makes Wine use the stub in system32 over any bundled copy
     local _or="$WINEPREFIX/pfx/drive_c/windows/temp/wg-eos-compat.reg"
     printf 'Windows Registry Editor Version 5.00\n\n'\
 '[HKEY_CURRENT_USER\\Software\\Wine\\DllOverrides]\n'\
@@ -119,7 +156,11 @@ BSEOF
     STEAM_COMPAT_CLIENT_INSTALL_PATH="$WINE_DIR/steam-root" \
         "$PROTON_DIR/proton" run regedit /s "C:\\windows\\temp\\wg-eos-compat.reg" >/dev/null 2>&1 || true
 
-    print_success "EOS compat layer installed (stub DLL + stub EOSBootstrapperApp.exe)"
+    if [ "$_use_proxy" -eq 1 ]; then
+        print_success "EOS proxy DLL installed (real SDK + dialog suppression)"
+    else
+        print_success "EOS stub DLL installed (dialog suppressed; real SDK unavailable)"
+    fi
 }
 
 # Reusable helper: write EOS version registry keys so Epic's 32-bit and 64-bit checks both pass.
