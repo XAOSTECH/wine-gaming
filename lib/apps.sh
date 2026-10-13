@@ -37,17 +37,34 @@ _build_eos_compat_layer() {
     local _bld; _bld=$(mktemp -d)
     local _use_proxy=0
 
-    # ── Proxy DLL (preferred: real SDK + dialog intercept) ──────────────────
-    if [ -f "$_real_dll" ] && command -v objdump &>/dev/null; then
-        # Preserve the real DLL under a different name so the proxy can forward to it.
-        cp -f "$_real_dll" "$_real_renamed" 2>/dev/null || true
+    # Prefer the launcher's own bundled EOSSDK (compiled and tested against this launcher
+    # version) over our extracted SDK (may have different CNG code paths that crash Wine).
+    # The launcher places its DLL in Binaries/Win64; our proxy overwrites it, so we must
+    # save it FIRST (before any previous proxy run replaced it — detect by file size: the
+    # real SDK is ~20 MB; our proxy is a few KB).
+    local _launcher_sdk="$_launcher_bin/EOSSDK-Win64-Shipping.dll"
+    local _backend_dll=""
+    if [ -f "$_launcher_sdk" ] && \
+       [ "$(stat -c%s "$_launcher_sdk" 2>/dev/null || echo 0)" -gt 1048576 ]; then
+        # Original launcher-bundled DLL still present — save it as proxy backend
+        cp -f "$_launcher_sdk" "$_sys32/EOSSDK-Win64-Shipping-real.dll" 2>/dev/null && \
+            _backend_dll="$_sys32/EOSSDK-Win64-Shipping-real.dll"
+    fi
+    # Fall back to the extracted EOS SDK if the launcher copy is gone/already a proxy
+    if [ -z "$_backend_dll" ] && [ -f "$_real_renamed" ]; then
+        _backend_dll="$_real_renamed"
+    elif [ -z "$_backend_dll" ] && [ -f "$_real_dll" ]; then
+        cp -f "$_real_dll" "$_real_renamed" 2>/dev/null && _backend_dll="$_real_renamed"
+    fi
 
+    # ── Proxy DLL (preferred: real SDK + dialog intercept) ──────────────────
+    if [ -n "$_backend_dll" ] && command -v objdump &>/dev/null; then
         # DEF file: two intercepted C functions + every other export PE-forwarded.
         {
             printf 'LIBRARY "EOSSDK-Win64-Shipping.dll"\nEXPORTS\n'
             printf '    EOS_Platform_CheckForLauncherAndRestart\n'
             printf '    EOS_Platform_GetDesktopCrossplayStatus\n'
-            objdump -p "$_real_renamed" 2>/dev/null \
+            objdump -p "$_backend_dll" 2>/dev/null \
                 | grep -oP '\] \K\S+' \
                 | grep '^EOS_' \
                 | grep -vxF 'EOS_Platform_CheckForLauncherAndRestart' \
@@ -57,7 +74,6 @@ _build_eos_compat_layer() {
                 done
         } > "$_bld/proxy.def"
 
-        # C: only the two intercepted functions; everything else is a PE forward.
         cat > "$_bld/eos_proxy.c" << 'PROXYEOF'
 #include <windows.h>
 BOOL WINAPI DllMain(HINSTANCE h,DWORD r,LPVOID p){return TRUE;}
@@ -136,11 +152,19 @@ BSEOF
     # ── Deploy ───────────────────────────────────────────────────────────────
     mkdir -p "$_sys32" "$_eos_dir" "$_portal_eos" "$_launcher_bin"
     cp "$_bld/EOSSDK-Win64-Shipping.dll" "$_sys32/"
-    cp "$_bld/EOSSDK-Win64-Shipping.dll" "$_launcher_bin/"
     if [ "$_use_proxy" -eq 1 ]; then
-        # Place the real DLL (renamed) in both locations so the PE forwarder finds it
-        cp "$_real_renamed" "$_sys32/EOSSDK-Win64-Shipping-real.dll"
-        cp "$_real_renamed" "$_launcher_bin/EOSSDK-Win64-Shipping-real.dll"
+        # Ensure the backend (-real.dll) is reachable from system32 for the PE forwarder.
+        # Never overwrite Binaries/Win64 if it still has the original launcher DLL
+        # (size > 1MB means it's the original; let DllOverride in system32 handle intercept).
+        [ -f "$_backend_dll" ] && cp "$_backend_dll" "$_sys32/EOSSDK-Win64-Shipping-real.dll" || true
+        local _sz; _sz=$(stat -c%s "$_launcher_sdk" 2>/dev/null || echo 0)
+        if [ "$_sz" -le 1048576 ]; then
+            # launcher_bin already has our old proxy (tiny) — replace it
+            cp "$_bld/EOSSDK-Win64-Shipping.dll" "$_launcher_bin/"
+            [ -f "$_backend_dll" ] && cp "$_backend_dll" "$_launcher_bin/EOSSDK-Win64-Shipping-real.dll" || true
+        fi
+    else
+        cp "$_bld/EOSSDK-Win64-Shipping.dll" "$_launcher_bin/"
     fi
     cp "$_bld/EOSBootstrapperApp.exe" "$_eos_dir/EOSBootstrapperApp.exe"
     cp "$_bld/EOSBootstrapperApp.exe" "$_eos_dir/EOSBootstrapper.exe"
