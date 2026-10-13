@@ -176,7 +176,7 @@ main() {
         install-shortcut)
             shift
             if [ "$1" = "all" ]; then
-                create_all_shortcuts
+                create_all_shortcuts "${2:-}"
             elif [[ "$1" == /* || "$1" == ./* || "${1,,}" == *.exe || "${1,,}" == *.lnk ]]; then
                 create_external_shortcut "$@"
             else
