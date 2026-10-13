@@ -352,7 +352,7 @@ init() {
     # mangohud:    in-game perf overlay (FPS, frametime, GPU/CPU); also enforces fps_limit.
     print_info "Installing system dependencies (apt)..."
     if command -v apt-get &>/dev/null; then
-        sudo apt-get install -y icoutils gamemode mangohud winetricks 2>&1 \
+        sudo apt-get install -y icoutils gamemode mangohud winetricks gcc-mingw-w64 2>&1 \
             | grep -v "^Reading\|^Building\|^(Reading\|^Selecting\|^Setting\|^Preparing" || true
     else
         print_warning "apt-get not available — skipping system package install"
