@@ -156,11 +156,12 @@ main() {
         list-installers)     list_installers ;;
         install)
             local _ikey="$2" _iflag="${3:-}"
-            [ "$_ikey" = "--reinstall" ] && { _ikey="$3"; _iflag=""; }
+            [ "$_ikey" = "--reinstall" ] && { _ikey="$3"; _iflag="--reinstall"; }
             if [ "$_iflag" = "--reinstall" ]; then
+                local _reinstall_extra="${4:-}"  # e.g. --force passed after the key
                 print_info "Reinstalling $_ikey — removing existing files first..."
                 uninstall_app "$_ikey"
-                install_app "$_ikey"
+                install_app "$_ikey" "" "$_reinstall_extra"
             else
                 install_app "$_ikey" "$_iflag"
             fi ;;
