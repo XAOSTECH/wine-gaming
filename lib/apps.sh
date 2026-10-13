@@ -13,10 +13,17 @@ _post_install_registry() {
         epic-games)
             # DEMAND_START stops EpicGamesUpdater; per-process env+DLL overrides prevent EOS host IPC crash on Wine.
             # EpicOnlineServicesHost.exe also needs EOS_ENABLED=0 — it spawns separately and checks independently.
+            # BootstrapperVersion=99.0.0.0 spoofs EOS version above any launcher minimum, suppressing the update dialog.
             printf 'Windows Registry Editor Version 5.00\n\n'\
 '[HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Services\\EpicGamesUpdater]\n'\
 '"Start"=dword:00000003\n'\
 '"FailureActions"=hex:00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00\n\n'\
+'[HKEY_LOCAL_MACHINE\\SOFTWARE\\EpicGames\\EOS]\n'\
+'"BootstrapperVersion"="99.0.0.0"\n'\
+'"Version"="99.0.0.0"\n\n'\
+'[HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\EpicGames\\EOS]\n'\
+'"BootstrapperVersion"="99.0.0.0"\n'\
+'"Version"="99.0.0.0"\n\n'\
 '[HKEY_CURRENT_USER\\Software\\Epic Games\\EOS]\n'\
 '"IsDisableAutoUpdate"=dword:00000001\n\n'\
 '[HKEY_CURRENT_USER\\Software\\Epic Games\\EGL]\n'\
