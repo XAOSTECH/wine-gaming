@@ -41,6 +41,7 @@ WINE PREFIX MANAGEMENT:
   list-backups                 List available launcher data backups
   install-proton GE-Proton10-1 Install a specific version (short form: 10-1)
   list-proton                  List the 10 most recent GE-Proton releases
+  install-eos [--force]        Install EOS runtime from Epic SDK (fixes 'Install Epic Online Services' dialog)
   fix-z-drive                  Permanently remove Z: drive mount
   unmount-z                    Temporarily hide Z: (stops /mnt disk warnings)
   mount-z                      Restore Z: drive
@@ -139,6 +140,7 @@ main() {
         quick)               shift; quick_setup "$@" ;;
         install-proton)      shift; install_proton "$@" ;;
         list-proton)         list_proton ;;
+        install-eos)         shift; install_eos_runtime "$@" ;;
         kill)                kill_wine ;;
         backup-data)         backup_launcher_data ;;
         restore-data)        shift; restore_launcher_data "$@" ;;
