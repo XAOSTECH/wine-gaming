@@ -3,28 +3,71 @@
 # Sourced by setup; do not execute directly.
 # Depends on: lib/config.sh, lib/utils.sh, lib/registry.sh, lib/installer.sh, lib/shortcuts.sh
 
-# Download the EOS SDK from Epic's CDN, extract runtime DLLs into the Wine prefix,
-# and register the version so Epic Launcher's bootstrapper check recognises EOS as installed.
+# Reusable helper: write EOS version registry keys so Epic's 32-bit and 64-bit checks both pass.
+_set_eos_registry() {
+    local _ver="1.19.1.2"
+    local _eos_reg="$WINEPREFIX/pfx/drive_c/windows/temp/wg-eos-install.reg"
+    mkdir -p "$(dirname "$_eos_reg")"
+    printf 'Windows Registry Editor Version 5.00\n\n'\
+'[HKEY_LOCAL_MACHINE\\SOFTWARE\\Epic Games\\EpicOnlineServices]\n'\
+'"ModSdkMetadataDir"="C:\\\\Program Files (x86)\\\\Epic Games\\\\Epic Online Services"\n'\
+'"Version"="'"$_ver"'"\n\n'\
+'[HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Epic Games\\EpicOnlineServices]\n'\
+'"ModSdkMetadataDir"="C:\\\\Program Files (x86)\\\\Epic Games\\\\Epic Online Services"\n'\
+'"Version"="'"$_ver"'"\n' > "$_eos_reg"
+    STEAM_COMPAT_DATA_PATH="$WINEPREFIX" \
+    STEAM_COMPAT_CLIENT_INSTALL_PATH="$WINE_DIR/steam-root" \
+        "$PROTON_DIR/proton" run regedit /s "C:\\windows\\temp\\wg-eos-install.reg" >/dev/null 2>&1 || true
+}
+
+# Install EOS runtime into the Wine prefix.
+# Order: (1) run EpicOnlineServicesInstaller.exe if present, (2) DLL-only registry update if DLL present,
+# (3) download SDK and extract. A stamp file prevents repeated runs; --force bypasses it.
 install_eos_runtime() {
     local _force="${1:-}"
+    local _stamp="$WINEPREFIX/pfx/.wg-eos-installed"
     local _eos_dir="$WINEPREFIX/pfx/drive_c/Program Files (x86)/Epic Games/Epic Online Services"
+    local _eos_installer="$_eos_dir/EpicOnlineServicesInstaller.exe"
     local _eos_dll="$_eos_dir/EOSSDK-Win64-Shipping.dll"
 
-    if [ "$_force" != "--force" ] && [ -f "$_eos_dll" ]; then
-        print_info "EOS runtime already present (use --force to reinstall)."
+    if [ "$_force" != "--force" ] && [ -f "$_stamp" ]; then
+        print_info "EOS runtime already installed (use --force to reinstall)."
         return 0
     fi
 
     check_proton || return 1
+
+    # The full EOS installer is the authoritative installation path — prefer it over the SDK extraction.
+    if [ -f "$_eos_installer" ]; then
+        print_info "Installing EOS runtime via EpicOnlineServicesInstaller.exe (~304 MB, takes up to 5 min)..."
+        timeout 300 \
+        STEAM_COMPAT_DATA_PATH="$WINEPREFIX" \
+        STEAM_COMPAT_CLIENT_INSTALL_PATH="$WINE_DIR/steam-root" \
+        PROTON_LOG=0 \
+            "$PROTON_DIR/proton" run \
+            "C:\\Program Files (x86)\\Epic Games\\Epic Online Services\\EpicOnlineServicesInstaller.exe" \
+            /install /silent >/dev/null 2>&1 || true
+        _set_eos_registry
+        touch "$_stamp"
+        print_success "EOS runtime installed"
+        return 0
+    fi
+
+    # DLL present but no installer — registry update is enough to satisfy the version check.
+    if [ "$_force" != "--force" ] && [ -f "$_eos_dll" ]; then
+        print_info "EOS DLL present; updating registry version keys."
+        _set_eos_registry
+        touch "$_stamp"
+        return 0
+    fi
+
+    # Nothing present — download the SDK to get both DLLs and the bootstrapper tools.
     command -v unzip &>/dev/null || {
         print_warning "unzip not found — run: sudo apt-get install unzip"
         return 1
     }
-
-    # archive_id=870 → EOS SDK v1.19.1.2; URL is stable but redirects to a signed CDN link.
     local _eos_url="https://onlineservices.epicgames.com/api/cosmos/sdk/download?archive_id=870&archive_type=sdk"
     local _eos_cache="$CACHE_DIR/eos-sdk-870.zip"
-
     if [ ! -f "$_eos_cache" ]; then
         print_info "Downloading EOS SDK (~560 MB, cached after first run)..."
         if ! wget -q --show-progress -L -O "$_eos_cache.part" "$_eos_url" 2>&1; then
@@ -39,40 +82,35 @@ install_eos_runtime() {
 
     print_info "Extracting EOS runtime files..."
     mkdir -p "$_eos_dir" "$_eos_dir/x86"
-
-    # Extract Win64 and Win32 DLLs plus any bootstrapper/tool executables from the SDK archive.
-    unzip -j -o "$_eos_cache" "*/Bin/EOSSDK-Win64-Shipping.dll"  -d "$_eos_dir"      >/dev/null 2>&1 || true
-    unzip -j -o "$_eos_cache" "*/Bin/EOSSDK-Win32-Shipping.dll"  -d "$_eos_dir"      >/dev/null 2>&1 || true
+    unzip -j -o "$_eos_cache" "*/Bin/EOSSDK-Win64-Shipping.dll"     -d "$_eos_dir"     >/dev/null 2>&1 || true
+    unzip -j -o "$_eos_cache" "*/Bin/EOSSDK-Win32-Shipping.dll"     -d "$_eos_dir"     >/dev/null 2>&1 || true
     unzip -j -o "$_eos_cache" "*/Bin/x86/EOSSDK-Win32-Shipping.dll" -d "$_eos_dir/x86" >/dev/null 2>&1 || true
-    unzip -j -o "$_eos_cache" "*/Tools/*.exe"                     -d "$_eos_dir"      >/dev/null 2>&1 || true
+    unzip -j -o "$_eos_cache" "*/Tools/*.exe"                        -d "$_eos_dir"     >/dev/null 2>&1 || true
 
-    if [ ! -f "$_eos_dll" ]; then
-        print_warning "EOSSDK-Win64-Shipping.dll not found in archive — EOS install incomplete"
-        return 1
+    [ -f "$_eos_dll" ] || { print_warning "EOSSDK-Win64-Shipping.dll not found in archive"; return 1; }
+
+    # After extraction the full installer may now be present — run it if so.
+    if [ -f "$_eos_installer" ]; then
+        print_info "Running EpicOnlineServicesInstaller.exe extracted from SDK..."
+        timeout 300 \
+        STEAM_COMPAT_DATA_PATH="$WINEPREFIX" \
+        STEAM_COMPAT_CLIENT_INSTALL_PATH="$WINE_DIR/steam-root" \
+        PROTON_LOG=0 \
+            "$PROTON_DIR/proton" run \
+            "C:\\Program Files (x86)\\Epic Games\\Epic Online Services\\EpicOnlineServicesInstaller.exe" \
+            /install /silent >/dev/null 2>&1 || true
     fi
 
-    # Set version keys in both HKLM paths so Epic's 32-bit and 64-bit checks both pass.
-    local _ver="1.19.1.2"
-    local _eos_reg="$WINEPREFIX/pfx/drive_c/windows/temp/wg-eos-install.reg"
-    printf 'Windows Registry Editor Version 5.00\n\n'\
-'[HKEY_LOCAL_MACHINE\\SOFTWARE\\Epic Games\\EpicOnlineServices]\n'\
-'"ModSdkMetadataDir"="C:\\\\Program Files (x86)\\\\Epic Games\\\\Epic Online Services"\n'\
-'"Version"="'"$_ver"'"\n\n'\
-'[HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Epic Games\\EpicOnlineServices]\n'\
-'"ModSdkMetadataDir"="C:\\\\Program Files (x86)\\\\Epic Games\\\\Epic Online Services"\n'\
-'"Version"="'"$_ver"'"\n' > "$_eos_reg"
-
-    STEAM_COMPAT_DATA_PATH="$WINEPREFIX" \
-    STEAM_COMPAT_CLIENT_INSTALL_PATH="$WINE_DIR/steam-root" \
-        "$PROTON_DIR/proton" run regedit /s "C:\\windows\\temp\\wg-eos-install.reg" >/dev/null 2>&1 || true
-
-    print_success "EOS runtime installed (SDK v$_ver)"
+    _set_eos_registry
+    touch "$_stamp"
+    print_success "EOS runtime installed (SDK v1.19.1.2)"
 }
 
 # Post-install Wine registry fixes for apps that need service or install-key setup.
-# Pass _reg_only=1 (third arg) to apply only the registry import, skipping any post-install installers (EOS installer, etc.) — used by quick_setup's re-apply path.
+# _reg_only=1 (third arg): registry-only mode — skip post-install installers (used by quick_setup).
+# _flags (fourth arg): forwarded to sub-installers, e.g. --force for install_eos_runtime.
 _post_install_registry() {
-    local app_key="$1" installer_path="${2:-}" _reg_only="${3:-0}"
+    local app_key="$1" installer_path="${2:-}" _reg_only="${3:-0}" _flags="${4:-}"
     local _reg="$WINEPREFIX/pfx/drive_c/windows/temp/wg-post-install.reg"
     mkdir -p "$(dirname "$_reg")"
     case "$app_key" in
@@ -100,9 +138,9 @@ _post_install_registry() {
             STEAM_COMPAT_DATA_PATH="$WINEPREFIX" \
             STEAM_COMPAT_CLIENT_INSTALL_PATH="$WINE_DIR/steam-root" \
                 "$PROTON_DIR/proton" run regedit /s "C:\\windows\\temp\\wg-post-install.reg" >/dev/null 2>&1 || true
-            # Install EOS runtime from SDK so Epic Launcher's bootstrapper check passes.
+            # Install EOS runtime; pass any force flag through so --reinstall --force re-runs the EOS installer.
             if [ "$_reg_only" != "1" ]; then
-                install_eos_runtime
+                install_eos_runtime "$_flags"
             fi
             ;;
         ea-desktop)
@@ -133,6 +171,7 @@ _post_install_registry() {
 install_app() {
     local app_key="$1"
     local custom_installer="$2"
+    local _install_flags="${3:-}"  # forwarded to _post_install_registry (e.g. --force)
 
     parse_app_config "$app_key" || return 1
     check_proton || return 1
@@ -210,7 +249,7 @@ install_app() {
 
     if find_app_exe "$app_key" >/dev/null 2>&1; then
         print_success "$APP_NAME installed successfully"
-        _post_install_registry "$app_key" "$installer_path"
+        _post_install_registry "$app_key" "$installer_path" "0" "$_install_flags"
         _ensure_cacerts
         # Restore stashed user data (Epic login tokens, game library manifest).
         if [ -n "${_epic_stash:-}" ] && [ -d "${_epic_stash:-}" ]; then
