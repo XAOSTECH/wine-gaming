@@ -9,8 +9,7 @@ WIG_LOCATION="${HOME}/.config/wine-gaming/location"
 WIG_BIN="${HOME}/.local/bin/wig"
 
 # Write wig-* aliases to ALIAS_FILE and wire them into ~/.bashrc.
-# Also creates ~/.local/bin/wig — a path-agnostic wrapper that resolves the
-# wine-gaming directory at runtime, so aliases survive folder moves.
+# Also creates ~/.local/bin/wig — a path-agnostic wrapper that resolves the wine-gaming directory at runtime, so aliases survive folder moves.
 # After running, reload the shell: source ~/.bashrc (or open a new terminal).
 install_aliases() {
     local setup_path="${SETUP_SCRIPT_PATH:-}"
