@@ -56,6 +56,7 @@ APP MANAGEMENT:
   install-all                  Install all registered launchers
   uninstall <app-key>          Remove a launcher from the prefix
   launch <key>                 Launch any registered app (launcher or user)
+  launch <key> --verbose       Launch in foreground with live output (Ctrl-C to stop)
   launch <key> --profile <p>   Launch with a specific profile (also: --profile <p> <key>)
   launch-exe <path>            Launch any external .exe/.msi in managed prefix
   prefix-info                  Show managed prefix paths and env vars
