@@ -37,11 +37,8 @@ _build_eos_compat_layer() {
     local _bld; _bld=$(mktemp -d)
     local _use_proxy=0
 
-    # Prefer the launcher's own bundled EOSSDK (compiled and tested against this launcher
-    # version) over our extracted SDK (may have different CNG code paths that crash Wine).
-    # The launcher places its DLL in Binaries/Win64; our proxy overwrites it, so we must
-    # save it FIRST (before any previous proxy run replaced it — detect by file size: the
-    # real SDK is ~20 MB; our proxy is a few KB).
+    # Prefer the launcher's own bundled EOSSDK (compiled and tested against this launcher version) over our extracted SDK (may have different CNG code paths that crash Wine).
+    # The launcher places its DLL in Binaries/Win64; our proxy overwrites it, so we must save it FIRST (before any previous proxy run replaced it — detect by file size: the real SDK is ~20 MB; our proxy is a few KB).
     local _launcher_sdk="$_launcher_bin/EOSSDK-Win64-Shipping.dll"
     local _backend_dll=""
     if [ -f "$_launcher_sdk" ] && \
