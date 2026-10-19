@@ -3,20 +3,20 @@
     "repository": "wine-gaming",
     "current_branch": "main",
     "repo_url": "https://github.com/XAOSTECH/wine-gaming",
-    "generated": "2026-09-20T15:29:23Z",
+    "generated": "2026-10-19T02:47:01Z",
     "max_commits": 500
   },
   "commits": [
     {
-      "sha": "c34395f3ab35c03d65609368e7463764312886c4",
-      "short": "c34395f",
-      "parents": "collapsed:73cd3dfae2c66dea0df59e4e3e080ecd94f31003:ca79f535925e4f0d68925454c7e42963a29ccd9e",
-      "author": "xaoscience",
-      "email": "69734795+xaoscience@users.noreply.github.com",
-      "date": "2026-09-20T15:29:23Z",
-      "timestamp": 1789918163,
-      "subject": "fix(prefix): remove extension dependency from tray fix",
-      "refs": "HEAD -> main, origin/main",
+      "sha": "2e3c015e1328415b28ddb412dcf7e428fea00a2c",
+      "short": "2e3c015",
+      "parents": "270f2082c94db1fdce9db261c384e38d38a760fb",
+      "author": "xaos-bot",
+      "email": "262248812+xaos-bot@users.noreply.github.com",
+      "date": "2026-10-19T02:47:01Z",
+      "timestamp": 1792378021,
+      "subject": "chore: update CHANGELOG for v0.1.2",
+      "refs": "HEAD -> main, tag: v0.1.2, tag: latest, origin/main",
       "position": {
         "x": 600,
         "y": 60,
@@ -29,24 +29,622 @@
       }
     },
     {
-      "sha": "collapsed:73cd3dfae2c66dea0df59e4e3e080ecd94f31003:ca79f535925e4f0d68925454c7e42963a29ccd9e",
-      "short": "18",
-      "parents": "b2583301e080633a4de3703ff90922ee807327d6",
-      "author": "",
-      "email": "",
-      "date": "2026-09-20T14:25:51Z",
-      "timestamp": 1789914351,
-      "subject": "18 commits",
+      "sha": "270f2082c94db1fdce9db261c384e38d38a760fb",
+      "short": "270f208",
+      "parents": "ff86553ceff50f3e23a8b954bf1eedc2a25722b3 8e445035f48b7ba4c3afe5c2cf0c31a06f0b08fa",
+      "author": "github-actions[bot]",
+      "email": "41898282+github-actions[bot]@users.noreply.github.com",
+      "date": "2026-10-15T07:49:34Z",
+      "timestamp": 1792050574,
+      "subject": "Merge pull request #5 from XAOSTECH/humanise/20261015-074913",
       "refs": "",
-      "collapsed": true,
-      "count": 18,
       "position": {
         "x": 600,
         "y": 100,
         "lane": 0,
-        "radius": 6,
+        "radius": 10,
         "depth": 1,
         "is_trunk": true,
+        "is_merge": true,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "8e445035f48b7ba4c3afe5c2cf0c31a06f0b08fa",
+      "short": "8e44503",
+      "parents": "ff86553ceff50f3e23a8b954bf1eedc2a25722b3",
+      "author": "xaos-bot",
+      "email": "262248812+xaos-bot@users.noreply.github.com",
+      "date": "2026-10-15T07:49:13Z",
+      "timestamp": 1792050553,
+      "subject": "chore: humanise hard-wrapped comments and prose",
+      "refs": "origin/humanise/20261015-074913",
+      "position": {
+        "x": 720,
+        "y": 140,
+        "lane": 1,
+        "radius": 6,
+        "depth": 2,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "aeb96010a8c3ea0b94c1554bc2cc6836fe1abea7",
+      "short": "aeb9601",
+      "parents": "c245138575902e5086f8df82f49e3201ea93de59",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:56+02:00",
+      "timestamp": 1791944396,
+      "subject": "chore(dc-init): update workflows,actions",
+      "refs": "origin/tmp/preserve-20261013T234625Z",
+      "position": {
+        "x": 480,
+        "y": 220,
+        "lane": -1,
+        "radius": 6,
+        "depth": 3,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "c245138575902e5086f8df82f49e3201ea93de59",
+      "short": "c245138",
+      "parents": "991c070156ea0fcbbbdfcf43c00eeb02cec0a726 c19c117f7c0e2b11f911ebf1e8e6abe8234dca16",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:56+02:00",
+      "timestamp": 1791944396,
+      "subject": "Merge pull request #4 from XAOSTECH/anglicise/20261001-034419",
+      "refs": "",
+      "position": {
+        "x": 840,
+        "y": 300,
+        "lane": 2,
+        "radius": 10,
+        "depth": 4,
+        "is_trunk": false,
+        "is_merge": true,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "c19c117f7c0e2b11f911ebf1e8e6abe8234dca16",
+      "short": "c19c117",
+      "parents": "991c070156ea0fcbbbdfcf43c00eeb02cec0a726",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:56+02:00",
+      "timestamp": 1791944396,
+      "subject": "chore: convert American spellings to British English",
+      "refs": "",
+      "position": {
+        "x": 360,
+        "y": 380,
+        "lane": -2,
+        "radius": 6,
+        "depth": 5,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "991c070156ea0fcbbbdfcf43c00eeb02cec0a726",
+      "short": "991c070",
+      "parents": "collapsed:8b221520dca0da540cc838765f77d3484093428c:529b0610f519849d888999398630e9a8c859799e",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:56+02:00",
+      "timestamp": 1791944396,
+      "subject": "chore: update git tree visualisation",
+      "refs": "",
+      "position": {
+        "x": 960,
+        "y": 460,
+        "lane": 3,
+        "radius": 9,
+        "depth": 6,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": true
+      }
+    },
+    {
+      "sha": "collapsed:8b221520dca0da540cc838765f77d3484093428c:529b0610f519849d888999398630e9a8c859799e",
+      "short": "5",
+      "parents": "a4db50d71fe68739284043ae18525824e5777578",
+      "author": "",
+      "email": "",
+      "date": "2026-10-14T04:19:56+02:00",
+      "timestamp": 1791944396,
+      "subject": "5 commits",
+      "refs": "",
+      "collapsed": true,
+      "count": 5,
+      "position": {
+        "x": 240,
+        "y": 540,
+        "lane": -3,
+        "radius": 6,
+        "depth": 7,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "a4db50d71fe68739284043ae18525824e5777578",
+      "short": "a4db50d",
+      "parents": "collapsed:5d37bb344debb81f3c8dcfac5b5711a1494016a3:7c1d7f4b69a6ee653f261d4dbcf043cf6ed9d59f",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "feat(launch): --verbose flag for live output; fix(apps): comprehensive EOS stubs from DLL export table",
+      "refs": "",
+      "position": {
+        "x": 1080,
+        "y": 620,
+        "lane": 4,
+        "radius": 6,
+        "depth": 8,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "collapsed:5d37bb344debb81f3c8dcfac5b5711a1494016a3:7c1d7f4b69a6ee653f261d4dbcf043cf6ed9d59f",
+      "short": "13",
+      "parents": "ed8baafcb69af1b1174394d58dd4c0663aa7620b",
+      "author": "",
+      "email": "",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "13 commits",
+      "refs": "",
+      "collapsed": true,
+      "count": 13,
+      "position": {
+        "x": 120,
+        "y": 700,
+        "lane": -4,
+        "radius": 6,
+        "depth": 9,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "ed8baafcb69af1b1174394d58dd4c0663aa7620b",
+      "short": "ed8baaf",
+      "parents": "a323ee4896e6f0e99e528d278f651424304f335a ec648db3e5f2e1065852ea76396c3372dd9681a5",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "Merge pull request #3 from XAOSTECH/humanise/20260915-080739",
+      "refs": "",
+      "position": {
+        "x": 1200,
+        "y": 780,
+        "lane": 5,
+        "radius": 10,
+        "depth": 10,
+        "is_trunk": false,
+        "is_merge": true,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "ec648db3e5f2e1065852ea76396c3372dd9681a5",
+      "short": "ec648db",
+      "parents": "a323ee4896e6f0e99e528d278f651424304f335a",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "chore: humanise hard-wrapped comments and prose",
+      "refs": "",
+      "position": {
+        "x": 0,
+        "y": 860,
+        "lane": -5,
+        "radius": 6,
+        "depth": 11,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "a323ee4896e6f0e99e528d278f651424304f335a",
+      "short": "a323ee4",
+      "parents": "collapsed:2822272ff40afdda5dc09a799bd24887f3074098:d67ba13b4cd097a2534a46545e3577f59c57ea1a",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "fix(apps,prefix): suppress EOS update loop; re-apply registry on quick",
+      "refs": "",
+      "position": {
+        "x": 1320,
+        "y": 940,
+        "lane": 6,
+        "radius": 9,
+        "depth": 12,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": true
+      }
+    },
+    {
+      "sha": "collapsed:2822272ff40afdda5dc09a799bd24887f3074098:d67ba13b4cd097a2534a46545e3577f59c57ea1a",
+      "short": "4",
+      "parents": "d39f28406581d5b407b2600c2ca2806e5c5d06fe",
+      "author": "",
+      "email": "",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "4 commits",
+      "refs": "",
+      "collapsed": true,
+      "count": 4,
+      "position": {
+        "x": -120,
+        "y": 1020,
+        "lane": -6,
+        "radius": 6,
+        "depth": 13,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "d39f28406581d5b407b2600c2ca2806e5c5d06fe",
+      "short": "d39f284",
+      "parents": "19763755ddd6412fcbdcfe1261b7cb4347120729",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "chore(dc-init): load workflows,actions",
+      "refs": "tag: v0.1.1",
+      "position": {
+        "x": 1440,
+        "y": 1100,
+        "lane": 7,
+        "radius": 6,
+        "depth": 14,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "19763755ddd6412fcbdcfe1261b7cb4347120729",
+      "short": "1976375",
+      "parents": "496a28f8d025d668960551ab900ca70d405e3155",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "fix(prefix,shortcuts,setup): skip installed winetricks verbs; install-shortcut all --reinstall",
+      "refs": "",
+      "position": {
+        "x": -240,
+        "y": 1180,
+        "lane": -7,
+        "radius": 6,
+        "depth": 15,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "ff86553ceff50f3e23a8b954bf1eedc2a25722b3",
+      "short": "ff86553",
+      "parents": "508894fd0af745a07ffcbdd9b83141c4ead0d4f7",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "chore(dc-init): update workflows,actions",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 1260,
+        "lane": 0,
+        "radius": 9,
+        "depth": 16,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": true
+      }
+    },
+    {
+      "sha": "508894fd0af745a07ffcbdd9b83141c4ead0d4f7",
+      "short": "508894f",
+      "parents": "1649dc797a8c4e36c3acc1dba0eaa6b53fda1fa3 2943af7d9de795c3aa6ce94168506feb1e3fd61e",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "Merge pull request #4 from XAOSTECH/anglicise/20261001-034419",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 1300,
+        "lane": 0,
+        "radius": 10,
+        "depth": 17,
+        "is_trunk": true,
+        "is_merge": true,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "2943af7d9de795c3aa6ce94168506feb1e3fd61e",
+      "short": "2943af7",
+      "parents": "1649dc797a8c4e36c3acc1dba0eaa6b53fda1fa3",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "chore: convert American spellings to British English",
+      "refs": "",
+      "position": {
+        "x": 1560,
+        "y": 1340,
+        "lane": 8,
+        "radius": 6,
+        "depth": 18,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "1649dc797a8c4e36c3acc1dba0eaa6b53fda1fa3",
+      "short": "1649dc7",
+      "parents": "collapsed:09a8d42ca08661b5a0deaa4a1a49ee355f7b969f:12c9c4139ee212d81b2e182504cb1dc62025f7ad",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "chore: update git tree visualisation",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 1420,
+        "lane": 0,
+        "radius": 9,
+        "depth": 19,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": true
+      }
+    },
+    {
+      "sha": "collapsed:09a8d42ca08661b5a0deaa4a1a49ee355f7b969f:12c9c4139ee212d81b2e182504cb1dc62025f7ad",
+      "short": "19",
+      "parents": "0d97cea0ab6dc997c6e58ad9fe62d4f818dc9fc8",
+      "author": "",
+      "email": "",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "19 commits",
+      "refs": "",
+      "collapsed": true,
+      "count": 19,
+      "position": {
+        "x": 600,
+        "y": 1460,
+        "lane": 0,
+        "radius": 6,
+        "depth": 20,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "0d97cea0ab6dc997c6e58ad9fe62d4f818dc9fc8",
+      "short": "0d97cea",
+      "parents": "1f110f51fc2a77a5ab06e336d1198d9542414872 8f78788f8dbebcbfcd5f301863b748c651e9d59d",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:25+02:00",
+      "timestamp": 1791935185,
+      "subject": "Merge pull request #3 from XAOSTECH/humanise/20260915-080739",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 1500,
+        "lane": 0,
+        "radius": 10,
+        "depth": 21,
+        "is_trunk": true,
+        "is_merge": true,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "8f78788f8dbebcbfcd5f301863b748c651e9d59d",
+      "short": "8f78788",
+      "parents": "1f110f51fc2a77a5ab06e336d1198d9542414872",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:25+02:00",
+      "timestamp": 1791935185,
+      "subject": "chore: humanise hard-wrapped comments and prose",
+      "refs": "",
+      "position": {
+        "x": -360,
+        "y": 1540,
+        "lane": -8,
+        "radius": 6,
+        "depth": 22,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "1f110f51fc2a77a5ab06e336d1198d9542414872",
+      "short": "1f110f5",
+      "parents": "collapsed:dd99d269b7f86b50e386b0afcdd6d3443be1cc1a:385f12b09e8bf30998f5df9b6189d63c9b18ccad",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:25+02:00",
+      "timestamp": 1791935185,
+      "subject": "fix(apps,prefix): suppress EOS update loop; re-apply registry on quick",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 1620,
+        "lane": 0,
+        "radius": 9,
+        "depth": 23,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": true
+      }
+    },
+    {
+      "sha": "collapsed:dd99d269b7f86b50e386b0afcdd6d3443be1cc1a:385f12b09e8bf30998f5df9b6189d63c9b18ccad",
+      "short": "6",
+      "parents": "496a28f8d025d668960551ab900ca70d405e3155",
+      "author": "",
+      "email": "",
+      "date": "2026-10-14T01:46:25+02:00",
+      "timestamp": 1791935185,
+      "subject": "6 commits",
+      "refs": "",
+      "collapsed": true,
+      "count": 6,
+      "position": {
+        "x": 600,
+        "y": 1660,
+        "lane": 0,
+        "radius": 6,
+        "depth": 24,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "20757139df4c90194b8d2e572afd2fddd680db0d",
+      "short": "2075713",
+      "parents": "cbde6b142e711479893da74e2bfb09c7c9a8d554",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T00:02:46+02:00",
+      "timestamp": 1791928966,
+      "subject": "chore(dc-init): update workflows,actions",
+      "refs": "tag: backup/tmp/preserve-20261013T234625Z-pre-override-20261014T022004Z, tag: backup/main-pre-override-20261013T234634Z",
+      "position": {
+        "x": 1680,
+        "y": 1700,
+        "lane": 9,
+        "radius": 6,
+        "depth": 25,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "cbde6b142e711479893da74e2bfb09c7c9a8d554",
+      "short": "cbde6b1",
+      "parents": "a5a38eaac3998345af58878581c2b5ea04e6de01 3258f5ae4477c98efe9aaed25340187dd823c335",
+      "author": "github-actions[bot]",
+      "email": "41898282+github-actions[bot]@users.noreply.github.com",
+      "date": "2026-10-01T03:44:43Z",
+      "timestamp": 1790826283,
+      "subject": "Merge pull request #4 from XAOSTECH/anglicise/20261001-034419",
+      "refs": "",
+      "position": {
+        "x": -480,
+        "y": 1780,
+        "lane": -9,
+        "radius": 10,
+        "depth": 26,
+        "is_trunk": false,
+        "is_merge": true,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "3258f5ae4477c98efe9aaed25340187dd823c335",
+      "short": "3258f5a",
+      "parents": "a5a38eaac3998345af58878581c2b5ea04e6de01",
+      "author": "xaos-bot",
+      "email": "262248812+xaos-bot@users.noreply.github.com",
+      "date": "2026-10-01T03:44:19Z",
+      "timestamp": 1790826259,
+      "subject": "chore: convert American spellings to British English",
+      "refs": "",
+      "position": {
+        "x": 1800,
+        "y": 1860,
+        "lane": 10,
+        "radius": 6,
+        "depth": 27,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "a5a38eaac3998345af58878581c2b5ea04e6de01",
+      "short": "a5a38ea",
+      "parents": "collapsed:c34395f3ab35c03d65609368e7463764312886c4:ca79f535925e4f0d68925454c7e42963a29ccd9e",
+      "author": "xaos-bot",
+      "email": "262248812+xaos-bot@users.noreply.github.com",
+      "date": "2026-09-21T02:48:51Z",
+      "timestamp": 1789958931,
+      "subject": "chore: update git tree visualisation",
+      "refs": "",
+      "position": {
+        "x": -600,
+        "y": 1940,
+        "lane": -10,
+        "radius": 9,
+        "depth": 28,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": true
+      }
+    },
+    {
+      "sha": "collapsed:c34395f3ab35c03d65609368e7463764312886c4:ca79f535925e4f0d68925454c7e42963a29ccd9e",
+      "short": "19",
+      "parents": "b2583301e080633a4de3703ff90922ee807327d6",
+      "author": "",
+      "email": "",
+      "date": "2026-09-20T15:29:23Z",
+      "timestamp": 1789918163,
+      "subject": "19 commits",
+      "refs": "",
+      "collapsed": true,
+      "count": 19,
+      "position": {
+        "x": 1920,
+        "y": 2020,
+        "lane": 11,
+        "radius": 6,
+        "depth": 29,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -62,12 +660,12 @@
       "subject": "Merge pull request #3 from XAOSTECH/humanise/20260915-080739",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 140,
-        "lane": 0,
+        "x": -720,
+        "y": 2100,
+        "lane": -11,
         "radius": 10,
-        "depth": 2,
-        "is_trunk": true,
+        "depth": 30,
+        "is_trunk": false,
         "is_merge": true,
         "is_fork": false
       }
@@ -83,11 +681,11 @@
       "subject": "chore: humanise hard-wrapped comments and prose",
       "refs": "",
       "position": {
-        "x": 720,
-        "y": 180,
-        "lane": 1,
+        "x": 2040,
+        "y": 2180,
+        "lane": 12,
         "radius": 6,
-        "depth": 3,
+        "depth": 31,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -96,7 +694,7 @@
     {
       "sha": "b79cb6a670c52093b2cc2bdfecdaf356e485c3ee",
       "short": "b79cb6a",
-      "parents": "collapsed:75dc42b651100509c6809a9744d98133aa502960:56b5785ee0606034257bdc12c2e4850d98892b07",
+      "parents": "collapsed:75dc42b651100509c6809a9744d98133aa502960:a14063e6d29e34bae575a42abf936e45c019d0cf",
       "author": "xaoscience",
       "email": "69734795+xaoscience@users.noreply.github.com",
       "date": "2026-09-06T15:50:04Z",
@@ -104,118 +702,34 @@
       "subject": "fix(apps,prefix): suppress EOS update loop; re-apply registry on quick",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 260,
-        "lane": 0,
+        "x": -840,
+        "y": 2260,
+        "lane": -12,
         "radius": 9,
-        "depth": 4,
-        "is_trunk": true,
+        "depth": 32,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": true
       }
     },
     {
-      "sha": "collapsed:75dc42b651100509c6809a9744d98133aa502960:56b5785ee0606034257bdc12c2e4850d98892b07",
-      "short": "4",
-      "parents": "b459de2abe5edc58a7e4e4735d6e69efb83fa6b2",
+      "sha": "collapsed:75dc42b651100509c6809a9744d98133aa502960:a14063e6d29e34bae575a42abf936e45c019d0cf",
+      "short": "6",
+      "parents": "496a28f8d025d668960551ab900ca70d405e3155",
       "author": "",
       "email": "",
       "date": "2026-09-06T15:49:56Z",
       "timestamp": 1788709796,
-      "subject": "4 commits",
+      "subject": "6 commits",
       "refs": "",
       "collapsed": true,
-      "count": 4,
+      "count": 6,
       "position": {
-        "x": 600,
-        "y": 300,
-        "lane": 0,
+        "x": 2160,
+        "y": 2340,
+        "lane": 13,
         "radius": 6,
-        "depth": 5,
-        "is_trunk": true,
-        "is_merge": false,
-        "is_fork": false
-      }
-    },
-    {
-      "sha": "b459de2abe5edc58a7e4e4735d6e69efb83fa6b2",
-      "short": "b459de2",
-      "parents": "a14063e6d29e34bae575a42abf936e45c019d0cf",
-      "author": "xaoscience",
-      "email": "69734795+xaoscience@users.noreply.github.com",
-      "date": "2026-09-05T09:33:19+02:00",
-      "timestamp": 1788593599,
-      "subject": "chore(dc-init): load workflows,actions",
-      "refs": "",
-      "position": {
-        "x": 600,
-        "y": 340,
-        "lane": 0,
-        "radius": 6,
-        "depth": 6,
-        "is_trunk": true,
-        "is_merge": false,
-        "is_fork": false
-      }
-    },
-    {
-      "sha": "c7019cda9cec07c854eead6c58eb5f27fc6605f8",
-      "short": "c7019cd",
-      "parents": "adcdd6caba384d31b72ddcdfb0e76f75f799263d",
-      "author": "xaoscience",
-      "email": "69734795+xaoscience@users.noreply.github.com",
-      "date": "2026-09-05T09:33:19+02:00",
-      "timestamp": 1788593599,
-      "subject": "chore(dc-init): load workflows,actions",
-      "refs": "tag: v0.1.1, tag: latest",
-      "position": {
-        "x": 480,
-        "y": 380,
-        "lane": -1,
-        "radius": 6,
-        "depth": 7,
-        "is_trunk": false,
-        "is_merge": false,
-        "is_fork": false
-      }
-    },
-    {
-      "sha": "a14063e6d29e34bae575a42abf936e45c019d0cf",
-      "short": "a14063e",
-      "parents": "496a28f8d025d668960551ab900ca70d405e3155",
-      "author": "xaoscience",
-      "email": "69734795+xaoscience@users.noreply.github.com",
-      "date": "2026-09-05T07:31:14Z",
-      "timestamp": 1788593474,
-      "subject": "fix(prefix,shortcuts,setup): skip installed winetricks verbs; install-shortcut all --reinstall",
-      "refs": "",
-      "position": {
-        "x": 600,
-        "y": 460,
-        "lane": 0,
-        "radius": 6,
-        "depth": 8,
-        "is_trunk": true,
-        "is_merge": false,
-        "is_fork": false
-      }
-    },
-    {
-      "sha": "adcdd6caba384d31b72ddcdfb0e76f75f799263d",
-      "short": "adcdd6c",
-      "parents": "ba42e27276fbeb85f5eefa68c79ca7332eb4bc2e",
-      "author": "xaoscience",
-      "email": "69734795+xaoscience@users.noreply.github.com",
-      "date": "2026-09-05T07:31:14Z",
-      "timestamp": 1788593474,
-      "subject": "fix(prefix,shortcuts,setup): skip installed winetricks verbs; install-shortcut all --reinstall",
-      "refs": "",
-      "position": {
-        "x": 840,
-        "y": 500,
-        "lane": 2,
-        "radius": 6,
-        "depth": 9,
+        "depth": 33,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -224,7 +738,7 @@
     {
       "sha": "496a28f8d025d668960551ab900ca70d405e3155",
       "short": "496a28f",
-      "parents": "fb8b943acd50ac44030dca6527828545623d9ecc",
+      "parents": "collapsed:fb8b943acd50ac44030dca6527828545623d9ecc:0355d350d9072d904447f7ad175149c8f685ae69",
       "author": "xaos-bot",
       "email": "262248812+xaos-bot@users.noreply.github.com",
       "date": "2026-09-05T05:56:01Z",
@@ -233,117 +747,33 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 580,
-        "lane": 0,
-        "radius": 6,
-        "depth": 10,
-        "is_trunk": true,
-        "is_merge": false,
-        "is_fork": false
-      }
-    },
-    {
-      "sha": "ba42e27276fbeb85f5eefa68c79ca7332eb4bc2e",
-      "short": "ba42e27",
-      "parents": "1f4f3853d061b8da61ddc276f98c150b91ec44ec",
-      "author": "xaos-bot",
-      "email": "262248812+xaos-bot@users.noreply.github.com",
-      "date": "2026-09-05T05:56:01Z",
-      "timestamp": 1788587761,
-      "subject": "chore: update git tree visualisation",
-      "refs": "",
-      "position": {
-        "x": 360,
-        "y": 620,
-        "lane": -2,
-        "radius": 6,
-        "depth": 11,
-        "is_trunk": false,
-        "is_merge": false,
-        "is_fork": false
-      }
-    },
-    {
-      "sha": "fb8b943acd50ac44030dca6527828545623d9ecc",
-      "short": "fb8b943",
-      "parents": "60dd34df5953daa13be293733768cea911548c59",
-      "author": "xaoscience",
-      "email": "69734795+xaoscience@users.noreply.github.com",
-      "date": "2026-09-05T07:36:25+02:00",
-      "timestamp": 1788586585,
-      "subject": "chore(dc-init): update workflows + actions",
-      "refs": "",
-      "position": {
-        "x": 600,
-        "y": 700,
-        "lane": 0,
-        "radius": 6,
-        "depth": 12,
-        "is_trunk": true,
-        "is_merge": false,
-        "is_fork": false
-      }
-    },
-    {
-      "sha": "1f4f3853d061b8da61ddc276f98c150b91ec44ec",
-      "short": "1f4f385",
-      "parents": "60dd34df5953daa13be293733768cea911548c59",
-      "author": "xaoscience",
-      "email": "69734795+xaoscience@users.noreply.github.com",
-      "date": "2026-09-05T07:36:25+02:00",
-      "timestamp": 1788586585,
-      "subject": "chore(dc-init): update workflows + actions",
-      "refs": "",
-      "position": {
-        "x": 960,
-        "y": 740,
-        "lane": 3,
-        "radius": 6,
-        "depth": 13,
-        "is_trunk": false,
-        "is_merge": false,
-        "is_fork": false
-      }
-    },
-    {
-      "sha": "60dd34df5953daa13be293733768cea911548c59",
-      "short": "60dd34d",
-      "parents": "collapsed:46f00717e22b6881dafd87139866c730a77f13bc:0355d350d9072d904447f7ad175149c8f685ae69",
-      "author": "xaoscience",
-      "email": "69734795+xaoscience@users.noreply.github.com",
-      "date": "2026-09-05T04:36:43Z",
-      "timestamp": 1788583003,
-      "subject": "fix(shortcuts): StartupNotify=false + StartupWMClass + Actions= for GNOME taskbar responsiveness",
-      "refs": "",
-      "position": {
-        "x": 600,
-        "y": 820,
+        "y": 2420,
         "lane": 0,
         "radius": 9,
-        "depth": 14,
+        "depth": 34,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": true
       }
     },
     {
-      "sha": "collapsed:46f00717e22b6881dafd87139866c730a77f13bc:0355d350d9072d904447f7ad175149c8f685ae69",
-      "short": "65",
+      "sha": "collapsed:fb8b943acd50ac44030dca6527828545623d9ecc:0355d350d9072d904447f7ad175149c8f685ae69",
+      "short": "67",
       "parents": "88b253c75ddfa60dc24b0ce2dcbe08bc35fe8394",
       "author": "",
       "email": "",
-      "date": "2026-09-05T04:13:52Z",
-      "timestamp": 1788581632,
-      "subject": "65 commits",
+      "date": "2026-09-05T07:36:25+02:00",
+      "timestamp": 1788586585,
+      "subject": "67 commits",
       "refs": "",
       "collapsed": true,
-      "count": 65,
+      "count": 67,
       "position": {
         "x": 600,
-        "y": 860,
+        "y": 2460,
         "lane": 0,
         "radius": 6,
-        "depth": 15,
+        "depth": 35,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -360,11 +790,11 @@
       "subject": "experiment(xbox): iter 10 — add HTTPS/auth trace channels",
       "refs": "origin/experiment/xbox-gaming",
       "position": {
-        "x": 240,
-        "y": 900,
-        "lane": -3,
+        "x": -960,
+        "y": 2500,
+        "lane": -13,
         "radius": 6,
-        "depth": 16,
+        "depth": 36,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -383,11 +813,11 @@
       "collapsed": true,
       "count": 15,
       "position": {
-        "x": 1080,
-        "y": 980,
-        "lane": 4,
+        "x": 2280,
+        "y": 2580,
+        "lane": 14,
         "radius": 6,
-        "depth": 17,
+        "depth": 37,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -405,10 +835,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 1060,
+        "y": 2660,
         "lane": 0,
         "radius": 10,
-        "depth": 18,
+        "depth": 38,
         "is_trunk": true,
         "is_merge": true,
         "is_fork": true
@@ -425,11 +855,11 @@
       "subject": "chore: convert American spellings to British English",
       "refs": "",
       "position": {
-        "x": 120,
-        "y": 1100,
-        "lane": -4,
+        "x": -1080,
+        "y": 2700,
+        "lane": -14,
         "radius": 6,
-        "depth": 19,
+        "depth": 39,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -447,10 +877,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 1180,
+        "y": 2780,
         "lane": 0,
         "radius": 9,
-        "depth": 20,
+        "depth": 40,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": true
@@ -470,10 +900,10 @@
       "count": 7,
       "position": {
         "x": 600,
-        "y": 1220,
+        "y": 2820,
         "lane": 0,
         "radius": 6,
-        "depth": 21,
+        "depth": 41,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -491,10 +921,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 1260,
+        "y": 2860,
         "lane": 0,
         "radius": 10,
-        "depth": 22,
+        "depth": 42,
         "is_trunk": true,
         "is_merge": true,
         "is_fork": false
@@ -511,11 +941,11 @@
       "subject": "chore: convert American spellings to British English",
       "refs": "",
       "position": {
-        "x": 1200,
-        "y": 1300,
-        "lane": 5,
+        "x": 2400,
+        "y": 2900,
+        "lane": 15,
         "radius": 6,
-        "depth": 23,
+        "depth": 43,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -533,10 +963,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 1380,
+        "y": 2980,
         "lane": 0,
         "radius": 9,
-        "depth": 24,
+        "depth": 44,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": true
@@ -556,10 +986,10 @@
       "count": 11,
       "position": {
         "x": 600,
-        "y": 1420,
+        "y": 3020,
         "lane": 0,
         "radius": 6,
-        "depth": 25,
+        "depth": 45,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -577,10 +1007,10 @@
       "refs": "tag: Main",
       "position": {
         "x": 600,
-        "y": 1460,
+        "y": 3060,
         "lane": 0,
         "radius": 6,
-        "depth": 26,
+        "depth": 46,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -589,7 +1019,7 @@
   ],
   "branches": [
     {
-      "name": "c34395f3ab35c03d65609368e7463764312886c4 fix(prefix): remove extension dependency from tray fix",
+      "name": "2e3c015e1328415b28ddb412dcf7e428fea00a2c chore: update CHANGELOG for v0.1.2",
       "sha": "*",
       "current": false,
       "merged": false
@@ -601,12 +1031,24 @@
       "sha": "4854ca978c51879d8b16481359344c3754590c0b"
     },
     {
+      "name": "backup/main-pre-override-20261013T234634Z",
+      "sha": "20757139df4c90194b8d2e572afd2fddd680db0d"
+    },
+    {
+      "name": "backup/tmp/preserve-20261013T234625Z-pre-override-20261014T022004Z",
+      "sha": "20757139df4c90194b8d2e572afd2fddd680db0d"
+    },
+    {
       "name": "latest",
-      "sha": "ab8cea46dfcfa41e39ff74169b5d5c4c0adac952"
+      "sha": "a9f93e7db69382cfcbc0c7d0b0e406663c653292"
     },
     {
       "name": "v0.1.1",
-      "sha": "147556aee0b4cfb37d80e1c6a70b7ef04fcce867"
+      "sha": "cde61bb1195633d80807dc596a069b0c3748fee8"
+    },
+    {
+      "name": "v0.1.2",
+      "sha": "753b5a6a8214a764aa44ff1a920014fa19aa317b"
     }
   ]
 }

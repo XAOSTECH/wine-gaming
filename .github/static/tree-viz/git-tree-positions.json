@@ -3,10 +3,1501 @@
     "repository": "wine-gaming",
     "current_branch": "main",
     "repo_url": "https://github.com/XAOSTECH/wine-gaming",
-    "generated": "2026-09-20T15:29:23Z",
+    "generated": "2026-10-19T02:47:01Z",
     "max_commits": 500
   },
   "commits": [
+    {
+      "sha": "2e3c015e1328415b28ddb412dcf7e428fea00a2c",
+      "short": "2e3c015",
+      "parents": "270f2082c94db1fdce9db261c384e38d38a760fb",
+      "author": "xaos-bot",
+      "email": "262248812+xaos-bot@users.noreply.github.com",
+      "date": "2026-10-19T02:47:01Z",
+      "timestamp": 1792378021,
+      "subject": "chore: update CHANGELOG for v0.1.2",
+      "refs": "HEAD -> main, tag: v0.1.2, tag: latest, origin/main",
+      "position": {
+        "x": 600,
+        "y": 60,
+        "lane": 0,
+        "radius": 6,
+        "depth": 0,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "270f2082c94db1fdce9db261c384e38d38a760fb",
+      "short": "270f208",
+      "parents": "ff86553ceff50f3e23a8b954bf1eedc2a25722b3 8e445035f48b7ba4c3afe5c2cf0c31a06f0b08fa",
+      "author": "github-actions[bot]",
+      "email": "41898282+github-actions[bot]@users.noreply.github.com",
+      "date": "2026-10-15T07:49:34Z",
+      "timestamp": 1792050574,
+      "subject": "Merge pull request #5 from XAOSTECH/humanise/20261015-074913",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 100,
+        "lane": 0,
+        "radius": 10,
+        "depth": 1,
+        "is_trunk": true,
+        "is_merge": true,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "8e445035f48b7ba4c3afe5c2cf0c31a06f0b08fa",
+      "short": "8e44503",
+      "parents": "ff86553ceff50f3e23a8b954bf1eedc2a25722b3",
+      "author": "xaos-bot",
+      "email": "262248812+xaos-bot@users.noreply.github.com",
+      "date": "2026-10-15T07:49:13Z",
+      "timestamp": 1792050553,
+      "subject": "chore: humanise hard-wrapped comments and prose",
+      "refs": "origin/humanise/20261015-074913",
+      "position": {
+        "x": 720,
+        "y": 140,
+        "lane": 1,
+        "radius": 6,
+        "depth": 2,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "aeb96010a8c3ea0b94c1554bc2cc6836fe1abea7",
+      "short": "aeb9601",
+      "parents": "c245138575902e5086f8df82f49e3201ea93de59",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:56+02:00",
+      "timestamp": 1791944396,
+      "subject": "chore(dc-init): update workflows,actions",
+      "refs": "origin/tmp/preserve-20261013T234625Z",
+      "position": {
+        "x": 480,
+        "y": 220,
+        "lane": -1,
+        "radius": 6,
+        "depth": 3,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "c245138575902e5086f8df82f49e3201ea93de59",
+      "short": "c245138",
+      "parents": "991c070156ea0fcbbbdfcf43c00eeb02cec0a726 c19c117f7c0e2b11f911ebf1e8e6abe8234dca16",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:56+02:00",
+      "timestamp": 1791944396,
+      "subject": "Merge pull request #4 from XAOSTECH/anglicise/20261001-034419",
+      "refs": "",
+      "position": {
+        "x": 840,
+        "y": 300,
+        "lane": 2,
+        "radius": 10,
+        "depth": 4,
+        "is_trunk": false,
+        "is_merge": true,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "c19c117f7c0e2b11f911ebf1e8e6abe8234dca16",
+      "short": "c19c117",
+      "parents": "991c070156ea0fcbbbdfcf43c00eeb02cec0a726",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:56+02:00",
+      "timestamp": 1791944396,
+      "subject": "chore: convert American spellings to British English",
+      "refs": "",
+      "position": {
+        "x": 360,
+        "y": 380,
+        "lane": -2,
+        "radius": 6,
+        "depth": 5,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "991c070156ea0fcbbbdfcf43c00eeb02cec0a726",
+      "short": "991c070",
+      "parents": "8b221520dca0da540cc838765f77d3484093428c",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:56+02:00",
+      "timestamp": 1791944396,
+      "subject": "chore: update git tree visualisation",
+      "refs": "",
+      "position": {
+        "x": 960,
+        "y": 460,
+        "lane": 3,
+        "radius": 9,
+        "depth": 6,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": true
+      }
+    },
+    {
+      "sha": "8b221520dca0da540cc838765f77d3484093428c",
+      "short": "8b22152",
+      "parents": "1f88c06120c7ea92253c1ca90c476a846592fc77",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:56+02:00",
+      "timestamp": 1791944396,
+      "subject": "fix(prefix): remove extension dependency from tray fix",
+      "refs": "",
+      "position": {
+        "x": 240,
+        "y": 540,
+        "lane": -3,
+        "radius": 6,
+        "depth": 7,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "1f88c06120c7ea92253c1ca90c476a846592fc77",
+      "short": "1f88c06",
+      "parents": "cefd615414b2aee2b6bcdac55a8ed8c62393094e",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:56+02:00",
+      "timestamp": 1791944396,
+      "subject": "fix(launch,prefix): restore Wine SNI tray context menu on GNOME Wayland",
+      "refs": "",
+      "position": {
+        "x": 1080,
+        "y": 620,
+        "lane": 4,
+        "radius": 6,
+        "depth": 8,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "cefd615414b2aee2b6bcdac55a8ed8c62393094e",
+      "short": "cefd615",
+      "parents": "baa408939359bbb9cdd9f8aff564787fe7fabc18",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:56+02:00",
+      "timestamp": 1791944396,
+      "subject": "fix(apps): use launcher-bundled EOS DLL as proxy backend; guard Binaries/Win64",
+      "refs": "",
+      "position": {
+        "x": 120,
+        "y": 700,
+        "lane": -4,
+        "radius": 6,
+        "depth": 9,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "baa408939359bbb9cdd9f8aff564787fe7fabc18",
+      "short": "baa4089",
+      "parents": "529b0610f519849d888999398630e9a8c859799e",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:56+02:00",
+      "timestamp": 1791944396,
+      "subject": "fix(apps): replace EOS stub with proxy DLL — real SDK forwarding + dialog intercept",
+      "refs": "",
+      "position": {
+        "x": 1200,
+        "y": 780,
+        "lane": 5,
+        "radius": 6,
+        "depth": 10,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "529b0610f519849d888999398630e9a8c859799e",
+      "short": "529b061",
+      "parents": "a4db50d71fe68739284043ae18525824e5777578",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:56+02:00",
+      "timestamp": 1791944396,
+      "subject": "fix(launch): filter DXVK capability blocks in verbose; auto-show app log on exit",
+      "refs": "",
+      "position": {
+        "x": 0,
+        "y": 860,
+        "lane": -5,
+        "radius": 6,
+        "depth": 11,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "a4db50d71fe68739284043ae18525824e5777578",
+      "short": "a4db50d",
+      "parents": "5d37bb344debb81f3c8dcfac5b5711a1494016a3",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "feat(launch): --verbose flag for live output; fix(apps): comprehensive EOS stubs from DLL export table",
+      "refs": "",
+      "position": {
+        "x": 1320,
+        "y": 940,
+        "lane": 6,
+        "radius": 6,
+        "depth": 12,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "5d37bb344debb81f3c8dcfac5b5711a1494016a3",
+      "short": "5d37bb3",
+      "parents": "6e6ee7eda0a0880584911880a083752ffe34ad08",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "fix(apps,launch,prefix): EOS stub coverage + kill_wine permission error + launch log hints",
+      "refs": "",
+      "position": {
+        "x": -120,
+        "y": 1020,
+        "lane": -6,
+        "radius": 6,
+        "depth": 13,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "6e6ee7eda0a0880584911880a083752ffe34ad08",
+      "short": "6e6ee7e",
+      "parents": "de6775eebbf3cdd0262399c55e8efc02dfdfac94",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "feat(apps): EOS Wine compat layer — stub EOSSDK DLL + stub EOSBootstrapperApp.exe",
+      "refs": "",
+      "position": {
+        "x": 1440,
+        "y": 1100,
+        "lane": 7,
+        "radius": 6,
+        "depth": 14,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "de6775eebbf3cdd0262399c55e8efc02dfdfac94",
+      "short": "de6775e",
+      "parents": "6792f6b229a82db19498e3e199dda878b53f36b1",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "fix(prefix): overhaul kill_wine — env scan, Proton wineserver, socket cleanup",
+      "refs": "",
+      "position": {
+        "x": -240,
+        "y": 1180,
+        "lane": -7,
+        "radius": 6,
+        "depth": 15,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "6792f6b229a82db19498e3e199dda878b53f36b1",
+      "short": "6792f6b",
+      "parents": "0e02608e8509ab3bf0477c9c93b5e21812614986",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "fix(apps): run EpicOnlineServicesInstaller.exe; stamp EOS; thread --force through reinstall",
+      "refs": "",
+      "position": {
+        "x": 1560,
+        "y": 1260,
+        "lane": 8,
+        "radius": 6,
+        "depth": 16,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "0e02608e8509ab3bf0477c9c93b5e21812614986",
+      "short": "0e02608",
+      "parents": "a34c12434d3c4e7308e61d219429d1b57eb45433",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "feat(apps): install EOS runtime from Epic SDK; add install-eos command",
+      "refs": "",
+      "position": {
+        "x": -360,
+        "y": 1340,
+        "lane": -8,
+        "radius": 6,
+        "depth": 17,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "a34c12434d3c4e7308e61d219429d1b57eb45433",
+      "short": "a34c124",
+      "parents": "80fd555883e2cf2a4cac7d7de013c686517ca4ea",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "fix(config): correct PlayStation Plus exe to pspluslauncher.exe",
+      "refs": "",
+      "position": {
+        "x": 1680,
+        "y": 1420,
+        "lane": 9,
+        "radius": 6,
+        "depth": 18,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "80fd555883e2cf2a4cac7d7de013c686517ca4ea",
+      "short": "80fd555",
+      "parents": "0084c13d526a91783db5a411ce585248a009169e",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "fix(prefix): timeout fast winetricks verbs; remove enable-latest-version-check",
+      "refs": "",
+      "position": {
+        "x": -480,
+        "y": 1500,
+        "lane": -9,
+        "radius": 6,
+        "depth": 19,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "0084c13d526a91783db5a411ce585248a009169e",
+      "short": "0084c13",
+      "parents": "16514202ccf506112bb5cac3de6b9dd4ea85e6e2",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "fix(apps,config): remove EOS_ENABLED and BootstrapperVersion — both caused regressions",
+      "refs": "",
+      "position": {
+        "x": 1800,
+        "y": 1580,
+        "lane": 10,
+        "radius": 6,
+        "depth": 20,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "16514202ccf506112bb5cac3de6b9dd4ea85e6e2",
+      "short": "1651420",
+      "parents": "e922bf0126ec9a821b099517c39f3645b39fe586",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "fix(prefix): stamp heavy verbs after first attempt to prevent endless retry",
+      "refs": "",
+      "position": {
+        "x": -600,
+        "y": 1660,
+        "lane": -10,
+        "radius": 6,
+        "depth": 21,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "e922bf0126ec9a821b099517c39f3645b39fe586",
+      "short": "e922bf0",
+      "parents": "bf28817f0a97baa6aebe2e263c972db2b77c55b1",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "fix(apps): spoof EOS bootstrapper version to suppress update dialog",
+      "refs": "",
+      "position": {
+        "x": 1920,
+        "y": 1740,
+        "lane": 11,
+        "radius": 6,
+        "depth": 22,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "bf28817f0a97baa6aebe2e263c972db2b77c55b1",
+      "short": "bf28817",
+      "parents": "d35e1bd51cf3e85491db38c955c053778fcb6c2d",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "fix(prefix): replace winetricks cacerts with host CA bundle via Proton certutil",
+      "refs": "",
+      "position": {
+        "x": -720,
+        "y": 1820,
+        "lane": -11,
+        "radius": 6,
+        "depth": 23,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "d35e1bd51cf3e85491db38c955c053778fcb6c2d",
+      "short": "d35e1bd",
+      "parents": "7c1d7f4b69a6ee653f261d4dbcf043cf6ed9d59f",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "fix(launch,config): inject EOS env vars directly at launch for epic-games",
+      "refs": "",
+      "position": {
+        "x": 2040,
+        "y": 1900,
+        "lane": 12,
+        "radius": 6,
+        "depth": 24,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "7c1d7f4b69a6ee653f261d4dbcf043cf6ed9d59f",
+      "short": "7c1d7f4",
+      "parents": "ed8baafcb69af1b1174394d58dd4c0663aa7620b",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "fix(prefix): remove wineboot -u from quick_setup",
+      "refs": "",
+      "position": {
+        "x": -840,
+        "y": 1980,
+        "lane": -12,
+        "radius": 6,
+        "depth": 25,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "ed8baafcb69af1b1174394d58dd4c0663aa7620b",
+      "short": "ed8baaf",
+      "parents": "a323ee4896e6f0e99e528d278f651424304f335a ec648db3e5f2e1065852ea76396c3372dd9681a5",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "Merge pull request #3 from XAOSTECH/humanise/20260915-080739",
+      "refs": "",
+      "position": {
+        "x": 2160,
+        "y": 2060,
+        "lane": 13,
+        "radius": 10,
+        "depth": 26,
+        "is_trunk": false,
+        "is_merge": true,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "ec648db3e5f2e1065852ea76396c3372dd9681a5",
+      "short": "ec648db",
+      "parents": "a323ee4896e6f0e99e528d278f651424304f335a",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "chore: humanise hard-wrapped comments and prose",
+      "refs": "",
+      "position": {
+        "x": -960,
+        "y": 2140,
+        "lane": -13,
+        "radius": 6,
+        "depth": 27,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "a323ee4896e6f0e99e528d278f651424304f335a",
+      "short": "a323ee4",
+      "parents": "2822272ff40afdda5dc09a799bd24887f3074098",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "fix(apps,prefix): suppress EOS update loop; re-apply registry on quick",
+      "refs": "",
+      "position": {
+        "x": 2280,
+        "y": 2220,
+        "lane": 14,
+        "radius": 9,
+        "depth": 28,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": true
+      }
+    },
+    {
+      "sha": "2822272ff40afdda5dc09a799bd24887f3074098",
+      "short": "2822272",
+      "parents": "fda99707e4d4e4d9dcf3b09874a9994a71379acf",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "fix(prefix): skip heavy winetricks verbs when already installed",
+      "refs": "",
+      "position": {
+        "x": -1080,
+        "y": 2300,
+        "lane": -14,
+        "radius": 6,
+        "depth": 29,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "fda99707e4d4e4d9dcf3b09874a9994a71379acf",
+      "short": "fda9970",
+      "parents": "1b923988b728839c28c02c3211c43c7b340bc19e",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "fix(apps): stash Epic user data before MSI; use /fa repair mode on reinstall",
+      "refs": "",
+      "position": {
+        "x": 2400,
+        "y": 2380,
+        "lane": 15,
+        "radius": 6,
+        "depth": 30,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "1b923988b728839c28c02c3211c43c7b340bc19e",
+      "short": "1b92398",
+      "parents": "d67ba13b4cd097a2534a46545e3577f59c57ea1a",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "fix(apps): suppress EOS host crash via Wine per-process env + DLL overrides",
+      "refs": "",
+      "position": {
+        "x": -1200,
+        "y": 2460,
+        "lane": -15,
+        "radius": 6,
+        "depth": 31,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "d67ba13b4cd097a2534a46545e3577f59c57ea1a",
+      "short": "d67ba13",
+      "parents": "d39f28406581d5b407b2600c2ca2806e5c5d06fe",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "fix(apps): pre-create EOS dir; disable EOS auto-update; run EOS installer post-install",
+      "refs": "",
+      "position": {
+        "x": 2520,
+        "y": 2540,
+        "lane": 16,
+        "radius": 6,
+        "depth": 32,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "d39f28406581d5b407b2600c2ca2806e5c5d06fe",
+      "short": "d39f284",
+      "parents": "19763755ddd6412fcbdcfe1261b7cb4347120729",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "chore(dc-init): load workflows,actions",
+      "refs": "tag: v0.1.1",
+      "position": {
+        "x": -1320,
+        "y": 2620,
+        "lane": -16,
+        "radius": 6,
+        "depth": 33,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "19763755ddd6412fcbdcfe1261b7cb4347120729",
+      "short": "1976375",
+      "parents": "496a28f8d025d668960551ab900ca70d405e3155",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T04:19:55+02:00",
+      "timestamp": 1791944395,
+      "subject": "fix(prefix,shortcuts,setup): skip installed winetricks verbs; install-shortcut all --reinstall",
+      "refs": "",
+      "position": {
+        "x": 2640,
+        "y": 2700,
+        "lane": 17,
+        "radius": 6,
+        "depth": 34,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "ff86553ceff50f3e23a8b954bf1eedc2a25722b3",
+      "short": "ff86553",
+      "parents": "508894fd0af745a07ffcbdd9b83141c4ead0d4f7",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "chore(dc-init): update workflows,actions",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 2780,
+        "lane": 0,
+        "radius": 9,
+        "depth": 35,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": true
+      }
+    },
+    {
+      "sha": "508894fd0af745a07ffcbdd9b83141c4ead0d4f7",
+      "short": "508894f",
+      "parents": "1649dc797a8c4e36c3acc1dba0eaa6b53fda1fa3 2943af7d9de795c3aa6ce94168506feb1e3fd61e",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "Merge pull request #4 from XAOSTECH/anglicise/20261001-034419",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 2820,
+        "lane": 0,
+        "radius": 10,
+        "depth": 36,
+        "is_trunk": true,
+        "is_merge": true,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "2943af7d9de795c3aa6ce94168506feb1e3fd61e",
+      "short": "2943af7",
+      "parents": "1649dc797a8c4e36c3acc1dba0eaa6b53fda1fa3",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "chore: convert American spellings to British English",
+      "refs": "",
+      "position": {
+        "x": -1440,
+        "y": 2860,
+        "lane": -17,
+        "radius": 6,
+        "depth": 37,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "1649dc797a8c4e36c3acc1dba0eaa6b53fda1fa3",
+      "short": "1649dc7",
+      "parents": "09a8d42ca08661b5a0deaa4a1a49ee355f7b969f",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "chore: update git tree visualisation",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 2940,
+        "lane": 0,
+        "radius": 9,
+        "depth": 38,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": true
+      }
+    },
+    {
+      "sha": "09a8d42ca08661b5a0deaa4a1a49ee355f7b969f",
+      "short": "09a8d42",
+      "parents": "2b5e72756b3ba2f3c0bf56a84cca19bb45acd5bf",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "fix(prefix): remove extension dependency from tray fix",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 2980,
+        "lane": 0,
+        "radius": 6,
+        "depth": 39,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "2b5e72756b3ba2f3c0bf56a84cca19bb45acd5bf",
+      "short": "2b5e727",
+      "parents": "8e7db762b636dd69ae8db8449658743cd4f97791",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "fix(launch,prefix): restore Wine SNI tray context menu on GNOME Wayland",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3020,
+        "lane": 0,
+        "radius": 6,
+        "depth": 40,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "8e7db762b636dd69ae8db8449658743cd4f97791",
+      "short": "8e7db76",
+      "parents": "4515be3509bbca98653ac5f2640f616823b4f8d5",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "fix(apps): use launcher-bundled EOS DLL as proxy backend; guard Binaries/Win64",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3060,
+        "lane": 0,
+        "radius": 6,
+        "depth": 41,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "4515be3509bbca98653ac5f2640f616823b4f8d5",
+      "short": "4515be3",
+      "parents": "5f4cc6b2cd2540bb49477c9978bf3dfc3ebdc3cb",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "fix(apps): replace EOS stub with proxy DLL — real SDK forwarding + dialog intercept",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3100,
+        "lane": 0,
+        "radius": 6,
+        "depth": 42,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "5f4cc6b2cd2540bb49477c9978bf3dfc3ebdc3cb",
+      "short": "5f4cc6b",
+      "parents": "72c290421f48d3e64308ee7ca58d1c61cc75b6f0",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "fix(launch): filter DXVK capability blocks in verbose; auto-show app log on exit",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3140,
+        "lane": 0,
+        "radius": 6,
+        "depth": 43,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "72c290421f48d3e64308ee7ca58d1c61cc75b6f0",
+      "short": "72c2904",
+      "parents": "4477be9d14aefb7480487ca58c6984325dc741ce",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "feat(launch): --verbose flag for live output; fix(apps): comprehensive EOS stubs from DLL export table",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3180,
+        "lane": 0,
+        "radius": 6,
+        "depth": 44,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "4477be9d14aefb7480487ca58c6984325dc741ce",
+      "short": "4477be9",
+      "parents": "f7fa5356e67dfe1a369a76bc5915a9962f407c59",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "fix(apps,launch,prefix): EOS stub coverage + kill_wine permission error + launch log hints",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3220,
+        "lane": 0,
+        "radius": 6,
+        "depth": 45,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "f7fa5356e67dfe1a369a76bc5915a9962f407c59",
+      "short": "f7fa535",
+      "parents": "f8745daf1a059657929e4684eb6111cd008d5698",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "feat(apps): EOS Wine compat layer — stub EOSSDK DLL + stub EOSBootstrapperApp.exe",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3260,
+        "lane": 0,
+        "radius": 6,
+        "depth": 46,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "f8745daf1a059657929e4684eb6111cd008d5698",
+      "short": "f8745da",
+      "parents": "bc45571c80f557e25c08d33f642fb9ad27f95d8a",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "fix(prefix): overhaul kill_wine — env scan, Proton wineserver, socket cleanup",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3300,
+        "lane": 0,
+        "radius": 6,
+        "depth": 47,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "bc45571c80f557e25c08d33f642fb9ad27f95d8a",
+      "short": "bc45571",
+      "parents": "e6b81c5fcbc5ec6fdeaa4db521bd83a096d49fc6",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "fix(apps): run EpicOnlineServicesInstaller.exe; stamp EOS; thread --force through reinstall",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3340,
+        "lane": 0,
+        "radius": 6,
+        "depth": 48,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "e6b81c5fcbc5ec6fdeaa4db521bd83a096d49fc6",
+      "short": "e6b81c5",
+      "parents": "d0f774ed5dfdecbcea64d7c3a51fd8a740311351",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "feat(apps): install EOS runtime from Epic SDK; add install-eos command",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3380,
+        "lane": 0,
+        "radius": 6,
+        "depth": 49,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "d0f774ed5dfdecbcea64d7c3a51fd8a740311351",
+      "short": "d0f774e",
+      "parents": "954b54157a47d096aca74b1aab93fe4cd5f824c8",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "fix(config): correct PlayStation Plus exe to pspluslauncher.exe",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3420,
+        "lane": 0,
+        "radius": 6,
+        "depth": 50,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "954b54157a47d096aca74b1aab93fe4cd5f824c8",
+      "short": "954b541",
+      "parents": "1ce75de3123f4dd637e1463f5b7b1eecb51e3e48",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "fix(prefix): timeout fast winetricks verbs; remove enable-latest-version-check",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3460,
+        "lane": 0,
+        "radius": 6,
+        "depth": 51,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "1ce75de3123f4dd637e1463f5b7b1eecb51e3e48",
+      "short": "1ce75de",
+      "parents": "d27c3d8ab1a9e4f72bf81f9436fe2a22f25984d3",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "fix(apps,config): remove EOS_ENABLED and BootstrapperVersion — both caused regressions",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3500,
+        "lane": 0,
+        "radius": 6,
+        "depth": 52,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "d27c3d8ab1a9e4f72bf81f9436fe2a22f25984d3",
+      "short": "d27c3d8",
+      "parents": "c67381aae94d6b61053b079d49dbb2b008c77ad9",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "fix(prefix): stamp heavy verbs after first attempt to prevent endless retry",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3540,
+        "lane": 0,
+        "radius": 6,
+        "depth": 53,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "c67381aae94d6b61053b079d49dbb2b008c77ad9",
+      "short": "c67381a",
+      "parents": "c75318bb2edfeb2c50948f9a2a27f36261205ceb",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "fix(apps): spoof EOS bootstrapper version to suppress update dialog",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3580,
+        "lane": 0,
+        "radius": 6,
+        "depth": 54,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "c75318bb2edfeb2c50948f9a2a27f36261205ceb",
+      "short": "c75318b",
+      "parents": "82b5c2ea8717c2846b2a9ebeccb7a51c200bba23",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "fix(prefix): replace winetricks cacerts with host CA bundle via Proton certutil",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3620,
+        "lane": 0,
+        "radius": 6,
+        "depth": 55,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "82b5c2ea8717c2846b2a9ebeccb7a51c200bba23",
+      "short": "82b5c2e",
+      "parents": "12c9c4139ee212d81b2e182504cb1dc62025f7ad",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "fix(launch,config): inject EOS env vars directly at launch for epic-games",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3660,
+        "lane": 0,
+        "radius": 6,
+        "depth": 56,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "12c9c4139ee212d81b2e182504cb1dc62025f7ad",
+      "short": "12c9c41",
+      "parents": "0d97cea0ab6dc997c6e58ad9fe62d4f818dc9fc8",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:26+02:00",
+      "timestamp": 1791935186,
+      "subject": "fix(prefix): remove wineboot -u from quick_setup",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3700,
+        "lane": 0,
+        "radius": 6,
+        "depth": 57,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "0d97cea0ab6dc997c6e58ad9fe62d4f818dc9fc8",
+      "short": "0d97cea",
+      "parents": "1f110f51fc2a77a5ab06e336d1198d9542414872 8f78788f8dbebcbfcd5f301863b748c651e9d59d",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:25+02:00",
+      "timestamp": 1791935185,
+      "subject": "Merge pull request #3 from XAOSTECH/humanise/20260915-080739",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3740,
+        "lane": 0,
+        "radius": 10,
+        "depth": 58,
+        "is_trunk": true,
+        "is_merge": true,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "8f78788f8dbebcbfcd5f301863b748c651e9d59d",
+      "short": "8f78788",
+      "parents": "1f110f51fc2a77a5ab06e336d1198d9542414872",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:25+02:00",
+      "timestamp": 1791935185,
+      "subject": "chore: humanise hard-wrapped comments and prose",
+      "refs": "",
+      "position": {
+        "x": 2760,
+        "y": 3780,
+        "lane": 18,
+        "radius": 6,
+        "depth": 59,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "1f110f51fc2a77a5ab06e336d1198d9542414872",
+      "short": "1f110f5",
+      "parents": "dd99d269b7f86b50e386b0afcdd6d3443be1cc1a",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:25+02:00",
+      "timestamp": 1791935185,
+      "subject": "fix(apps,prefix): suppress EOS update loop; re-apply registry on quick",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3860,
+        "lane": 0,
+        "radius": 9,
+        "depth": 60,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": true
+      }
+    },
+    {
+      "sha": "dd99d269b7f86b50e386b0afcdd6d3443be1cc1a",
+      "short": "dd99d26",
+      "parents": "563768af6ed35a77b81c26a462e4a79d5153b815",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:25+02:00",
+      "timestamp": 1791935185,
+      "subject": "fix(prefix): skip heavy winetricks verbs when already installed",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3900,
+        "lane": 0,
+        "radius": 6,
+        "depth": 61,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "563768af6ed35a77b81c26a462e4a79d5153b815",
+      "short": "563768a",
+      "parents": "cf8b0f3bded7de2ddccd09242b45a1abbba98756",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:25+02:00",
+      "timestamp": 1791935185,
+      "subject": "fix(apps): stash Epic user data before MSI; use /fa repair mode on reinstall",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3940,
+        "lane": 0,
+        "radius": 6,
+        "depth": 62,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "cf8b0f3bded7de2ddccd09242b45a1abbba98756",
+      "short": "cf8b0f3",
+      "parents": "1ac5f3ed738046ad82d7f35c744b55d97ec8e556",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:25+02:00",
+      "timestamp": 1791935185,
+      "subject": "fix(apps): suppress EOS host crash via Wine per-process env + DLL overrides",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 3980,
+        "lane": 0,
+        "radius": 6,
+        "depth": 63,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "1ac5f3ed738046ad82d7f35c744b55d97ec8e556",
+      "short": "1ac5f3e",
+      "parents": "583c2d4fad45f8abb29cd7c92b4c7ba4ade2f74b",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:25+02:00",
+      "timestamp": 1791935185,
+      "subject": "fix(apps): pre-create EOS dir; disable EOS auto-update; run EOS installer post-install",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 4020,
+        "lane": 0,
+        "radius": 6,
+        "depth": 64,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "583c2d4fad45f8abb29cd7c92b4c7ba4ade2f74b",
+      "short": "583c2d4",
+      "parents": "385f12b09e8bf30998f5df9b6189d63c9b18ccad",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:25+02:00",
+      "timestamp": 1791935185,
+      "subject": "chore(dc-init): load workflows,actions",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 4060,
+        "lane": 0,
+        "radius": 6,
+        "depth": 65,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "385f12b09e8bf30998f5df9b6189d63c9b18ccad",
+      "short": "385f12b",
+      "parents": "496a28f8d025d668960551ab900ca70d405e3155",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T01:46:25+02:00",
+      "timestamp": 1791935185,
+      "subject": "fix(prefix,shortcuts,setup): skip installed winetricks verbs; install-shortcut all --reinstall",
+      "refs": "",
+      "position": {
+        "x": 600,
+        "y": 4100,
+        "lane": 0,
+        "radius": 6,
+        "depth": 66,
+        "is_trunk": true,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "20757139df4c90194b8d2e572afd2fddd680db0d",
+      "short": "2075713",
+      "parents": "cbde6b142e711479893da74e2bfb09c7c9a8d554",
+      "author": "xaoscience",
+      "email": "69734795+xaoscience@users.noreply.github.com",
+      "date": "2026-10-14T00:02:46+02:00",
+      "timestamp": 1791928966,
+      "subject": "chore(dc-init): update workflows,actions",
+      "refs": "tag: backup/tmp/preserve-20261013T234625Z-pre-override-20261014T022004Z, tag: backup/main-pre-override-20261013T234634Z",
+      "position": {
+        "x": -1560,
+        "y": 4140,
+        "lane": -18,
+        "radius": 6,
+        "depth": 67,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "cbde6b142e711479893da74e2bfb09c7c9a8d554",
+      "short": "cbde6b1",
+      "parents": "a5a38eaac3998345af58878581c2b5ea04e6de01 3258f5ae4477c98efe9aaed25340187dd823c335",
+      "author": "github-actions[bot]",
+      "email": "41898282+github-actions[bot]@users.noreply.github.com",
+      "date": "2026-10-01T03:44:43Z",
+      "timestamp": 1790826283,
+      "subject": "Merge pull request #4 from XAOSTECH/anglicise/20261001-034419",
+      "refs": "",
+      "position": {
+        "x": 2880,
+        "y": 4220,
+        "lane": 19,
+        "radius": 10,
+        "depth": 68,
+        "is_trunk": false,
+        "is_merge": true,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "3258f5ae4477c98efe9aaed25340187dd823c335",
+      "short": "3258f5a",
+      "parents": "a5a38eaac3998345af58878581c2b5ea04e6de01",
+      "author": "xaos-bot",
+      "email": "262248812+xaos-bot@users.noreply.github.com",
+      "date": "2026-10-01T03:44:19Z",
+      "timestamp": 1790826259,
+      "subject": "chore: convert American spellings to British English",
+      "refs": "",
+      "position": {
+        "x": -1680,
+        "y": 4300,
+        "lane": -19,
+        "radius": 6,
+        "depth": 69,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": false
+      }
+    },
+    {
+      "sha": "a5a38eaac3998345af58878581c2b5ea04e6de01",
+      "short": "a5a38ea",
+      "parents": "c34395f3ab35c03d65609368e7463764312886c4",
+      "author": "xaos-bot",
+      "email": "262248812+xaos-bot@users.noreply.github.com",
+      "date": "2026-09-21T02:48:51Z",
+      "timestamp": 1789958931,
+      "subject": "chore: update git tree visualisation",
+      "refs": "",
+      "position": {
+        "x": 3000,
+        "y": 4380,
+        "lane": 20,
+        "radius": 9,
+        "depth": 70,
+        "is_trunk": false,
+        "is_merge": false,
+        "is_fork": true
+      }
+    },
     {
       "sha": "c34395f3ab35c03d65609368e7463764312886c4",
       "short": "c34395f",
@@ -16,14 +1507,14 @@
       "date": "2026-09-20T15:29:23Z",
       "timestamp": 1789918163,
       "subject": "fix(prefix): remove extension dependency from tray fix",
-      "refs": "HEAD -> main, origin/main",
+      "refs": "",
       "position": {
-        "x": 600,
-        "y": 60,
-        "lane": 0,
+        "x": -1800,
+        "y": 4460,
+        "lane": -20,
         "radius": 6,
-        "depth": 0,
-        "is_trunk": true,
+        "depth": 71,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -39,12 +1530,12 @@
       "subject": "fix(launch,prefix): restore Wine SNI tray context menu on GNOME Wayland",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 100,
-        "lane": 0,
+        "x": 3120,
+        "y": 4540,
+        "lane": 21,
         "radius": 6,
-        "depth": 1,
-        "is_trunk": true,
+        "depth": 72,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -60,12 +1551,12 @@
       "subject": "fix(apps): use launcher-bundled EOS DLL as proxy backend; guard Binaries/Win64",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 140,
-        "lane": 0,
+        "x": -1920,
+        "y": 4620,
+        "lane": -21,
         "radius": 6,
-        "depth": 2,
-        "is_trunk": true,
+        "depth": 73,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -81,12 +1572,12 @@
       "subject": "fix(apps): replace EOS stub with proxy DLL — real SDK forwarding + dialog intercept",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 180,
-        "lane": 0,
+        "x": 3240,
+        "y": 4700,
+        "lane": 22,
         "radius": 6,
-        "depth": 3,
-        "is_trunk": true,
+        "depth": 74,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -102,12 +1593,12 @@
       "subject": "fix(launch): filter DXVK capability blocks in verbose; auto-show app log on exit",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 220,
-        "lane": 0,
+        "x": -2040,
+        "y": 4780,
+        "lane": -22,
         "radius": 6,
-        "depth": 4,
-        "is_trunk": true,
+        "depth": 75,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -123,12 +1614,12 @@
       "subject": "feat(launch): --verbose flag for live output; fix(apps): comprehensive EOS stubs from DLL export table",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 260,
-        "lane": 0,
+        "x": 3360,
+        "y": 4860,
+        "lane": 23,
         "radius": 6,
-        "depth": 5,
-        "is_trunk": true,
+        "depth": 76,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -144,12 +1635,12 @@
       "subject": "fix(apps,launch,prefix): EOS stub coverage + kill_wine permission error + launch log hints",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 300,
-        "lane": 0,
+        "x": -2160,
+        "y": 4940,
+        "lane": -23,
         "radius": 6,
-        "depth": 6,
-        "is_trunk": true,
+        "depth": 77,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -165,12 +1656,12 @@
       "subject": "feat(apps): EOS Wine compat layer — stub EOSSDK DLL + stub EOSBootstrapperApp.exe",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 340,
-        "lane": 0,
+        "x": 3480,
+        "y": 5020,
+        "lane": 24,
         "radius": 6,
-        "depth": 7,
-        "is_trunk": true,
+        "depth": 78,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -186,12 +1677,12 @@
       "subject": "fix(prefix): overhaul kill_wine — env scan, Proton wineserver, socket cleanup",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 380,
-        "lane": 0,
+        "x": -2280,
+        "y": 5100,
+        "lane": -24,
         "radius": 6,
-        "depth": 8,
-        "is_trunk": true,
+        "depth": 79,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -207,12 +1698,12 @@
       "subject": "fix(apps): run EpicOnlineServicesInstaller.exe; stamp EOS; thread --force through reinstall",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 420,
-        "lane": 0,
+        "x": 3600,
+        "y": 5180,
+        "lane": 25,
         "radius": 6,
-        "depth": 9,
-        "is_trunk": true,
+        "depth": 80,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -228,12 +1719,12 @@
       "subject": "feat(apps): install EOS runtime from Epic SDK; add install-eos command",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 460,
-        "lane": 0,
+        "x": -2400,
+        "y": 5260,
+        "lane": -25,
         "radius": 6,
-        "depth": 10,
-        "is_trunk": true,
+        "depth": 81,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -249,12 +1740,12 @@
       "subject": "fix(config): correct PlayStation Plus exe to pspluslauncher.exe",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 500,
-        "lane": 0,
+        "x": 3720,
+        "y": 5340,
+        "lane": 26,
         "radius": 6,
-        "depth": 11,
-        "is_trunk": true,
+        "depth": 82,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -270,12 +1761,12 @@
       "subject": "fix(prefix): timeout fast winetricks verbs; remove enable-latest-version-check",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 540,
-        "lane": 0,
+        "x": -2520,
+        "y": 5420,
+        "lane": -26,
         "radius": 6,
-        "depth": 12,
-        "is_trunk": true,
+        "depth": 83,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -291,12 +1782,12 @@
       "subject": "fix(apps,config): remove EOS_ENABLED and BootstrapperVersion — both caused regressions",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 580,
-        "lane": 0,
+        "x": 3840,
+        "y": 5500,
+        "lane": 27,
         "radius": 6,
-        "depth": 13,
-        "is_trunk": true,
+        "depth": 84,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -312,12 +1803,12 @@
       "subject": "fix(prefix): stamp heavy verbs after first attempt to prevent endless retry",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 620,
-        "lane": 0,
+        "x": -2640,
+        "y": 5580,
+        "lane": -27,
         "radius": 6,
-        "depth": 14,
-        "is_trunk": true,
+        "depth": 85,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -333,12 +1824,12 @@
       "subject": "fix(apps): spoof EOS bootstrapper version to suppress update dialog",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 660,
-        "lane": 0,
+        "x": 3960,
+        "y": 5660,
+        "lane": 28,
         "radius": 6,
-        "depth": 15,
-        "is_trunk": true,
+        "depth": 86,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -354,12 +1845,12 @@
       "subject": "fix(prefix): replace winetricks cacerts with host CA bundle via Proton certutil",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 700,
-        "lane": 0,
+        "x": -2760,
+        "y": 5740,
+        "lane": -28,
         "radius": 6,
-        "depth": 16,
-        "is_trunk": true,
+        "depth": 87,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -375,12 +1866,12 @@
       "subject": "fix(launch,config): inject EOS env vars directly at launch for epic-games",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 740,
-        "lane": 0,
+        "x": 4080,
+        "y": 5820,
+        "lane": 29,
         "radius": 6,
-        "depth": 17,
-        "is_trunk": true,
+        "depth": 88,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -396,12 +1887,12 @@
       "subject": "fix(prefix): remove wineboot -u from quick_setup",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 780,
-        "lane": 0,
+        "x": -2880,
+        "y": 5900,
+        "lane": -29,
         "radius": 6,
-        "depth": 18,
-        "is_trunk": true,
+        "depth": 89,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -417,12 +1908,12 @@
       "subject": "Merge pull request #3 from XAOSTECH/humanise/20260915-080739",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 820,
-        "lane": 0,
+        "x": 4200,
+        "y": 5980,
+        "lane": 30,
         "radius": 10,
-        "depth": 19,
-        "is_trunk": true,
+        "depth": 90,
+        "is_trunk": false,
         "is_merge": true,
         "is_fork": false
       }
@@ -438,11 +1929,11 @@
       "subject": "chore: humanise hard-wrapped comments and prose",
       "refs": "",
       "position": {
-        "x": 720,
-        "y": 860,
-        "lane": 1,
+        "x": -3000,
+        "y": 6060,
+        "lane": -30,
         "radius": 6,
-        "depth": 20,
+        "depth": 91,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -459,12 +1950,12 @@
       "subject": "fix(apps,prefix): suppress EOS update loop; re-apply registry on quick",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 940,
-        "lane": 0,
+        "x": 4320,
+        "y": 6140,
+        "lane": 31,
         "radius": 9,
-        "depth": 21,
-        "is_trunk": true,
+        "depth": 92,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": true
       }
@@ -480,12 +1971,12 @@
       "subject": "fix(prefix): skip heavy winetricks verbs when already installed",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 980,
-        "lane": 0,
+        "x": -3120,
+        "y": 6220,
+        "lane": -31,
         "radius": 6,
-        "depth": 22,
-        "is_trunk": true,
+        "depth": 93,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -501,12 +1992,12 @@
       "subject": "fix(apps): stash Epic user data before MSI; use /fa repair mode on reinstall",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 1020,
-        "lane": 0,
+        "x": 4440,
+        "y": 6300,
+        "lane": 32,
         "radius": 6,
-        "depth": 23,
-        "is_trunk": true,
+        "depth": 94,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -522,12 +2013,12 @@
       "subject": "fix(apps): suppress EOS host crash via Wine per-process env + DLL overrides",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 1060,
-        "lane": 0,
+        "x": -3240,
+        "y": 6380,
+        "lane": -32,
         "radius": 6,
-        "depth": 24,
-        "is_trunk": true,
+        "depth": 95,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -543,12 +2034,12 @@
       "subject": "fix(apps): pre-create EOS dir; disable EOS auto-update; run EOS installer post-install",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 1100,
-        "lane": 0,
+        "x": 4560,
+        "y": 6460,
+        "lane": 33,
         "radius": 6,
-        "depth": 25,
-        "is_trunk": true,
+        "depth": 96,
+        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -564,32 +2055,11 @@
       "subject": "chore(dc-init): load workflows,actions",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 1140,
-        "lane": 0,
+        "x": -3360,
+        "y": 6540,
+        "lane": -33,
         "radius": 6,
-        "depth": 26,
-        "is_trunk": true,
-        "is_merge": false,
-        "is_fork": false
-      }
-    },
-    {
-      "sha": "c7019cda9cec07c854eead6c58eb5f27fc6605f8",
-      "short": "c7019cd",
-      "parents": "adcdd6caba384d31b72ddcdfb0e76f75f799263d",
-      "author": "xaoscience",
-      "email": "69734795+xaoscience@users.noreply.github.com",
-      "date": "2026-09-05T09:33:19+02:00",
-      "timestamp": 1788593599,
-      "subject": "chore(dc-init): load workflows,actions",
-      "refs": "tag: v0.1.1, tag: latest",
-      "position": {
-        "x": 480,
-        "y": 1180,
-        "lane": -1,
-        "radius": 6,
-        "depth": 27,
+        "depth": 97,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -606,32 +2076,11 @@
       "subject": "fix(prefix,shortcuts,setup): skip installed winetricks verbs; install-shortcut all --reinstall",
       "refs": "",
       "position": {
-        "x": 600,
-        "y": 1260,
-        "lane": 0,
+        "x": 4680,
+        "y": 6620,
+        "lane": 34,
         "radius": 6,
-        "depth": 28,
-        "is_trunk": true,
-        "is_merge": false,
-        "is_fork": false
-      }
-    },
-    {
-      "sha": "adcdd6caba384d31b72ddcdfb0e76f75f799263d",
-      "short": "adcdd6c",
-      "parents": "ba42e27276fbeb85f5eefa68c79ca7332eb4bc2e",
-      "author": "xaoscience",
-      "email": "69734795+xaoscience@users.noreply.github.com",
-      "date": "2026-09-05T07:31:14Z",
-      "timestamp": 1788593474,
-      "subject": "fix(prefix,shortcuts,setup): skip installed winetricks verbs; install-shortcut all --reinstall",
-      "refs": "",
-      "position": {
-        "x": 840,
-        "y": 1300,
-        "lane": 2,
-        "radius": 6,
-        "depth": 29,
+        "depth": 98,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -649,34 +2098,13 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 1380,
+        "y": 6700,
         "lane": 0,
-        "radius": 6,
-        "depth": 30,
+        "radius": 9,
+        "depth": 99,
         "is_trunk": true,
         "is_merge": false,
-        "is_fork": false
-      }
-    },
-    {
-      "sha": "ba42e27276fbeb85f5eefa68c79ca7332eb4bc2e",
-      "short": "ba42e27",
-      "parents": "1f4f3853d061b8da61ddc276f98c150b91ec44ec",
-      "author": "xaos-bot",
-      "email": "262248812+xaos-bot@users.noreply.github.com",
-      "date": "2026-09-05T05:56:01Z",
-      "timestamp": 1788587761,
-      "subject": "chore: update git tree visualisation",
-      "refs": "",
-      "position": {
-        "x": 360,
-        "y": 1420,
-        "lane": -2,
-        "radius": 6,
-        "depth": 31,
-        "is_trunk": false,
-        "is_merge": false,
-        "is_fork": false
+        "is_fork": true
       }
     },
     {
@@ -691,32 +2119,11 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 1500,
+        "y": 6740,
         "lane": 0,
         "radius": 6,
-        "depth": 32,
+        "depth": 100,
         "is_trunk": true,
-        "is_merge": false,
-        "is_fork": false
-      }
-    },
-    {
-      "sha": "1f4f3853d061b8da61ddc276f98c150b91ec44ec",
-      "short": "1f4f385",
-      "parents": "60dd34df5953daa13be293733768cea911548c59",
-      "author": "xaoscience",
-      "email": "69734795+xaoscience@users.noreply.github.com",
-      "date": "2026-09-05T07:36:25+02:00",
-      "timestamp": 1788586585,
-      "subject": "chore(dc-init): update workflows + actions",
-      "refs": "",
-      "position": {
-        "x": 960,
-        "y": 1540,
-        "lane": 3,
-        "radius": 6,
-        "depth": 33,
-        "is_trunk": false,
         "is_merge": false,
         "is_fork": false
       }
@@ -733,13 +2140,13 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 1620,
+        "y": 6780,
         "lane": 0,
-        "radius": 9,
-        "depth": 34,
+        "radius": 6,
+        "depth": 101,
         "is_trunk": true,
         "is_merge": false,
-        "is_fork": true
+        "is_fork": false
       }
     },
     {
@@ -754,10 +2161,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 1660,
+        "y": 6820,
         "lane": 0,
         "radius": 6,
-        "depth": 35,
+        "depth": 102,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -775,10 +2182,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 1700,
+        "y": 6860,
         "lane": 0,
         "radius": 6,
-        "depth": 36,
+        "depth": 103,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -796,10 +2203,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 1740,
+        "y": 6900,
         "lane": 0,
         "radius": 6,
-        "depth": 37,
+        "depth": 104,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -817,10 +2224,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 1780,
+        "y": 6940,
         "lane": 0,
         "radius": 6,
-        "depth": 38,
+        "depth": 105,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -838,10 +2245,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 1820,
+        "y": 6980,
         "lane": 0,
         "radius": 6,
-        "depth": 39,
+        "depth": 106,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -859,10 +2266,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 1860,
+        "y": 7020,
         "lane": 0,
         "radius": 6,
-        "depth": 40,
+        "depth": 107,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -880,10 +2287,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 1900,
+        "y": 7060,
         "lane": 0,
         "radius": 6,
-        "depth": 41,
+        "depth": 108,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -901,10 +2308,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 1940,
+        "y": 7100,
         "lane": 0,
         "radius": 6,
-        "depth": 42,
+        "depth": 109,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -922,10 +2329,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 1980,
+        "y": 7140,
         "lane": 0,
         "radius": 6,
-        "depth": 43,
+        "depth": 110,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -943,10 +2350,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2020,
+        "y": 7180,
         "lane": 0,
         "radius": 6,
-        "depth": 44,
+        "depth": 111,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -964,10 +2371,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2060,
+        "y": 7220,
         "lane": 0,
         "radius": 6,
-        "depth": 45,
+        "depth": 112,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -985,10 +2392,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2100,
+        "y": 7260,
         "lane": 0,
         "radius": 6,
-        "depth": 46,
+        "depth": 113,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1006,10 +2413,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2140,
+        "y": 7300,
         "lane": 0,
         "radius": 6,
-        "depth": 47,
+        "depth": 114,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1027,10 +2434,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2180,
+        "y": 7340,
         "lane": 0,
         "radius": 6,
-        "depth": 48,
+        "depth": 115,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1048,10 +2455,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2220,
+        "y": 7380,
         "lane": 0,
         "radius": 6,
-        "depth": 49,
+        "depth": 116,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1069,10 +2476,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2260,
+        "y": 7420,
         "lane": 0,
         "radius": 6,
-        "depth": 50,
+        "depth": 117,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1090,10 +2497,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2300,
+        "y": 7460,
         "lane": 0,
         "radius": 6,
-        "depth": 51,
+        "depth": 118,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1111,10 +2518,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2340,
+        "y": 7500,
         "lane": 0,
         "radius": 6,
-        "depth": 52,
+        "depth": 119,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1132,10 +2539,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2380,
+        "y": 7540,
         "lane": 0,
         "radius": 6,
-        "depth": 53,
+        "depth": 120,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1153,10 +2560,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2420,
+        "y": 7580,
         "lane": 0,
         "radius": 6,
-        "depth": 54,
+        "depth": 121,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1174,10 +2581,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2460,
+        "y": 7620,
         "lane": 0,
         "radius": 6,
-        "depth": 55,
+        "depth": 122,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1195,10 +2602,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2500,
+        "y": 7660,
         "lane": 0,
         "radius": 6,
-        "depth": 56,
+        "depth": 123,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1216,10 +2623,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2540,
+        "y": 7700,
         "lane": 0,
         "radius": 6,
-        "depth": 57,
+        "depth": 124,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1237,10 +2644,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2580,
+        "y": 7740,
         "lane": 0,
         "radius": 6,
-        "depth": 58,
+        "depth": 125,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1258,10 +2665,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2620,
+        "y": 7780,
         "lane": 0,
         "radius": 6,
-        "depth": 59,
+        "depth": 126,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1279,10 +2686,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2660,
+        "y": 7820,
         "lane": 0,
         "radius": 6,
-        "depth": 60,
+        "depth": 127,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1300,10 +2707,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2700,
+        "y": 7860,
         "lane": 0,
         "radius": 6,
-        "depth": 61,
+        "depth": 128,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1321,10 +2728,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2740,
+        "y": 7900,
         "lane": 0,
         "radius": 6,
-        "depth": 62,
+        "depth": 129,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1342,10 +2749,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2780,
+        "y": 7940,
         "lane": 0,
         "radius": 6,
-        "depth": 63,
+        "depth": 130,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1363,10 +2770,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2820,
+        "y": 7980,
         "lane": 0,
         "radius": 6,
-        "depth": 64,
+        "depth": 131,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1384,10 +2791,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2860,
+        "y": 8020,
         "lane": 0,
         "radius": 6,
-        "depth": 65,
+        "depth": 132,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1405,10 +2812,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2900,
+        "y": 8060,
         "lane": 0,
         "radius": 6,
-        "depth": 66,
+        "depth": 133,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1426,10 +2833,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2940,
+        "y": 8100,
         "lane": 0,
         "radius": 6,
-        "depth": 67,
+        "depth": 134,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1447,10 +2854,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 2980,
+        "y": 8140,
         "lane": 0,
         "radius": 6,
-        "depth": 68,
+        "depth": 135,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1468,10 +2875,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3020,
+        "y": 8180,
         "lane": 0,
         "radius": 6,
-        "depth": 69,
+        "depth": 136,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1489,10 +2896,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3060,
+        "y": 8220,
         "lane": 0,
         "radius": 6,
-        "depth": 70,
+        "depth": 137,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1510,10 +2917,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3100,
+        "y": 8260,
         "lane": 0,
         "radius": 6,
-        "depth": 71,
+        "depth": 138,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1531,10 +2938,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3140,
+        "y": 8300,
         "lane": 0,
         "radius": 6,
-        "depth": 72,
+        "depth": 139,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1552,10 +2959,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3180,
+        "y": 8340,
         "lane": 0,
         "radius": 6,
-        "depth": 73,
+        "depth": 140,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1573,10 +2980,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3220,
+        "y": 8380,
         "lane": 0,
         "radius": 6,
-        "depth": 74,
+        "depth": 141,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1594,10 +3001,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3260,
+        "y": 8420,
         "lane": 0,
         "radius": 6,
-        "depth": 75,
+        "depth": 142,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1615,10 +3022,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3300,
+        "y": 8460,
         "lane": 0,
         "radius": 6,
-        "depth": 76,
+        "depth": 143,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1636,10 +3043,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3340,
+        "y": 8500,
         "lane": 0,
         "radius": 6,
-        "depth": 77,
+        "depth": 144,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1657,10 +3064,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3380,
+        "y": 8540,
         "lane": 0,
         "radius": 6,
-        "depth": 78,
+        "depth": 145,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1678,10 +3085,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3420,
+        "y": 8580,
         "lane": 0,
         "radius": 6,
-        "depth": 79,
+        "depth": 146,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1699,10 +3106,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3460,
+        "y": 8620,
         "lane": 0,
         "radius": 6,
-        "depth": 80,
+        "depth": 147,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1720,10 +3127,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3500,
+        "y": 8660,
         "lane": 0,
         "radius": 6,
-        "depth": 81,
+        "depth": 148,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1741,10 +3148,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3540,
+        "y": 8700,
         "lane": 0,
         "radius": 6,
-        "depth": 82,
+        "depth": 149,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1762,10 +3169,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3580,
+        "y": 8740,
         "lane": 0,
         "radius": 6,
-        "depth": 83,
+        "depth": 150,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1783,10 +3190,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3620,
+        "y": 8780,
         "lane": 0,
         "radius": 6,
-        "depth": 84,
+        "depth": 151,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1804,10 +3211,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3660,
+        "y": 8820,
         "lane": 0,
         "radius": 6,
-        "depth": 85,
+        "depth": 152,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1825,10 +3232,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3700,
+        "y": 8860,
         "lane": 0,
         "radius": 6,
-        "depth": 86,
+        "depth": 153,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1846,10 +3253,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3740,
+        "y": 8900,
         "lane": 0,
         "radius": 6,
-        "depth": 87,
+        "depth": 154,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1867,10 +3274,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3780,
+        "y": 8940,
         "lane": 0,
         "radius": 6,
-        "depth": 88,
+        "depth": 155,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1888,10 +3295,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3820,
+        "y": 8980,
         "lane": 0,
         "radius": 6,
-        "depth": 89,
+        "depth": 156,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1909,10 +3316,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3860,
+        "y": 9020,
         "lane": 0,
         "radius": 6,
-        "depth": 90,
+        "depth": 157,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1930,10 +3337,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3900,
+        "y": 9060,
         "lane": 0,
         "radius": 6,
-        "depth": 91,
+        "depth": 158,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1951,10 +3358,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3940,
+        "y": 9100,
         "lane": 0,
         "radius": 6,
-        "depth": 92,
+        "depth": 159,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1972,10 +3379,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 3980,
+        "y": 9140,
         "lane": 0,
         "radius": 6,
-        "depth": 93,
+        "depth": 160,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -1993,10 +3400,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 4020,
+        "y": 9180,
         "lane": 0,
         "radius": 6,
-        "depth": 94,
+        "depth": 161,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2014,10 +3421,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 4060,
+        "y": 9220,
         "lane": 0,
         "radius": 6,
-        "depth": 95,
+        "depth": 162,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2035,10 +3442,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 4100,
+        "y": 9260,
         "lane": 0,
         "radius": 6,
-        "depth": 96,
+        "depth": 163,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2056,10 +3463,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 4140,
+        "y": 9300,
         "lane": 0,
         "radius": 6,
-        "depth": 97,
+        "depth": 164,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2077,10 +3484,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 4180,
+        "y": 9340,
         "lane": 0,
         "radius": 6,
-        "depth": 98,
+        "depth": 165,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2098,10 +3505,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 4220,
+        "y": 9380,
         "lane": 0,
         "radius": 6,
-        "depth": 99,
+        "depth": 166,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2118,11 +3525,11 @@
       "subject": "experiment(xbox): iter 10 — add HTTPS/auth trace channels",
       "refs": "origin/experiment/xbox-gaming",
       "position": {
-        "x": 240,
-        "y": 4260,
-        "lane": -3,
+        "x": -3480,
+        "y": 9420,
+        "lane": -34,
         "radius": 6,
-        "depth": 100,
+        "depth": 167,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -2139,11 +3546,11 @@
       "subject": "experiment(xbox): iter 9d — fix trap loop, add error-event reporting",
       "refs": "",
       "position": {
-        "x": 1080,
-        "y": 4340,
-        "lane": 4,
+        "x": 4800,
+        "y": 9500,
+        "lane": 35,
         "radius": 6,
-        "depth": 101,
+        "depth": 168,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -2160,11 +3567,11 @@
       "subject": "experiment(xbox): iter 9c — bypass wig in trace mode",
       "refs": "",
       "position": {
-        "x": 120,
-        "y": 4420,
-        "lane": -4,
+        "x": -3600,
+        "y": 9580,
+        "lane": -35,
         "radius": 6,
-        "depth": 102,
+        "depth": 169,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -2181,11 +3588,11 @@
       "subject": "experiment(xbox): iter 9b — fix tracer to read Proton log",
       "refs": "",
       "position": {
-        "x": 1200,
-        "y": 4500,
-        "lane": 5,
+        "x": 4920,
+        "y": 9660,
+        "lane": 36,
         "radius": 6,
-        "depth": 103,
+        "depth": 170,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -2202,11 +3609,11 @@
       "subject": "experiment(xbox): iter 9 — opt-in service-query tracer",
       "refs": "",
       "position": {
-        "x": 0,
-        "y": 4580,
-        "lane": -5,
+        "x": -3720,
+        "y": 9740,
+        "lane": -36,
         "radius": 6,
-        "depth": 104,
+        "depth": 171,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -2223,11 +3630,11 @@
       "subject": "experiment(xbox): iter 8 — PackageVolume stub",
       "refs": "",
       "position": {
-        "x": 1320,
-        "y": 4660,
-        "lane": 6,
+        "x": 5040,
+        "y": 9820,
+        "lane": 37,
         "radius": 6,
-        "depth": 105,
+        "depth": 172,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -2244,11 +3651,11 @@
       "subject": "experiment(xbox): iter 7 — AnalyticsVersionInfo stub + download tracer",
       "refs": "",
       "position": {
-        "x": -120,
-        "y": 4740,
-        "lane": -6,
+        "x": -3840,
+        "y": 9900,
+        "lane": -37,
         "radius": 6,
-        "depth": 106,
+        "depth": 173,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -2265,11 +3672,11 @@
       "subject": "experiment(xbox): iter 6 — fix PackageManager signatures, return empty enumerables",
       "refs": "",
       "position": {
-        "x": 1440,
-        "y": 4820,
-        "lane": 7,
+        "x": 5160,
+        "y": 9980,
+        "lane": 38,
         "radius": 6,
-        "depth": 107,
+        "depth": 174,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -2286,11 +3693,11 @@
       "subject": "experiment(xbox): iter 5 (final) — Package + AnalyticsInfo stubs + conclusion",
       "refs": "",
       "position": {
-        "x": -240,
-        "y": 4900,
-        "lane": -7,
+        "x": -3960,
+        "y": 10060,
+        "lane": -38,
         "radius": 6,
-        "depth": 108,
+        "depth": 175,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -2307,11 +3714,11 @@
       "subject": "experiment(xbox): iter 4 — TypedEventHandler + PackageManager (the MSIX wall)",
       "refs": "",
       "position": {
-        "x": 1560,
-        "y": 4980,
-        "lane": 8,
+        "x": 5280,
+        "y": 10140,
+        "lane": 39,
         "radius": 6,
-        "depth": 109,
+        "depth": 176,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -2328,11 +3735,11 @@
       "subject": "fix(xbox-stub): make native GAC optional, add Wine-Mono GAC path",
       "refs": "",
       "position": {
-        "x": -360,
-        "y": 5060,
-        "lane": -8,
+        "x": -4080,
+        "y": 10220,
+        "lane": -39,
         "radius": 6,
-        "depth": 110,
+        "depth": 177,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -2349,11 +3756,11 @@
       "subject": "fix(xbox-stub): awk skipped real .assembly because '.assembly extern' matched first",
       "refs": "",
       "position": {
-        "x": 1680,
-        "y": 5140,
-        "lane": 9,
+        "x": 5400,
+        "y": 10300,
+        "lane": 40,
         "radius": 6,
-        "depth": 111,
+        "depth": 178,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -2370,11 +3777,11 @@
       "subject": "experiment(xbox): iter 3 — multi-stub build, add FoundationContract",
       "refs": "",
       "position": {
-        "x": -480,
-        "y": 5220,
-        "lane": -9,
+        "x": -4200,
+        "y": 10380,
+        "lane": -40,
         "radius": 6,
-        "depth": 112,
+        "depth": 179,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -2391,11 +3798,11 @@
       "subject": "chore(xbox): gitignore built stub dll, untrack stale artifact",
       "refs": "",
       "position": {
-        "x": 1800,
-        "y": 5300,
-        "lane": 10,
+        "x": 5520,
+        "y": 10460,
+        "lane": 41,
         "radius": 6,
-        "depth": 113,
+        "depth": 180,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -2412,11 +3819,11 @@
       "subject": "experiment(xbox): iter 2 — define UISettings skeleton in WinRT stub",
       "refs": "",
       "position": {
-        "x": -600,
-        "y": 5380,
-        "lane": -10,
+        "x": -4320,
+        "y": 10540,
+        "lane": -41,
         "radius": 6,
-        "depth": 114,
+        "depth": 181,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -2433,11 +3840,11 @@
       "subject": "experiment(xbox): document attempts + stub WinRT contract assembly",
       "refs": "",
       "position": {
-        "x": 1920,
-        "y": 5460,
-        "lane": 11,
+        "x": 5640,
+        "y": 10620,
+        "lane": 42,
         "radius": 6,
-        "depth": 115,
+        "depth": 182,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -2455,10 +3862,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 5540,
+        "y": 10700,
         "lane": 0,
         "radius": 10,
-        "depth": 116,
+        "depth": 183,
         "is_trunk": true,
         "is_merge": true,
         "is_fork": true
@@ -2475,11 +3882,11 @@
       "subject": "chore: convert American spellings to British English",
       "refs": "",
       "position": {
-        "x": -720,
-        "y": 5580,
-        "lane": -11,
+        "x": -4440,
+        "y": 10740,
+        "lane": -42,
         "radius": 6,
-        "depth": 117,
+        "depth": 184,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -2497,10 +3904,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 5660,
+        "y": 10820,
         "lane": 0,
         "radius": 9,
-        "depth": 118,
+        "depth": 185,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": true
@@ -2518,10 +3925,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 5700,
+        "y": 10860,
         "lane": 0,
         "radius": 6,
-        "depth": 119,
+        "depth": 186,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2539,10 +3946,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 5740,
+        "y": 10900,
         "lane": 0,
         "radius": 6,
-        "depth": 120,
+        "depth": 187,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2560,10 +3967,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 5780,
+        "y": 10940,
         "lane": 0,
         "radius": 6,
-        "depth": 121,
+        "depth": 188,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2581,10 +3988,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 5820,
+        "y": 10980,
         "lane": 0,
         "radius": 6,
-        "depth": 122,
+        "depth": 189,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2602,10 +4009,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 5860,
+        "y": 11020,
         "lane": 0,
         "radius": 6,
-        "depth": 123,
+        "depth": 190,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2623,10 +4030,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 5900,
+        "y": 11060,
         "lane": 0,
         "radius": 6,
-        "depth": 124,
+        "depth": 191,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2644,10 +4051,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 5940,
+        "y": 11100,
         "lane": 0,
         "radius": 6,
-        "depth": 125,
+        "depth": 192,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2665,10 +4072,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 5980,
+        "y": 11140,
         "lane": 0,
         "radius": 10,
-        "depth": 126,
+        "depth": 193,
         "is_trunk": true,
         "is_merge": true,
         "is_fork": false
@@ -2685,11 +4092,11 @@
       "subject": "chore: convert American spellings to British English",
       "refs": "",
       "position": {
-        "x": 2040,
-        "y": 6020,
-        "lane": 12,
+        "x": 5760,
+        "y": 11180,
+        "lane": 43,
         "radius": 6,
-        "depth": 127,
+        "depth": 194,
         "is_trunk": false,
         "is_merge": false,
         "is_fork": false
@@ -2707,10 +4114,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 6100,
+        "y": 11260,
         "lane": 0,
         "radius": 9,
-        "depth": 128,
+        "depth": 195,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": true
@@ -2728,10 +4135,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 6140,
+        "y": 11300,
         "lane": 0,
         "radius": 6,
-        "depth": 129,
+        "depth": 196,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2749,10 +4156,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 6180,
+        "y": 11340,
         "lane": 0,
         "radius": 6,
-        "depth": 130,
+        "depth": 197,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2770,10 +4177,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 6220,
+        "y": 11380,
         "lane": 0,
         "radius": 6,
-        "depth": 131,
+        "depth": 198,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2791,10 +4198,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 6260,
+        "y": 11420,
         "lane": 0,
         "radius": 6,
-        "depth": 132,
+        "depth": 199,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2812,10 +4219,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 6300,
+        "y": 11460,
         "lane": 0,
         "radius": 6,
-        "depth": 133,
+        "depth": 200,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2833,10 +4240,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 6340,
+        "y": 11500,
         "lane": 0,
         "radius": 6,
-        "depth": 134,
+        "depth": 201,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2854,10 +4261,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 6380,
+        "y": 11540,
         "lane": 0,
         "radius": 6,
-        "depth": 135,
+        "depth": 202,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2875,10 +4282,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 6420,
+        "y": 11580,
         "lane": 0,
         "radius": 6,
-        "depth": 136,
+        "depth": 203,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2896,10 +4303,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 6460,
+        "y": 11620,
         "lane": 0,
         "radius": 6,
-        "depth": 137,
+        "depth": 204,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2917,10 +4324,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 6500,
+        "y": 11660,
         "lane": 0,
         "radius": 6,
-        "depth": 138,
+        "depth": 205,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2938,10 +4345,10 @@
       "refs": "",
       "position": {
         "x": 600,
-        "y": 6540,
+        "y": 11700,
         "lane": 0,
         "radius": 6,
-        "depth": 139,
+        "depth": 206,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2959,10 +4366,10 @@
       "refs": "tag: Main",
       "position": {
         "x": 600,
-        "y": 6580,
+        "y": 11740,
         "lane": 0,
         "radius": 6,
-        "depth": 140,
+        "depth": 207,
         "is_trunk": true,
         "is_merge": false,
         "is_fork": false
@@ -2971,7 +4378,7 @@
   ],
   "branches": [
     {
-      "name": "c34395f3ab35c03d65609368e7463764312886c4 fix(prefix): remove extension dependency from tray fix",
+      "name": "2e3c015e1328415b28ddb412dcf7e428fea00a2c chore: update CHANGELOG for v0.1.2",
       "sha": "*",
       "current": false,
       "merged": false
@@ -2983,12 +4390,24 @@
       "sha": "4854ca978c51879d8b16481359344c3754590c0b"
     },
     {
+      "name": "backup/main-pre-override-20261013T234634Z",
+      "sha": "20757139df4c90194b8d2e572afd2fddd680db0d"
+    },
+    {
+      "name": "backup/tmp/preserve-20261013T234625Z-pre-override-20261014T022004Z",
+      "sha": "20757139df4c90194b8d2e572afd2fddd680db0d"
+    },
+    {
       "name": "latest",
-      "sha": "ab8cea46dfcfa41e39ff74169b5d5c4c0adac952"
+      "sha": "a9f93e7db69382cfcbc0c7d0b0e406663c653292"
     },
     {
       "name": "v0.1.1",
-      "sha": "147556aee0b4cfb37d80e1c6a70b7ef04fcce867"
+      "sha": "cde61bb1195633d80807dc596a069b0c3748fee8"
+    },
+    {
+      "name": "v0.1.2",
+      "sha": "753b5a6a8214a764aa44ff1a920014fa19aa317b"
     }
   ]
 }
