@@ -1,4 +1,40 @@
 
+## [0.1.2] - 2026-10-19
+
+### Added
+- --verbose flag for live output; fix(apps): comprehensive EOS stubs from DLL export table
+- EOS Wine compat layer — stub EOSSDK DLL + stub EOSBootstrapperApp.exe
+- install EOS runtime from Epic SDK; add install-eos command
+
+### Fixed
+- remove extension dependency from tray fix
+- restore Wine SNI tray context menu on GNOME Wayland
+- use launcher-bundled EOS DLL as proxy backend; guard Binaries/Win64
+- replace EOS stub with proxy DLL — real SDK forwarding + dialog intercept
+- filter DXVK capability blocks in verbose; auto-show app log on exit
+- EOS stub coverage + kill_wine permission error + launch log hints
+- overhaul kill_wine — env scan, Proton wineserver, socket cleanup
+- run EpicOnlineServicesInstaller.exe; stamp EOS; thread --force through reinstall
+- correct PlayStation Plus exe to pspluslauncher.exe
+- timeout fast winetricks verbs; remove enable-latest-version-check
+- remove EOS_ENABLED and BootstrapperVersion — both caused regressions
+- stamp heavy verbs after first attempt to prevent endless retry
+- spoof EOS bootstrapper version to suppress update dialog
+- replace winetricks cacerts with host CA bundle via Proton certutil
+- inject EOS env vars directly at launch for epic-games
+- remove wineboot -u from quick_setup
+- suppress EOS update loop; re-apply registry on quick
+- skip heavy winetricks verbs when already installed
+- stash Epic user data before MSI; use /fa repair mode on reinstall
+- suppress EOS host crash via Wine per-process env + DLL overrides
+- pre-create EOS dir; disable EOS auto-update; run EOS installer post-install
+
+### Changed
+- chore: humanise hard-wrapped comments and prose
+- chore(dc-init): update workflows,actions
+- chore: convert American spellings to British English
+- chore(dc-init): load workflows,actions
+
 ## [0.1.1] - 2026-08-10 (re-release)
 
 ### Added
