@@ -10,7 +10,7 @@
 - remove extension dependency from tray fix
 - restore Wine SNI tray context menu on GNOME Wayland
 - use launcher-bundled EOS DLL as proxy backend; guard Binaries/Win64
-- replace EOS stub with proxy DLL — real SDK forwarding + dialog intercept
+- replace EOS stub with proxy DLL — real SDK forwarding + dialogue intercept
 - filter DXVK capability blocks in verbose; auto-show app log on exit
 - EOS stub coverage + kill_wine permission error + launch log hints
 - overhaul kill_wine — env scan, Proton wineserver, socket cleanup
@@ -19,7 +19,7 @@
 - timeout fast winetricks verbs; remove enable-latest-version-check
 - remove EOS_ENABLED and BootstrapperVersion — both caused regressions
 - stamp heavy verbs after first attempt to prevent endless retry
-- spoof EOS bootstrapper version to suppress update dialog
+- spoof EOS bootstrapper version to suppress update dialogue
 - replace winetricks cacerts with host CA bundle via Proton certutil
 - inject EOS env vars directly at launch for epic-games
 - remove wineboot -u from quick_setup
