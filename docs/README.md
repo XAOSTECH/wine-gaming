@@ -1,16 +1,9 @@
 # wine-gaming
 
-<!-- Project Shields/Badges -->
 <p align="center">
-  <a href="https://github.com/xaoscience/wine-gaming">
-    <img alt="GitHub repo" src="https://img.shields.io/badge/GitHub-xaoscience%2Fwine--gaming-181717?style=for-the-badge&logo=github">
-  </a>
-  <a href="https://github.com/xaoscience/wine-gaming/releases">
-    <img alt="GitHub release" src="https://img.shields.io/github/v/release/xaoscience/wine-gaming?style=for-the-badge&logo=semantic-release&color=blue">
-  </a>
-  <a href="https://github.com/xaoscience/wine-gaming/blob/main/LICENSE">
-    <img alt="License" src="https://img.shields.io/github/license/xaoscience/wine-gaming?style=for-the-badge&color=green">
-  </a>
+  <a href="https://github.com/XAOSTECH/wine-gaming"><img alt="GitHub repo" src="https://img.shields.io/badge/GitHub-XAOSTECH%2Fwine-gaming-181717?style=for-the-badge&logo=github"></a>
+  <a href="https://github.com/XAOSTECH/wine-gaming/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/XAOSTECH/wine-gaming?style=for-the-badge&logo=semantic-release&color=blue"></a>
+  <a href="https://github.com/XAOSTECH/wine-gaming/blob/main/LICENSE"><img alt="Licence" src="https://img.shields.io/badge/licence-GPL--3.0-green?style=for-the-badge"></a>
 </p>
 
 <p align="center">
@@ -38,7 +31,6 @@
   <img alt="Contributors" src="https://img.shields.io/github/contributors/xaoscience/wine-gaming?style=flat-square&logo=github&color=green">
 </p>
 
-<!-- Optional: Stability/Maturity Badge -->
 <p align="center">
   <img alt="Stability" src="https://img.shields.io/badge/stability-experimental-orange?style=flat-square">
   <img alt="Maintenance" src="https://img.shields.io/maintenance/yes/2026?style=flat-square">
