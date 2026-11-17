@@ -76,7 +76,7 @@ launch_app() {
         _sandbox_z_drive
         _map_external_drives
 
-        cd "$exe_dir"
+        cd "$exe_dir" || exit
         local _args="${APP_LAUNCH_ARGS[$app_key]:-}"
         local _env_str="${APP_LAUNCH_ENV[$app_key]:+${APP_LAUNCH_ENV[$app_key]} }"
         if [ "$_verbose" -eq 1 ]; then
@@ -117,7 +117,7 @@ launch_app() {
         print_warning "Proton not available, using Wine fallback"
         export WINEDEBUG="${WINEDEBUG:--all}"
         export WINEPREFIX="$WINEPREFIX/pfx"
-        cd "$exe_dir"
+        cd "$exe_dir" || exit
         if [ "$_verbose" -eq 1 ]; then
             print_info "Verbose mode — Ctrl-C to stop"
             eval "${WG_LAUNCH_PREFIX}wine \"\$exe_bin\"" 2>&1 | tee "$WINE_DIR/${app_key}.log"
